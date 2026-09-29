@@ -1,0 +1,852 @@
+{
+  "experiment": "EXP-065",
+  "protocol": {
+    "normal_split_unit": "whole organizer bag",
+    "normal_bags": [
+      "roundT_pressureGate_roundT",
+      "roundT_doubleT",
+      "roundT_squareT_pressureGate_squareT",
+      "squareT_platform_squareT_switch",
+      "doubleT_platform"
+    ],
+    "sample_every": 1,
+    "model": "lidar_geometry/models/risk_model_g4_cost_sensitive.json",
+    "model_sha256": "1da21689c370f5446b9f057d8115c9de31e5bfc71df1fa30d7d7ff9ad9479ee0",
+    "threshold": 0.9,
+    "synthetic_sequence": "fixed seeded target at 40 m minus one metre per frame",
+    "target_attribution": "exact overlap with inserted-object bounds",
+    "frozen_components": [
+      "geometry",
+      "ranker",
+      "threshold",
+      "scenarios"
+    ]
+  },
+  "normal_summary": {
+    "range_2of3": {
+      "frames": 2287,
+      "alarm_frames": 38,
+      "alarm_episodes": 21
+    },
+    "range_3of5": {
+      "frames": 2287,
+      "alarm_frames": 22,
+      "alarm_episodes": 14
+    },
+    "world_2of3": {
+      "frames": 2287,
+      "alarm_frames": 29,
+      "alarm_episodes": 19
+    },
+    "world_3of5": {
+      "frames": 2287,
+      "alarm_frames": 15,
+      "alarm_episodes": 9
+    }
+  },
+  "synthetic_summary": {
+    "range_2of3": {
+      "events": 21,
+      "detected_events": 12,
+      "event_recall": 0.5714285714285714,
+      "median_first_confirmation_distance_m": 39.0,
+      "median_delay_vs_range_2of3_frames": 0.0
+    },
+    "range_3of5": {
+      "events": 21,
+      "detected_events": 12,
+      "event_recall": 0.5714285714285714,
+      "median_first_confirmation_distance_m": 37.5,
+      "median_delay_vs_range_2of3_frames": 1.0
+    },
+    "world_2of3": {
+      "events": 21,
+      "detected_events": 12,
+      "event_recall": 0.5714285714285714,
+      "median_first_confirmation_distance_m": 39.0,
+      "median_delay_vs_range_2of3_frames": 0.0
+    },
+    "world_3of5": {
+      "events": 21,
+      "detected_events": 12,
+      "event_recall": 0.5714285714285714,
+      "median_first_confirmation_distance_m": 37.5,
+      "median_delay_vs_range_2of3_frames": 1.0
+    }
+  },
+  "comparisons": {
+    "range_3of5_vs_range_2of3": {
+      "alarm_frames": 0.42105263157894735,
+      "alarm_episodes": 0.3333333333333333
+    },
+    "world_3of5_vs_world_2of3": {
+      "alarm_frames": 0.4827586206896552,
+      "alarm_episodes": 0.5263157894736842
+    }
+  },
+  "normal_by_bag": [
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "frames": 268,
+      "variants": {
+        "range_2of3": {
+          "alarm_frames": 2,
+          "alarm_episodes": 1
+        },
+        "range_3of5": {
+          "alarm_frames": 1,
+          "alarm_episodes": 1
+        },
+        "world_2of3": {
+          "alarm_frames": 2,
+          "alarm_episodes": 1
+        },
+        "world_3of5": {
+          "alarm_frames": 1,
+          "alarm_episodes": 1
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "frames": 252,
+      "variants": {
+        "range_2of3": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        },
+        "range_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        },
+        "world_2of3": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        },
+        "world_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "frames": 545,
+      "variants": {
+        "range_2of3": {
+          "alarm_frames": 14,
+          "alarm_episodes": 11
+        },
+        "range_3of5": {
+          "alarm_frames": 7,
+          "alarm_episodes": 6
+        },
+        "world_2of3": {
+          "alarm_frames": 11,
+          "alarm_episodes": 9
+        },
+        "world_3of5": {
+          "alarm_frames": 5,
+          "alarm_episodes": 4
+        }
+      }
+    },
+    {
+      "bag": "squareT_platform_squareT_switch",
+      "frames": 877,
+      "variants": {
+        "range_2of3": {
+          "alarm_frames": 21,
+          "alarm_episodes": 8
+        },
+        "range_3of5": {
+          "alarm_frames": 14,
+          "alarm_episodes": 7
+        },
+        "world_2of3": {
+          "alarm_frames": 15,
+          "alarm_episodes": 8
+        },
+        "world_3of5": {
+          "alarm_frames": 9,
+          "alarm_episodes": 4
+        }
+      }
+    },
+    {
+      "bag": "doubleT_platform",
+      "frames": 345,
+      "variants": {
+        "range_2of3": {
+          "alarm_frames": 1,
+          "alarm_episodes": 1
+        },
+        "range_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        },
+        "world_2of3": {
+          "alarm_frames": 1,
+          "alarm_episodes": 1
+        },
+        "world_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        }
+      }
+    }
+  ],
+  "synthetic_sequences": [
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "large_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "minimum_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 1,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 1,
+          "first_confirmation_step": 4,
+          "first_confirmation_distance_m": 36.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 1,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 1,
+          "first_confirmation_step": 4,
+          "first_confirmation_distance_m": 36.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "minimum_on_rail",
+      "evaluable_frames": 11,
+      "variants": {
+        "range_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "minimum_edge_inside",
+      "evaluable_frames": 11,
+      "variants": {
+        "range_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "large_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 7,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 7,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "long_low_on_rails",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "hanging_cable",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "large_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 11,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 10,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 11,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 10,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "minimum_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 7,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 6,
+          "first_confirmation_step": 4,
+          "first_confirmation_distance_m": 36.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 7,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 6,
+          "first_confirmation_step": 4,
+          "first_confirmation_distance_m": 36.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "minimum_on_rail",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "minimum_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "large_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 11,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 10,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 11,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 10,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "long_low_on_rails",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "hanging_cable",
+      "evaluable_frames": 11,
+      "variants": {
+        "range_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "large_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 10,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 10,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "minimum_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 5,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 3,
+          "first_confirmation_step": 9,
+          "first_confirmation_distance_m": 31.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 5,
+          "first_confirmation_step": 3,
+          "first_confirmation_distance_m": 37.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 3,
+          "first_confirmation_step": 9,
+          "first_confirmation_distance_m": 31.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "minimum_on_rail",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "minimum_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "large_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 10,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 10,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 9,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "long_low_on_rails",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 7,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        },
+        "world_2of3": {
+          "event_detected": true,
+          "confirmed_frames": 8,
+          "first_confirmation_step": 1,
+          "first_confirmation_distance_m": 39.0
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 7,
+          "first_confirmation_step": 2,
+          "first_confirmation_distance_m": 38.0
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "hanging_cable",
+      "evaluable_frames": 12,
+      "variants": {
+        "range_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_2of3": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0,
+          "first_confirmation_step": null,
+          "first_confirmation_distance_m": null
+        }
+      }
+    }
+  ]
+}

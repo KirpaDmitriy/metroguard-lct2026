@@ -1,0 +1,1719 @@
+{
+  "protocol": {
+    "training_on_osdar": false,
+    "coordinate_adapter": "OSDaR x/y/z -> MetroGuard -y/x/z",
+    "osdar23_sensor": "Pandar64 sensor_index 0 only",
+    "osdar_ar_sensor": "merged cloud as published",
+    "camera_used": false
+  },
+  "real_summary": {
+    "frames": 20,
+    "observable_frames": 20,
+    "ranked_obstacle_frames": 0
+  },
+  "augmented_summary": {
+    "frames": 60,
+    "target_observable_frames": 59,
+    "target_in_nominal_clearance_frames": 38,
+    "geometric_target_frames": 34,
+    "ranked_target_frames": 20,
+    "evaluable_clearance_targets": 38,
+    "geometric_clearance_target_frames": 34,
+    "ranked_clearance_target_frames": 20
+  },
+  "real_frames": [
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/669_1631529959.999937000.pcd",
+      "points": 106746,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.6774193548387096,
+      "track_bins": 31,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/670_1631529960.099906000.pcd",
+      "points": 106817,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5483870967741935,
+      "track_bins": 31,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/671_1631529960.199749000.pcd",
+      "points": 106704,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.6666666666666666,
+      "track_bins": 30,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/672_1631529960.299953000.pcd",
+      "points": 106833,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.6333333333333334,
+      "track_bins": 28,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/673_1631529960.399801000.pcd",
+      "points": 106932,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.7666666666666667,
+      "track_bins": 30,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/674_1631529960.499931000.pcd",
+      "points": 106878,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.6666666666666667,
+      "track_bins": 29,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/675_1631529960.599782000.pcd",
+      "points": 106790,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5666666666666667,
+      "track_bins": 23,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/676_1631529960.699623000.pcd",
+      "points": 106739,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5263157894736842,
+      "track_bins": 38,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/677_1631529960.799946000.pcd",
+      "points": 106439,
+      "geometric_state": "UNKNOWN",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.696969696969697,
+      "track_bins": 33,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/5_station_bergedorf_5.2/lidar/678_1631529960.899800000.pcd",
+      "points": 106446,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5882352941176471,
+      "track_bins": 34,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/017_1631704637.799682000.pcd",
+      "points": 108501,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.3114754098360656,
+      "track_bins": 61,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/018_1631704637.899518000.pcd",
+      "points": 108440,
+      "geometric_state": "UNKNOWN",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5135135135135135,
+      "track_bins": 37,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/019_1631704637.999955000.pcd",
+      "points": 108469,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4,
+      "track_bins": 60,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/020_1631704638.099794000.pcd",
+      "points": 108549,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5428571428571428,
+      "track_bins": 35,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/021_1631704638.199640000.pcd",
+      "points": 108312,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.3620689655172414,
+      "track_bins": 58,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/022_1631704638.299481000.pcd",
+      "points": 108317,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.3898305084745763,
+      "track_bins": 59,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/023_1631704638.399934000.pcd",
+      "points": 108331,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.3389830508474576,
+      "track_bins": 59,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/024_1631704638.499968000.pcd",
+      "points": 108136,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.6666666666666667,
+      "track_bins": 26,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/025_1631704638.599810000.pcd",
+      "points": 107935,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.3275862068965517,
+      "track_bins": 58,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "source": "external_data/osdar23/6_station_klein_flottbek_6.1/lidar/026_1631704638.699657000.pcd",
+      "points": 107780,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4666666666666667,
+      "track_bins": 30,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    }
+  ],
+  "augmented_frames": [
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/cow/lidar/000_1631529893.099788000.pcd",
+      "class": "cow",
+      "points": 189183,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.559322033898305,
+      "track_bins": 59,
+      "target_points": 20,
+      "target_bounds_forward_lateral": [
+        [
+          120.00238800048828,
+          2.4588189125061035
+        ],
+        [
+          121.49897766113281,
+          4.079751014709473
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/cow/lidar/024_1631529895.499817000.pcd",
+      "class": "cow",
+      "points": 186329,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4915254237288136,
+      "track_bins": 59,
+      "target_points": 55,
+      "target_bounds_forward_lateral": [
+        [
+          94.4196548461914,
+          0.903905987739563
+        ],
+        [
+          96.04273223876953,
+          2.6644599437713623
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/cow/lidar/049_1631529897.999931000.pcd",
+      "class": "cow",
+      "points": 189868,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4142857142857143,
+      "track_bins": 70,
+      "target_points": 278,
+      "target_bounds_forward_lateral": [
+        [
+          68.4695816040039,
+          -0.3375590145587921
+        ],
+        [
+          70.01593017578125,
+          1.50491201877594
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/cow/lidar/074_1631529900.499945000.pcd",
+      "class": "cow",
+      "points": 185036,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.3137254901960784,
+      "track_bins": 51,
+      "target_points": 1007,
+      "target_bounds_forward_lateral": [
+        [
+          43.26885223388672,
+          -1.1746970415115356
+        ],
+        [
+          44.88043975830078,
+          0.7055730223655701
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/cow/lidar/099_1631529902.999958000.pcd",
+      "class": "cow",
+      "points": 185818,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.43243243243243246,
+      "track_bins": 37,
+      "target_points": 5143,
+      "target_bounds_forward_lateral": [
+        [
+          18.633771896362305,
+          -1.5767170190811157
+        ],
+        [
+          20.309968948364258,
+          0.2518079876899719
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/elephant/lidar/000_1631529893.099788000.pcd",
+      "class": "elephant",
+      "points": 189183,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.559322033898305,
+      "track_bins": 59,
+      "target_points": 115,
+      "target_bounds_forward_lateral": [
+        [
+          119.22177124023438,
+          1.5090869665145874
+        ],
+        [
+          119.9642333984375,
+          5.225388050079346
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/elephant/lidar/024_1631529895.499817000.pcd",
+      "class": "elephant",
+      "points": 186329,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4915254237288136,
+      "track_bins": 59,
+      "target_points": 315,
+      "target_bounds_forward_lateral": [
+        [
+          93.37447357177734,
+          0.2517080008983612
+        ],
+        [
+          94.71871185302734,
+          3.7142860889434814
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/elephant/lidar/049_1631529897.999931000.pcd",
+      "class": "elephant",
+      "points": 189868,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.5087719298245614,
+      "track_bins": 57,
+      "target_points": 1035,
+      "target_bounds_forward_lateral": [
+        [
+          67.68901824951172,
+          -1.1235480308532715
+        ],
+        [
+          68.77571868896484,
+          2.55935001373291
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/elephant/lidar/074_1631529900.499945000.pcd",
+      "class": "elephant",
+      "points": 185036,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.3898305084745763,
+      "track_bins": 59,
+      "target_points": 2225,
+      "target_bounds_forward_lateral": [
+        [
+          42.19843292236328,
+          -1.7347710132598877
+        ],
+        [
+          43.78293991088867,
+          1.7681889533996582
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/elephant/lidar/099_1631529902.999958000.pcd",
+      "class": "elephant",
+      "points": 185818,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.46666666666666673,
+      "track_bins": 23,
+      "target_points": 13299,
+      "target_bounds_forward_lateral": [
+        [
+          17.760007858276367,
+          -2.3905839920043945
+        ],
+        [
+          18.9667911529541,
+          1.3840839862823486
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/fallen_tree/lidar/000_1631529893.099788000.pcd",
+      "class": "fallen_tree",
+      "points": 189183,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.559322033898305,
+      "track_bins": 59,
+      "target_points": 12,
+      "target_bounds_forward_lateral": [
+        [
+          118.770263671875,
+          3.3454430103302
+        ],
+        [
+          122.30171966552734,
+          6.5801777839660645
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/fallen_tree/lidar/024_1631529895.499817000.pcd",
+      "class": "fallen_tree",
+      "points": 186329,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4915254237288136,
+      "track_bins": 59,
+      "target_points": 66,
+      "target_bounds_forward_lateral": [
+        [
+          93.19514465332031,
+          1.7579519748687744
+        ],
+        [
+          96.80050659179688,
+          5.1334309577941895
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/fallen_tree/lidar/049_1631529897.999931000.pcd",
+      "class": "fallen_tree",
+      "points": 189868,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4714285714285714,
+      "track_bins": 70,
+      "target_points": 175,
+      "target_bounds_forward_lateral": [
+        [
+          67.10974884033203,
+          -0.02876799926161766
+        ],
+        [
+          71.47168731689453,
+          3.9075980186462402
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/fallen_tree/lidar/074_1631529900.499945000.pcd",
+      "class": "fallen_tree",
+      "points": 185036,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.3137254901960784,
+      "track_bins": 51,
+      "target_points": 1235,
+      "target_bounds_forward_lateral": [
+        [
+          42.13848876953125,
+          -0.871254026889801
+        ],
+        [
+          46.291221618652344,
+          3.013145923614502
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/fallen_tree/lidar/099_1631529902.999958000.pcd",
+      "class": "fallen_tree",
+      "points": 185818,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4461538461538462,
+      "track_bins": 65,
+      "target_points": 0,
+      "target_bounds_forward_lateral": null,
+      "target_in_nominal_clearance": false,
+      "geometric_target": null,
+      "ranked_target": null
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/horse/lidar/000_1631529893.099788000.pcd",
+      "class": "horse",
+      "points": 189183,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.559322033898305,
+      "track_bins": 59,
+      "target_points": 31,
+      "target_bounds_forward_lateral": [
+        [
+          118.79761505126953,
+          3.2538061141967773
+        ],
+        [
+          119.77247619628906,
+          5.4853668212890625
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/horse/lidar/024_1631529895.499817000.pcd",
+      "class": "horse",
+      "points": 186329,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4915254237288136,
+      "track_bins": 59,
+      "target_points": 92,
+      "target_bounds_forward_lateral": [
+        [
+          93.45050811767578,
+          1.2838619947433472
+        ],
+        [
+          94.30046844482422,
+          4.0119500160217285
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/horse/lidar/049_1631529897.999931000.pcd",
+      "class": "horse",
+      "points": 189868,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.42857142857142855,
+      "track_bins": 70,
+      "target_points": 267,
+      "target_bounds_forward_lateral": [
+        [
+          67.0400619506836,
+          0.37803301215171814
+        ],
+        [
+          68.33130645751953,
+          2.7039170265197754
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/horse/lidar/074_1631529900.499945000.pcd",
+      "class": "horse",
+      "points": 185036,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.3484848484848485,
+      "track_bins": 66,
+      "target_points": 871,
+      "target_bounds_forward_lateral": [
+        [
+          42.28091812133789,
+          -0.5736209750175476
+        ],
+        [
+          43.1363525390625,
+          2.1636059284210205
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/horse/lidar/099_1631529902.999958000.pcd",
+      "class": "horse",
+      "points": 185818,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.4,
+      "track_bins": 55,
+      "target_points": 4951,
+      "target_bounds_forward_lateral": [
+        [
+          17.15479278564453,
+          -0.8588700294494629
+        ],
+        [
+          18.47514533996582,
+          1.5529290437698364
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/pedestrian/lidar/000_1631529893.099788000.pcd",
+      "class": "pedestrian",
+      "points": 189183,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.559322033898305,
+      "track_bins": 59,
+      "target_points": 9,
+      "target_bounds_forward_lateral": [
+        [
+          118.73368835449219,
+          6.105319976806641
+        ],
+        [
+          118.93517303466797,
+          6.366671085357666
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/pedestrian/lidar/024_1631529895.499817000.pcd",
+      "class": "pedestrian",
+      "points": 186329,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4915254237288136,
+      "track_bins": 59,
+      "target_points": 32,
+      "target_bounds_forward_lateral": [
+        [
+          93.15693664550781,
+          4.675090789794922
+        ],
+        [
+          93.48832702636719,
+          4.996702194213867
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/pedestrian/lidar/049_1631529897.999931000.pcd",
+      "class": "pedestrian",
+      "points": 189868,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.45714285714285713,
+      "track_bins": 70,
+      "target_points": 83,
+      "target_bounds_forward_lateral": [
+        [
+          67.29168701171875,
+          3.28814697265625
+        ],
+        [
+          67.78256225585938,
+          3.8444149494171143
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/pedestrian/lidar/074_1631529900.499945000.pcd",
+      "class": "pedestrian",
+      "points": 185036,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.3787878787878788,
+      "track_bins": 66,
+      "target_points": 245,
+      "target_bounds_forward_lateral": [
+        [
+          42.49787139892578,
+          2.6816461086273193
+        ],
+        [
+          42.898719787597656,
+          3.132580041885376
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/pedestrian/lidar/099_1631529902.999958000.pcd",
+      "class": "pedestrian",
+      "points": 185818,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4461538461538462,
+      "track_bins": 65,
+      "target_points": 980,
+      "target_bounds_forward_lateral": [
+        [
+          17.880611419677734,
+          2.151437997817993
+        ],
+        [
+          18.31501007080078,
+          2.6096270084381104
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/rock/lidar/000_1631529893.099788000.pcd",
+      "class": "rock",
+      "points": 189183,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.559322033898305,
+      "track_bins": 59,
+      "target_points": 10,
+      "target_bounds_forward_lateral": [
+        [
+          120.35538482666016,
+          3.9258649349212646
+        ],
+        [
+          120.857421875,
+          4.741048812866211
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/rock/lidar/024_1631529895.499817000.pcd",
+      "class": "rock",
+      "points": 186329,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4915254237288136,
+      "track_bins": 59,
+      "target_points": 21,
+      "target_bounds_forward_lateral": [
+        [
+          94.77214050292969,
+          2.3196420669555664
+        ],
+        [
+          95.20993041992188,
+          3.0170669555664062
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/rock/lidar/049_1631529897.999931000.pcd",
+      "class": "rock",
+      "points": 189868,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.4714285714285714,
+      "track_bins": 70,
+      "target_points": 142,
+      "target_bounds_forward_lateral": [
+        [
+          68.83179473876953,
+          0.8478429913520813
+        ],
+        [
+          69.413818359375,
+          2.133586883544922
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/rock/lidar/074_1631529900.499945000.pcd",
+      "class": "rock",
+      "points": 185036,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.37254901960784315,
+      "track_bins": 51,
+      "target_points": 749,
+      "target_bounds_forward_lateral": [
+        [
+          43.62921905517578,
+          0.026395000517368317
+        ],
+        [
+          44.39164733886719,
+          1.3163809776306152
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "5_station_bergedorf_5.2_osdar_ar.zip",
+      "source": "5_station_bergedorf_5.1/rock/lidar/099_1631529902.999958000.pcd",
+      "class": "rock",
+      "points": 185818,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.3230769230769231,
+      "track_bins": 65,
+      "target_points": 704,
+      "target_bounds_forward_lateral": [
+        [
+          19.21159553527832,
+          -0.20857399702072144
+        ],
+        [
+          19.84406089782715,
+          0.5618569850921631
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/cow/lidar/061_1631704655.199818000.pcd",
+      "class": "cow",
+      "points": 205686,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5526315789473685,
+      "track_bins": 38,
+      "target_points": 106,
+      "target_bounds_forward_lateral": [
+        [
+          89.61396789550781,
+          -4.341365814208984
+        ],
+        [
+          90.22540283203125,
+          -1.9268569946289062
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/cow/lidar/085_1631704657.599519000.pcd",
+      "class": "cow",
+      "points": 205517,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.7073170731707317,
+      "track_bins": 41,
+      "target_points": 370,
+      "target_bounds_forward_lateral": [
+        [
+          73.49958038330078,
+          -2.4693210124969482
+        ],
+        [
+          74.36863708496094,
+          -0.041694000363349915
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/cow/lidar/110_1631704660.099946000.pcd",
+      "class": "cow",
+      "points": 204610,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.5714285714285714,
+      "track_bins": 63,
+      "target_points": 886,
+      "target_bounds_forward_lateral": [
+        [
+          56.72073745727539,
+          -1.811290979385376
+        ],
+        [
+          57.33697509765625,
+          0.5565580129623413
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/cow/lidar/135_1631704662.599959000.pcd",
+      "class": "cow",
+      "points": 205766,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.7037037037037037,
+      "track_bins": 54,
+      "target_points": 1521,
+      "target_bounds_forward_lateral": [
+        [
+          39.956966400146484,
+          -1.7962449789047241
+        ],
+        [
+          40.74767303466797,
+          0.6440759897232056
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/cow/lidar/160_1631704665.099961000.pcd",
+      "class": "cow",
+      "points": 202011,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.7555555555555555,
+      "track_bins": 45,
+      "target_points": 2402,
+      "target_bounds_forward_lateral": [
+        [
+          23.24167251586914,
+          -1.6788740158081055
+        ],
+        [
+          23.998741149902344,
+          0.6924329996109009
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/elephant/lidar/061_1631704655.199818000.pcd",
+      "class": "elephant",
+      "points": 205686,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5526315789473685,
+      "track_bins": 38,
+      "target_points": 193,
+      "target_bounds_forward_lateral": [
+        [
+          119.220703125,
+          -6.002054214477539
+        ],
+        [
+          120.32330322265625,
+          -2.2375690937042236
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/elephant/lidar/085_1631704657.599519000.pcd",
+      "class": "elephant",
+      "points": 205517,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.5769230769230769,
+      "track_bins": 52,
+      "target_points": 534,
+      "target_bounds_forward_lateral": [
+        [
+          102.93641662597656,
+          -3.3181800842285156
+        ],
+        [
+          104.2470703125,
+          0.18380600214004517
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/elephant/lidar/110_1631704660.099946000.pcd",
+      "class": "elephant",
+      "points": 204610,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.5714285714285714,
+      "track_bins": 63,
+      "target_points": 991,
+      "target_bounds_forward_lateral": [
+        [
+          86.43588256835938,
+          -2.6318459510803223
+        ],
+        [
+          87.4546890258789,
+          1.1149300336837769
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/elephant/lidar/135_1631704662.599959000.pcd",
+      "class": "elephant",
+      "points": 205766,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.6851851851851852,
+      "track_bins": 54,
+      "target_points": 1499,
+      "target_bounds_forward_lateral": [
+        [
+          69.4501724243164,
+          -2.428741931915283
+        ],
+        [
+          70.75922393798828,
+          1.170606017112732
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/elephant/lidar/160_1631704665.099961000.pcd",
+      "class": "elephant",
+      "points": 202011,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.717391304347826,
+      "track_bins": 46,
+      "target_points": 2018,
+      "target_bounds_forward_lateral": [
+        [
+          52.921966552734375,
+          -2.512204885482788
+        ],
+        [
+          53.97828674316406,
+          1.2271889448165894
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/fallen_tree/lidar/061_1631704655.199818000.pcd",
+      "class": "fallen_tree",
+      "points": 205686,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5526315789473685,
+      "track_bins": 38,
+      "target_points": 63,
+      "target_bounds_forward_lateral": [
+        [
+          83.43095397949219,
+          -5.230556011199951
+        ],
+        [
+          88.1888656616211,
+          -2.367361068725586
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/fallen_tree/lidar/085_1631704657.599519000.pcd",
+      "class": "fallen_tree",
+      "points": 205517,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.6829268292682927,
+      "track_bins": 41,
+      "target_points": 150,
+      "target_bounds_forward_lateral": [
+        [
+          67.31127166748047,
+          -3.559969902038574
+        ],
+        [
+          72.1598892211914,
+          -0.3600110113620758
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/fallen_tree/lidar/110_1631704660.099946000.pcd",
+      "class": "fallen_tree",
+      "points": 204610,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5396825396825397,
+      "track_bins": 63,
+      "target_points": 482,
+      "target_bounds_forward_lateral": [
+        [
+          50.5322380065918,
+          -3.0789759159088135
+        ],
+        [
+          55.345970153808594,
+          0.23728400468826294
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/fallen_tree/lidar/135_1631704662.599959000.pcd",
+      "class": "fallen_tree",
+      "points": 205766,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.6666666666666666,
+      "track_bins": 54,
+      "target_points": 1109,
+      "target_bounds_forward_lateral": [
+        [
+          33.75448226928711,
+          -3.030445098876953
+        ],
+        [
+          38.610225677490234,
+          0.3206700086593628
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/fallen_tree/lidar/160_1631704665.099961000.pcd",
+      "class": "fallen_tree",
+      "points": 202011,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.7777777777777778,
+      "track_bins": 45,
+      "target_points": 2516,
+      "target_bounds_forward_lateral": [
+        [
+          17.044031143188477,
+          -2.9726829528808594
+        ],
+        [
+          21.875286102294922,
+          0.37217000126838684
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/horse/lidar/061_1631704655.199818000.pcd",
+      "class": "horse",
+      "points": 205686,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5526315789473685,
+      "track_bins": 38,
+      "target_points": 96,
+      "target_bounds_forward_lateral": [
+        [
+          98.35542297363281,
+          -4.414856910705566
+        ],
+        [
+          99.30909729003906,
+          -1.9770820140838623
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/horse/lidar/085_1631704657.599519000.pcd",
+      "class": "horse",
+      "points": 205517,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.6829268292682927,
+      "track_bins": 41,
+      "target_points": 369,
+      "target_bounds_forward_lateral": [
+        [
+          81.92184448242188,
+          -1.9887679815292358
+        ],
+        [
+          83.32023620605469,
+          0.6221380233764648
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/horse/lidar/110_1631704660.099946000.pcd",
+      "class": "horse",
+      "points": 204610,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.5714285714285714,
+      "track_bins": 63,
+      "target_points": 785,
+      "target_bounds_forward_lateral": [
+        [
+          65.62031555175781,
+          -1.8022810220718384
+        ],
+        [
+          66.50210571289062,
+          0.7746639847755432
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/horse/lidar/135_1631704662.599959000.pcd",
+      "class": "horse",
+      "points": 205766,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.7037037037037037,
+      "track_bins": 54,
+      "target_points": 1199,
+      "target_bounds_forward_lateral": [
+        [
+          48.37186813354492,
+          -1.4184930324554443
+        ],
+        [
+          49.765968322753906,
+          1.0945899486541748
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/horse/lidar/160_1631704665.099961000.pcd",
+      "class": "horse",
+      "points": 202011,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.7608695652173914,
+      "track_bins": 46,
+      "target_points": 1606,
+      "target_bounds_forward_lateral": [
+        [
+          32.16521453857422,
+          -1.4007500410079956
+        ],
+        [
+          33.02094268798828,
+          0.9537500143051147
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/pedestrian/lidar/061_1631704655.199818000.pcd",
+      "class": "pedestrian",
+      "points": 205686,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5263157894736842,
+      "track_bins": 38,
+      "target_points": 97,
+      "target_bounds_forward_lateral": [
+        [
+          64.42326354980469,
+          -2.4518558979034424
+        ],
+        [
+          64.72815704345703,
+          -1.151324987411499
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/pedestrian/lidar/085_1631704657.599519000.pcd",
+      "class": "pedestrian",
+      "points": 205517,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.7073170731707317,
+      "track_bins": 41,
+      "target_points": 294,
+      "target_bounds_forward_lateral": [
+        [
+          51.450016021728516,
+          -0.8253189921379089
+        ],
+        [
+          52.07008361816406,
+          -0.22232499718666077
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/pedestrian/lidar/110_1631704660.099946000.pcd",
+      "class": "pedestrian",
+      "points": 204610,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5714285714285714,
+      "track_bins": 63,
+      "target_points": 834,
+      "target_bounds_forward_lateral": [
+        [
+          37.72199249267578,
+          -0.4119870066642761
+        ],
+        [
+          38.54561996459961,
+          0.18522700667381287
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/pedestrian/lidar/135_1631704662.599959000.pcd",
+      "class": "pedestrian",
+      "points": 205766,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.7037037037037037,
+      "track_bins": 54,
+      "target_points": 1442,
+      "target_bounds_forward_lateral": [
+        [
+          24.54688262939453,
+          -0.3534829914569855
+        ],
+        [
+          24.904071807861328,
+          0.22893500328063965
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/pedestrian/lidar/160_1631704665.099961000.pcd",
+      "class": "pedestrian",
+      "points": 202011,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "OBSTACLE",
+      "observability": 0.7777777777777778,
+      "track_bins": 45,
+      "target_points": 2664,
+      "target_bounds_forward_lateral": [
+        [
+          10.813044548034668,
+          -0.23510900139808655
+        ],
+        [
+          11.767824172973633,
+          0.22920699417591095
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": true
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/rock/lidar/061_1631704655.199818000.pcd",
+      "class": "rock",
+      "points": 205686,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5263157894736842,
+      "track_bins": 38,
+      "target_points": 141,
+      "target_bounds_forward_lateral": [
+        [
+          75.32479095458984,
+          -4.419806003570557
+        ],
+        [
+          75.92436218261719,
+          -3.1264259815216064
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/rock/lidar/085_1631704657.599519000.pcd",
+      "class": "rock",
+      "points": 205517,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.7073170731707317,
+      "track_bins": 41,
+      "target_points": 209,
+      "target_bounds_forward_lateral": [
+        [
+          59.25699234008789,
+          -2.8637349605560303
+        ],
+        [
+          59.903770446777344,
+          -1.575646996498108
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/rock/lidar/110_1631704660.099946000.pcd",
+      "class": "rock",
+      "points": 204610,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.5555555555555556,
+      "track_bins": 63,
+      "target_points": 401,
+      "target_bounds_forward_lateral": [
+        [
+          42.49763107299805,
+          -2.3435730934143066
+        ],
+        [
+          43.1737174987793,
+          -1.1337289810180664
+        ]
+      ],
+      "target_in_nominal_clearance": false,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/rock/lidar/135_1631704662.599959000.pcd",
+      "class": "rock",
+      "points": 205766,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.7037037037037037,
+      "track_bins": 54,
+      "target_points": 2057,
+      "target_bounds_forward_lateral": [
+        [
+          25.736495971679688,
+          -2.3098208904266357
+        ],
+        [
+          26.568859100341797,
+          -1.0350500345230103
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": false,
+      "ranked_target": false
+    },
+    {
+      "archive": "6_station_klein_flottbek_6.1_osdar_ar.zip",
+      "source": "6_station_klein_flottbek_6.2/rock/lidar/160_1631704665.099961000.pcd",
+      "class": "rock",
+      "points": 202011,
+      "geometric_state": "OBSTACLE",
+      "ranked_state": "UNKNOWN",
+      "observability": 0.8,
+      "track_bins": 45,
+      "target_points": 12025,
+      "target_bounds_forward_lateral": [
+        [
+          9.009653091430664,
+          -2.2699410915374756
+        ],
+        [
+          9.85029125213623,
+          -0.9506139755249023
+        ]
+      ],
+      "target_in_nominal_clearance": true,
+      "geometric_target": true,
+      "ranked_target": false
+    }
+  ]
+}

@@ -1,0 +1,931 @@
+{
+  "experiment": "EXP-067",
+  "selection_policy": {
+    "order": [
+      "zero/near-zero whole-normal-bag false alarms",
+      "official pseudo-label positive scenario coverage",
+      "unseen composite-shape recall",
+      "p95 latency"
+    ],
+    "official_labels_are_ground_truth": false,
+    "missing_values": "incomparable; never imputed",
+    "runtime_changed_before_selection": false
+  },
+  "fold_training": {
+    "split": "leave-one-organizer-recording-out",
+    "training_cache": "lidar_geometry/artifacts/spatial_patch_cache_v1.npz",
+    "threshold": "99th percentile of training real-frame maximum scores",
+    "tree": "100 Extra Trees, depth 6, minimum leaf 5, 25/75 linear/tree blend",
+    "domain_reference": "training-fold real candidates only"
+  },
+  "exact_mask_boxes": {
+    "protocol": {
+      "source_unit": "whole organizer bag",
+      "split": "leave-one-organizer-recording-out for learned models",
+      "method": "ray-consistent exact-mask AABB insertion",
+      "distances_m": [
+        20.0,
+        40.0,
+        60.0,
+        80.0,
+        100.0
+      ],
+      "frames_per_bag": 2,
+      "minimum_visible_points": 3,
+      "target_attribution": "overlap with the injected AABB"
+    },
+    "models": {
+      "geometry": {
+        "mean_positive_recall": 0.6797601490965076,
+        "worst_positive_recall": 0.5609756097560976,
+        "mean_negative_specificity": 0.8945837320574163,
+        "folds": [
+          {
+            "held_out_bag": "roundT_pressureGate_roundT",
+            "positive_recall": 0.6,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "roundT_doubleT",
+            "positive_recall": 0.7674418604651163,
+            "negative_specificity": 0.8181818181818182
+          },
+          {
+            "held_out_bag": "roundT_squareT_pressureGate_squareT",
+            "positive_recall": 0.7142857142857143,
+            "negative_specificity": 0.8947368421052632
+          },
+          {
+            "held_out_bag": "squareT_platform_squareT_switch",
+            "positive_recall": 0.7560975609756098,
+            "negative_specificity": 0.8
+          },
+          {
+            "held_out_bag": "doubleT_platform",
+            "positive_recall": 0.5609756097560976,
+            "negative_specificity": 0.96
+          }
+        ]
+      },
+      "g4_linear": {
+        "mean_positive_recall": 0.40492342597844583,
+        "worst_positive_recall": 0.3170731707317073,
+        "mean_negative_specificity": 0.9709090909090909,
+        "folds": [
+          {
+            "held_out_bag": "roundT_pressureGate_roundT",
+            "positive_recall": 0.4,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "roundT_doubleT",
+            "positive_recall": 0.3953488372093023,
+            "negative_specificity": 0.9545454545454546
+          },
+          {
+            "held_out_bag": "roundT_squareT_pressureGate_squareT",
+            "positive_recall": 0.4,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "squareT_platform_squareT_switch",
+            "positive_recall": 0.5121951219512195,
+            "negative_specificity": 0.9
+          },
+          {
+            "held_out_bag": "doubleT_platform",
+            "positive_recall": 0.3170731707317073,
+            "negative_specificity": 1.0
+          }
+        ]
+      },
+      "portable_tree_25_75": {
+        "mean_positive_recall": 0.4040158820192853,
+        "worst_positive_recall": 0.2926829268292683,
+        "mean_negative_specificity": 1.0,
+        "folds": [
+          {
+            "held_out_bag": "roundT_pressureGate_roundT",
+            "positive_recall": 0.4,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "roundT_doubleT",
+            "positive_recall": 0.4883720930232558,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "roundT_squareT_pressureGate_squareT",
+            "positive_recall": 0.4,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "squareT_platform_squareT_switch",
+            "positive_recall": 0.43902439024390244,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "doubleT_platform",
+            "positive_recall": 0.2926829268292683,
+            "negative_specificity": 1.0
+          }
+        ]
+      },
+      "ood_guarded_g4": {
+        "mean_positive_recall": 0.3814407260351673,
+        "worst_positive_recall": 0.2926829268292683,
+        "mean_negative_specificity": 0.98,
+        "folds": [
+          {
+            "held_out_bag": "roundT_pressureGate_roundT",
+            "positive_recall": 0.4,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "roundT_doubleT",
+            "positive_recall": 0.3023255813953488,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "roundT_squareT_pressureGate_squareT",
+            "positive_recall": 0.4,
+            "negative_specificity": 1.0
+          },
+          {
+            "held_out_bag": "squareT_platform_squareT_switch",
+            "positive_recall": 0.5121951219512195,
+            "negative_specificity": 0.9
+          },
+          {
+            "held_out_bag": "doubleT_platform",
+            "positive_recall": 0.2926829268292683,
+            "negative_specificity": 1.0
+          }
+        ]
+      }
+    },
+    "cases": 313
+  },
+  "normal_bags": {
+    "protocol": {
+      "source_unit": "complete organizer bag",
+      "sampling": "every frame",
+      "labels": "weak-normal label from organizer filenames",
+      "split": "each learned model excludes the evaluated bag"
+    },
+    "models": {
+      "geometry": {
+        "frames": 2287,
+        "alarm_frames": 1842,
+        "alarm_rate": 0.805421950153039,
+        "alarm_episodes": 252,
+        "bags": [
+          {
+            "bag": "roundT_pressureGate_roundT",
+            "alarm_frames": 216,
+            "alarm_rate": 0.8059701492537313,
+            "alarm_episodes": 29
+          },
+          {
+            "bag": "roundT_doubleT",
+            "alarm_frames": 193,
+            "alarm_rate": 0.7658730158730159,
+            "alarm_episodes": 31
+          },
+          {
+            "bag": "roundT_squareT_pressureGate_squareT",
+            "alarm_frames": 417,
+            "alarm_rate": 0.7651376146788991,
+            "alarm_episodes": 66
+          },
+          {
+            "bag": "squareT_platform_squareT_switch",
+            "alarm_frames": 784,
+            "alarm_rate": 0.8939566704675028,
+            "alarm_episodes": 61
+          },
+          {
+            "bag": "doubleT_platform",
+            "alarm_frames": 232,
+            "alarm_rate": 0.672463768115942,
+            "alarm_episodes": 65
+          }
+        ]
+      },
+      "g4_linear": {
+        "frames": 2287,
+        "alarm_frames": 81,
+        "alarm_rate": 0.03541757761259292,
+        "alarm_episodes": 61,
+        "bags": [
+          {
+            "bag": "roundT_pressureGate_roundT",
+            "alarm_frames": 2,
+            "alarm_rate": 0.007462686567164179,
+            "alarm_episodes": 2
+          },
+          {
+            "bag": "roundT_doubleT",
+            "alarm_frames": 1,
+            "alarm_rate": 0.003968253968253968,
+            "alarm_episodes": 1
+          },
+          {
+            "bag": "roundT_squareT_pressureGate_squareT",
+            "alarm_frames": 33,
+            "alarm_rate": 0.060550458715596334,
+            "alarm_episodes": 21
+          },
+          {
+            "bag": "squareT_platform_squareT_switch",
+            "alarm_frames": 28,
+            "alarm_rate": 0.03192702394526796,
+            "alarm_episodes": 21
+          },
+          {
+            "bag": "doubleT_platform",
+            "alarm_frames": 17,
+            "alarm_rate": 0.04927536231884058,
+            "alarm_episodes": 16
+          }
+        ]
+      },
+      "portable_tree_25_75": {
+        "frames": 2287,
+        "alarm_frames": 33,
+        "alarm_rate": 0.014429383471797114,
+        "alarm_episodes": 23,
+        "bags": [
+          {
+            "bag": "roundT_pressureGate_roundT",
+            "alarm_frames": 3,
+            "alarm_rate": 0.011194029850746268,
+            "alarm_episodes": 1
+          },
+          {
+            "bag": "roundT_doubleT",
+            "alarm_frames": 1,
+            "alarm_rate": 0.003968253968253968,
+            "alarm_episodes": 1
+          },
+          {
+            "bag": "roundT_squareT_pressureGate_squareT",
+            "alarm_frames": 19,
+            "alarm_rate": 0.03486238532110092,
+            "alarm_episodes": 13
+          },
+          {
+            "bag": "squareT_platform_squareT_switch",
+            "alarm_frames": 5,
+            "alarm_rate": 0.005701254275940707,
+            "alarm_episodes": 5
+          },
+          {
+            "bag": "doubleT_platform",
+            "alarm_frames": 5,
+            "alarm_rate": 0.014492753623188406,
+            "alarm_episodes": 3
+          }
+        ]
+      },
+      "ood_guarded_g4": {
+        "frames": 2287,
+        "alarm_frames": 75,
+        "alarm_rate": 0.03279405334499344,
+        "alarm_episodes": 62,
+        "bags": [
+          {
+            "bag": "roundT_pressureGate_roundT",
+            "alarm_frames": 2,
+            "alarm_rate": 0.007462686567164179,
+            "alarm_episodes": 2
+          },
+          {
+            "bag": "roundT_doubleT",
+            "alarm_frames": 1,
+            "alarm_rate": 0.003968253968253968,
+            "alarm_episodes": 1
+          },
+          {
+            "bag": "roundT_squareT_pressureGate_squareT",
+            "alarm_frames": 28,
+            "alarm_rate": 0.05137614678899083,
+            "alarm_episodes": 22
+          },
+          {
+            "bag": "squareT_platform_squareT_switch",
+            "alarm_frames": 28,
+            "alarm_rate": 0.03192702394526796,
+            "alarm_episodes": 21
+          },
+          {
+            "bag": "doubleT_platform",
+            "alarm_frames": 16,
+            "alarm_rate": 0.0463768115942029,
+            "alarm_episodes": 16
+          }
+        ]
+      }
+    }
+  },
+  "composite_unseen_shapes": {
+    "protocol": {
+      "training_shapes": "single axis-aligned ray-consistent boxes only",
+      "test_shapes": "held-out composite person, L-debris, forked cable, outside stack, overhead bracket",
+      "split": "leave-one-recording-out; complex shapes are test-only",
+      "threshold": "training real-frame scores only",
+      "augmentation_audit": "separate seen-shape bag holdout and joint shape-plus-bag holdout"
+    },
+    "models": {
+      "geometry": {
+        "mean_positive_recall": 0.905993721280999,
+        "mean_negative_specificity": 0.936078431372549,
+        "source": "proposal decisions in complex_shape_cache_v1.npz"
+      },
+      "g4_linear": {
+        "folds": [
+          {
+            "held_out_bag": "doubleT_platform",
+            "threshold": 0.9079236025385515,
+            "positive_recall": 0.20588235294117646,
+            "proposal_recall": 0.8529411764705882,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.0,
+              "l_shaped_debris": 0.08333333333333333,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.5
+            }
+          },
+          {
+            "held_out_bag": "roundT_doubleT",
+            "threshold": 0.9136915822697552,
+            "positive_recall": 0.08333333333333333,
+            "proposal_recall": 1.0,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.0,
+              "l_shaped_debris": 0.0,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.25
+            }
+          },
+          {
+            "held_out_bag": "roundT_pressureGate_roundT",
+            "threshold": 0.9062013406253228,
+            "positive_recall": 0.16666666666666666,
+            "proposal_recall": 0.875,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.125,
+              "l_shaped_debris": 0.0,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.375
+            }
+          },
+          {
+            "held_out_bag": "roundT_squareT_pressureGate_squareT",
+            "threshold": 0.8944793927308176,
+            "positive_recall": 0.20930232558139536,
+            "proposal_recall": 0.9302325581395349,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.07692307692307693,
+              "l_shaped_debris": 0.13333333333333333,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.4
+            }
+          },
+          {
+            "held_out_bag": "squareT_platform_squareT_switch",
+            "threshold": 0.9113296923146009,
+            "positive_recall": 0.15384615384615385,
+            "proposal_recall": 0.8717948717948718,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.125,
+              "l_shaped_debris": 0.0,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.3333333333333333
+            }
+          }
+        ],
+        "mean_positive_recall": 0.16380616647374513,
+        "worst_positive_recall": 0.08333333333333333,
+        "mean_proposal_recall": 0.905993721280999,
+        "mean_negative_specificity": 1.0
+      },
+      "portable_tree_25_75": {
+        "folds": [
+          {
+            "held_out_bag": "doubleT_platform",
+            "threshold": 0.8443002463263213,
+            "positive_recall": 0.029411764705882353,
+            "proposal_recall": 0.8529411764705882,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.1,
+              "l_shaped_debris": 0.0,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.0
+            }
+          },
+          {
+            "held_out_bag": "roundT_doubleT",
+            "threshold": 0.8596636074812479,
+            "positive_recall": 0.041666666666666664,
+            "proposal_recall": 1.0,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.125,
+              "l_shaped_debris": 0.0,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.0
+            }
+          },
+          {
+            "held_out_bag": "roundT_pressureGate_roundT",
+            "threshold": 0.8456178105360329,
+            "positive_recall": 0.08333333333333333,
+            "proposal_recall": 0.875,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.25,
+              "l_shaped_debris": 0.0,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.0
+            }
+          },
+          {
+            "held_out_bag": "roundT_squareT_pressureGate_squareT",
+            "threshold": 0.8006431117364937,
+            "positive_recall": 0.06976744186046512,
+            "proposal_recall": 0.9302325581395349,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.15384615384615385,
+              "l_shaped_debris": 0.0,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.06666666666666667
+            }
+          },
+          {
+            "held_out_bag": "squareT_platform_squareT_switch",
+            "threshold": 0.8462313295039694,
+            "positive_recall": 0.10256410256410256,
+            "proposal_recall": 0.8717948717948718,
+            "negative_specificity": 1.0,
+            "scenario_score": {
+              "forked_cable": 0.16666666666666666,
+              "l_shaped_debris": 0.0,
+              "outside_irregular_stack": 1.0,
+              "overhead_bracket": 1.0,
+              "person_silhouette": 0.14814814814814814
+            }
+          }
+        ],
+        "mean_positive_recall": 0.06534866182609,
+        "worst_positive_recall": 0.029411764705882353,
+        "mean_proposal_recall": 0.905993721280999,
+        "mean_negative_specificity": 1.0
+      },
+      "ood_guarded_g4": {
+        "comparable": false,
+        "reason": "the frozen composite cache does not contain context patches for the OOD guard"
+      }
+    }
+  },
+  "official_pseudo_labels": {
+    "protocol": {
+      "ground_truth": false,
+      "label": "forensic pseudo-label using organizer order and approximate 100 m spacing",
+      "warning": "coverage is directional evidence, not a metric claim against ground truth",
+      "first_world_m": 99.25,
+      "spacing_m": 100.0,
+      "range_tolerance_m": 2.0
+    },
+    "models": {
+      "geometry": {
+        "positive_scenarios_with_proposal": 6,
+        "positive_scenarios": 7,
+        "positive_coverage": 0.8571428571428571,
+        "negative_scenarios_without_proposal": 3,
+        "negative_scenarios": 3,
+        "negative_specificity": 1.0,
+        "positive_proposal_frames": 99
+      },
+      "g4_linear": {
+        "positive_scenarios_with_proposal": 1,
+        "positive_scenarios": 7,
+        "positive_coverage": 0.14285714285714285,
+        "negative_scenarios_without_proposal": 3,
+        "negative_scenarios": 3,
+        "negative_specificity": 1.0,
+        "positive_proposal_frames": 37
+      },
+      "portable_tree_25_75": {
+        "positive_scenarios_with_proposal": 1,
+        "positive_scenarios": 7,
+        "positive_coverage": 0.14285714285714285,
+        "negative_scenarios_without_proposal": 3,
+        "negative_scenarios": 3,
+        "negative_specificity": 1.0,
+        "positive_proposal_frames": 22
+      },
+      "ood_guarded_g4": {
+        "positive_scenarios_with_proposal": 1,
+        "positive_scenarios": 7,
+        "positive_coverage": 0.14285714285714285,
+        "negative_scenarios_without_proposal": 3,
+        "negative_scenarios": 3,
+        "negative_specificity": 1.0,
+        "positive_proposal_frames": 32
+      }
+    },
+    "scenarios": [
+      {
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "geometry": {
+          "visible_frames": 224,
+          "proposal_frames": 69
+        },
+        "g4_linear": {
+          "visible_frames": 224,
+          "proposal_frames": 37
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 224,
+          "proposal_frames": 22
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 224,
+          "proposal_frames": 32
+        }
+      },
+      {
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "geometry": {
+          "visible_frames": 93,
+          "proposal_frames": 4
+        },
+        "g4_linear": {
+          "visible_frames": 93,
+          "proposal_frames": 0
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 93,
+          "proposal_frames": 0
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 93,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "geometry": {
+          "visible_frames": 76,
+          "proposal_frames": 12
+        },
+        "g4_linear": {
+          "visible_frames": 76,
+          "proposal_frames": 0
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 76,
+          "proposal_frames": 0
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 76,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "geometry": {
+          "visible_frames": 68,
+          "proposal_frames": 4
+        },
+        "g4_linear": {
+          "visible_frames": 68,
+          "proposal_frames": 0
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 68,
+          "proposal_frames": 0
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 68,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "geometry": {
+          "visible_frames": 64,
+          "proposal_frames": 0
+        },
+        "g4_linear": {
+          "visible_frames": 64,
+          "proposal_frames": 0
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 64,
+          "proposal_frames": 0
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 64,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "geometry": {
+          "visible_frames": 62,
+          "proposal_frames": 6
+        },
+        "g4_linear": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "geometry": {
+          "visible_frames": 59,
+          "proposal_frames": 0
+        },
+        "g4_linear": {
+          "visible_frames": 59,
+          "proposal_frames": 0
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 59,
+          "proposal_frames": 0
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 59,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "geometry": {
+          "visible_frames": 58,
+          "proposal_frames": 0
+        },
+        "g4_linear": {
+          "visible_frames": 58,
+          "proposal_frames": 0
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 58,
+          "proposal_frames": 0
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 58,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "geometry": {
+          "visible_frames": 62,
+          "proposal_frames": 4
+        },
+        "g4_linear": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "geometry": {
+          "visible_frames": 71,
+          "proposal_frames": 0
+        },
+        "g4_linear": {
+          "visible_frames": 71,
+          "proposal_frames": 0
+        },
+        "portable_tree_25_75": {
+          "visible_frames": 71,
+          "proposal_frames": 0
+        },
+        "ood_guarded_g4": {
+          "visible_frames": 71,
+          "proposal_frames": 0
+        }
+      }
+    ]
+  },
+  "runtime_and_layouts": {
+    "protocol": {
+      "latency": "same 51 XYZIRT frames, bag I/O excluded, four rotated passes after warm-up",
+      "hardware_note": "local development host, not organizer container",
+      "layout": "one real message per delivered layout through every frozen candidate"
+    },
+    "models": {
+      "geometry": {
+        "p50_ms": 63.42415348626673,
+        "p95_ms": 79.64591728523374
+      },
+      "g4_linear": {
+        "p50_ms": 63.06191848125309,
+        "p95_ms": 74.52552760951221
+      },
+      "portable_tree_25_75": {
+        "p50_ms": 73.27188248746097,
+        "p95_ms": 92.41460418561473
+      },
+      "ood_guarded_g4": {
+        "p50_ms": 62.02767230570316,
+        "p95_ms": 76.46018889499828
+      }
+    },
+    "layouts": {
+      "xyzi_16": {
+        "point_step": 16,
+        "models": {
+          "geometry": {
+            "supported": true,
+            "accepted_components": 0
+          },
+          "g4_linear": {
+            "supported": true,
+            "accepted_components": 0
+          },
+          "portable_tree_25_75": {
+            "supported": true,
+            "accepted_components": 0
+          },
+          "ood_guarded_g4": {
+            "supported": true,
+            "accepted_components": 0
+          }
+        }
+      },
+      "xyzirt_26": {
+        "point_step": 26,
+        "models": {
+          "geometry": {
+            "supported": true,
+            "accepted_components": 20
+          },
+          "g4_linear": {
+            "supported": true,
+            "accepted_components": 0
+          },
+          "portable_tree_25_75": {
+            "supported": true,
+            "accepted_components": 0
+          },
+          "ood_guarded_g4": {
+            "supported": true,
+            "accepted_components": 0
+          }
+        }
+      }
+    }
+  },
+  "accepted_new_variants": {
+    "EXP-065": {
+      "title": "Three-of-five temporal confirmation",
+      "metrics": {
+        "normal_frames": 2287,
+        "range_2of3_alarm_frames": 38,
+        "range_2of3_alarm_episodes": 21,
+        "range_3of5_alarm_frames": 22,
+        "range_3of5_alarm_episodes": 14,
+        "world_2of3_alarm_frames": 29,
+        "world_2of3_alarm_episodes": 19,
+        "world_3of5_alarm_frames": 15,
+        "world_3of5_alarm_episodes": 9,
+        "range_3of5_alarm_frame_reduction": 0.42105263157894735,
+        "range_3of5_episode_reduction": 0.3333333333333333,
+        "world_3of5_alarm_frame_reduction": 0.4827586206896552,
+        "world_3of5_episode_reduction": 0.5263157894736842,
+        "synthetic_events": 21,
+        "range_2of3_detected_events": 12,
+        "range_3of5_detected_events": 12,
+        "world_2of3_detected_events": 12,
+        "world_3of5_detected_events": 12,
+        "three_of_five_median_delay_frames": 1.0
+      },
+      "artifacts": [
+        "lidar_geometry/artifacts/temporal_window_exp065.json",
+        "lidar_geometry/temporal_window_experiment.py",
+        "lidar_geometry/test_temporal.py"
+      ],
+      "comparison_scope": "experiment-specific frozen paired protocol",
+      "incomparable_fields": [
+        "Metrics not emitted by the accepted experiment are not inferred."
+      ]
+    }
+  },
+  "selection": {
+    "recommended_default": "portable_tree_25_75",
+    "ranking": [
+      {
+        "algorithm": "portable_tree_25_75",
+        "selection_key": [
+          2,
+          0.014429383471797114,
+          -0.14285714285714285,
+          -0.06534866182609,
+          92.41460418561473
+        ],
+        "safety_tier": "nonzero",
+        "normal_alarm_rate": 0.014429383471797114,
+        "official_pseudo_positive_coverage": 0.14285714285714285,
+        "shape_recall": 0.06534866182609,
+        "p95_ms": 92.41460418561473
+      },
+      {
+        "algorithm": "ood_guarded_g4",
+        "selection_key": [
+          2,
+          0.03279405334499344,
+          -0.14285714285714285,
+          1.0,
+          76.46018889499828
+        ],
+        "safety_tier": "nonzero",
+        "normal_alarm_rate": 0.03279405334499344,
+        "official_pseudo_positive_coverage": 0.14285714285714285,
+        "shape_recall": null,
+        "p95_ms": 76.46018889499828
+      },
+      {
+        "algorithm": "g4_linear",
+        "selection_key": [
+          2,
+          0.03541757761259292,
+          -0.14285714285714285,
+          -0.16380616647374513,
+          74.52552760951221
+        ],
+        "safety_tier": "nonzero",
+        "normal_alarm_rate": 0.03541757761259292,
+        "official_pseudo_positive_coverage": 0.14285714285714285,
+        "shape_recall": 0.16380616647374513,
+        "p95_ms": 74.52552760951221
+      },
+      {
+        "algorithm": "geometry",
+        "selection_key": [
+          2,
+          0.805421950153039,
+          -0.8571428571428571,
+          -0.905993721280999,
+          79.64591728523374
+        ],
+        "safety_tier": "nonzero",
+        "normal_alarm_rate": 0.805421950153039,
+        "official_pseudo_positive_coverage": 0.8571428571428571,
+        "shape_recall": 0.905993721280999,
+        "p95_ms": 79.64591728523374
+      }
+    ],
+    "alternatives": [
+      "ood_guarded_g4",
+      "g4_linear",
+      "geometry"
+    ]
+  }
+}

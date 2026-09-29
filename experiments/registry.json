@@ -1,0 +1,2003 @@
+[
+  {
+    "id": "EXP-000",
+    "title": "Frozen detector on organizer synthetic bag",
+    "status": "complete",
+    "created": "2026-09-22",
+    "hypothesis": "The pre-official-data geometry and hybrid detectors will provide a reproducible anchor before any tuning on the organizer synthetic bag.",
+    "change": "No retraining or threshold tuning; run the frozen implementation on every frame.",
+    "data": {
+      "sources": ["organizer/cloud_with_fake_obj"],
+      "split_unit": "whole_bag_audit",
+      "leakage_check": "Bag was unseen during detector development; exact scenario order was known only for interpretation after the run.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_official_bag external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --output lidar_geometry/artifacts/official_synthetic_frozen.json",
+    "metrics": {
+      "frames": 1510,
+      "geometry_obstacle_frames": 1116,
+      "geometry_unknown_frames": 313,
+      "geometry_clear_frames": 81,
+      "geometry_episodes": 215,
+      "hybrid_obstacle_frames": 59,
+      "hybrid_unknown_frames": 1370,
+      "hybrid_clear_frames": 81,
+      "hybrid_episodes": 44,
+      "latency_p50_ms": 140.886,
+      "latency_p95_ms": 284.057
+    },
+    "decision": "reject_as_submission_candidate",
+    "conclusion": "Geometry over-alerts severely. The learned hybrid suppresses alarms but converts most frames to UNKNOWN and still misses the 10 Hz budget. Keep both only as frozen anchors.",
+    "artifacts": ["lidar_geometry/artifacts/official_synthetic_frozen.json"]
+  },
+  {
+    "id": "EXP-001",
+    "title": "Remove the side-boundary veto and test paired clearance scenarios",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Blanket rejection of components touching the side boundary erases valid wide obstacles; removing it will recover official-like positives with limited degradation on paired negatives.",
+    "change": "Removed component-level side-boundary deletion. Boundary position remains explicit evidence at the decision layer instead of deleting the component before reasoning.",
+    "data": {
+      "sources": [
+        "organizer/roundT_pressureGate_roundT",
+        "organizer/roundT_doubleT",
+        "organizer/roundT_squareT_pressureGate_squareT",
+        "organizer/squareT_platform_squareT_switch",
+        "organizer/doubleT_platform"
+      ],
+      "split_unit": "whole_bag_background",
+      "leakage_check": "No fitting was performed. G0 and G1 use identical backgrounds, seeds, distances, and ray-consistent inserted objects; target attribution requires distance and lateral overlap.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.scenario_benchmark external_data/hackathon/for_hackathon --every 50 --frames-per-bag 2 --distances 20 40 60 --output lidar_geometry/artifacts/scenario_benchmark_g1.json",
+    "metrics": {
+      "positive_correct_g0_20m": 0.339,
+      "positive_correct_g1_20m": 0.679,
+      "positive_correct_g0_40m": 0.212,
+      "positive_correct_g1_40m": 0.561,
+      "positive_correct_g0_60m": 0.261,
+      "positive_correct_g1_60m": 0.609,
+      "negative_correct_g0_20m": 0.9,
+      "negative_correct_g1_20m": 0.833,
+      "negative_correct_g1_40m": 1.0,
+      "negative_correct_g1_60m": 1.0,
+      "assumed_normal_alarm_rate_g0": 0.521,
+      "assumed_normal_alarm_rate_g1": 0.547,
+      "latency_p50_ms": 81.476,
+      "latency_p95_ms": 113.603
+    },
+    "decision": "accept",
+    "conclusion": "The veto contradicted the task: a centered 2 m obstacle touches nearly the whole 2.1 m clearance and was deleted. Removing it roughly doubled positive correctness at every tested range. The 20 m negative score and assumed-normal alarm rate worsened slightly, so boundary contact must be handled by later independent evidence rather than restored as a hard deletion.",
+    "artifacts": [
+      "lidar_geometry/artifacts/scenario_benchmark_g0.json",
+      "lidar_geometry/artifacts/scenario_benchmark_g1.json",
+      "lidar_geometry/artifacts/mvp_evaluation_g1.json"
+    ]
+  },
+  {
+    "id": "EXP-002",
+    "title": "Group-validated compact ranker for geometric candidates",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A small ranker trained on real infrastructure negatives and ray-consistent scenario positives can suppress false alarms across a held-out organizer bag without an end-to-end point network.",
+    "change": "Trained a 12-feature logistic ranker; calibrated its threshold on training-frame maxima and held out complete bags.",
+    "data": {
+      "sources": ["five organizer assumed-normal bags", "ray-consistent scenario matrix"],
+      "split_unit": "whole_bag",
+      "leakage_check": "Every fold holds out an organizer bag and all synthetic variants derived from it. Thresholds use only training-bag frame maxima.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --every 20 --synthetic-every 100 --cache lidar_geometry/artifacts/risk_training_cache_v2.npz --model lidar_geometry/models/risk_model_g2.json --report lidar_geometry/artifacts/risk_model_audit_g2.json",
+    "metrics": {
+      "held_out_real_frame_fpr_min": 0.0,
+      "held_out_real_frame_fpr_max": 0.0357,
+      "scenario_recall_at_0_90": 0.3929,
+      "scenario_negative_specificity_at_0_90": 0.9647,
+      "assumed_normal_alarm_rate_at_0_90": 0.00855
+    },
+    "decision": "accept",
+    "conclusion": "The ranker creates a useful low-false-positive operating point, but it rejects many thin and edge obstacles. It is evidence for a narrow ML role, not for replacing geometry.",
+    "artifacts": [
+      "lidar_geometry/artifacts/risk_model_audit_g2.json",
+      "lidar_geometry/artifacts/scenario_benchmark_g2.json",
+      "lidar_geometry/artifacts/fusion_sweep_g2.json",
+      "lidar_geometry/models/risk_model_g2.json"
+    ]
+  },
+  {
+    "id": "EXP-003",
+    "title": "Range-lateral component tracking after a lower ranker threshold",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Component identity across frames can recover recall at threshold 0.8 while rejecting isolated learned false positives more reliably than scalar 2-of-3 voting.",
+    "change": "Associated accepted components by predicted distance, lateral center, and height; required two hits and attributed synthetic success only to the inserted target.",
+    "data": {
+      "sources": ["five organizer assumed-normal bags", "21 moving ray-synthetic sequences"],
+      "split_unit": "whole_bag",
+      "leakage_check": "The tracker has no fitted parameters from evaluation bags. Synthetic sequences are target-attributed so unrelated alarms cannot count as hits.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_tracker external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g2.json --threshold 0.8 --every 2 --synthetic-frames 12 --output lidar_geometry/artifacts/component_tracker_evaluation_t080.json",
+    "metrics": {
+      "real_frames": 1145,
+      "raw_alarm_frames": 120,
+      "tracked_alarm_frames": 48,
+      "raw_episodes": 85,
+      "tracked_episodes": 27,
+      "synthetic_sequences_detected": 13,
+      "synthetic_sequences_total": 21,
+      "latency_p50_ms": 97.33,
+      "latency_p95_ms": 115.797
+    },
+    "decision": "accept",
+    "conclusion": "Identity-aware tracking removes 60% of alarm frames and 68% of episodes, but 4.2% of weak-normal frames still alarm and small rail/edge objects remain a systematic miss. Tracking is necessary evidence, not a sufficient classifier.",
+    "artifacts": ["lidar_geometry/artifacts/component_tracker_evaluation_t080.json"]
+  },
+  {
+    "id": "EXP-004",
+    "title": "Remove absolute-position shortcuts from the ranker",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Ignoring absolute lateral and vertical position will improve transfer to edge, rail, and hanging objects.",
+    "change": "Zeroed absolute lateral center, minimum height, and maximum height during otherwise identical grouped training.",
+    "data": {
+      "sources": ["cached EXP-002 training matrix", "paired scenario benchmark"],
+      "split_unit": "whole_bag",
+      "leakage_check": "Identical cached samples and group folds were used; only the three declared features changed.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --invariant --cache lidar_geometry/artifacts/risk_training_cache_v2.npz --model lidar_geometry/models/risk_model_g3_invariant.json --report lidar_geometry/artifacts/risk_model_audit_g3_invariant.json",
+    "metrics": {
+      "scenario_recall_at_0_80": 0.4464,
+      "scenario_negative_specificity_at_0_80": 0.9529,
+      "assumed_normal_alarm_rate_at_0_80": 0.0513
+    },
+    "decision": "reject",
+    "conclusion": "The ablation removed a shortcut but also useful infrastructure context. It is dominated by later cost-sensitive training and does not recover the critical small edge/rail cases.",
+    "artifacts": [
+      "lidar_geometry/artifacts/risk_model_audit_g3_invariant.json",
+      "lidar_geometry/artifacts/scenario_benchmark_g3_invariant.json",
+      "lidar_geometry/artifacts/fusion_sweep_g3_invariant.json",
+      "lidar_geometry/models/risk_model_g3_invariant.json"
+    ]
+  },
+  {
+    "id": "EXP-005",
+    "title": "Cost-sensitive ranker for safety-critical obstacle modes",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Moderately upweighting small-on-rail, small-at-edge, and hanging-cable errors will improve the strict false-positive Pareto point across held-out bags.",
+    "change": "Weighted the three critical positive scenario families by four. Weights eight and sixteen were also tested and rejected.",
+    "data": {
+      "sources": ["cached EXP-002 training matrix", "paired scenario benchmark", "official synthetic audit bag"],
+      "split_unit": "whole_bag",
+      "leakage_check": "Duplicated critical rows remain inside their source bag group. The official bag is audit-only and did not set model weights or threshold.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --critical-weight 4 --cache lidar_geometry/artifacts/risk_training_cache_v2.npz --model lidar_geometry/models/risk_model_g4_cost_sensitive.json --report lidar_geometry/artifacts/risk_model_audit_g4_cost_sensitive.json",
+    "metrics": {
+      "scenario_recall_strict": 0.4405,
+      "scenario_negative_specificity_strict": 0.9765,
+      "assumed_normal_alarm_rate_strict": 0.00855,
+      "official_hybrid_frames": 81,
+      "official_tracked_frames": 38,
+      "official_hybrid_episodes": 38,
+      "official_tracked_episodes": 18,
+      "latency_p50_ms": 96.096,
+      "latency_p95_ms": 120.098
+    },
+    "decision": "accept",
+    "conclusion": "Weight four improves both scenario recall and negative specificity over the unweighted strict operating point at the same weak-normal alarm rate. Larger weights hurt grouped recall. This is the current default candidate, but exact official scenario recall is still unknown because organizer intervals are absent.",
+    "artifacts": [
+      "lidar_geometry/artifacts/risk_model_audit_g4_cost_sensitive.json",
+      "lidar_geometry/artifacts/risk_model_audit_g4_w8.json",
+      "lidar_geometry/artifacts/risk_model_audit_g4_w16.json",
+      "lidar_geometry/artifacts/fusion_sweep_g4_cost_sensitive.json",
+      "lidar_geometry/artifacts/official_synthetic_g4.json",
+      "lidar_geometry/models/risk_model_g4_cost_sensitive.json"
+    ]
+  },
+  {
+    "id": "EXP-006",
+    "title": "Explicit side-clearance feature",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Distance from the component edge to the 2.1 m envelope is more transferable than lateral center alone.",
+    "change": "Added side_clearance = 1.05 - abs(center) - width/2 while preserving backward-compatible loading of earlier model schemas.",
+    "data": {
+      "sources": ["cached EXP-002 training matrix", "paired scenario benchmark"],
+      "split_unit": "whole_bag",
+      "leakage_check": "The feature was derived from existing geometry; samples, folds, weights, and thresholds otherwise match EXP-005.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --critical-weight 4 --cache lidar_geometry/artifacts/risk_training_cache_v2.npz --model lidar_geometry/models/risk_model_g5_clearance.json --report lidar_geometry/artifacts/risk_model_audit_g5_clearance.json",
+    "metrics": {
+      "scenario_recall_strict": 0.4405,
+      "scenario_negative_specificity_strict": 0.9765,
+      "assumed_normal_alarm_rate_strict": 0.00855,
+      "scenario_recall_at_0_80": 0.5655,
+      "assumed_normal_alarm_rate_at_0_80": 0.1026
+    },
+    "decision": "inconclusive",
+    "conclusion": "The strict operating point is unchanged and the lower-threshold recall gain is too small for its false-alarm cost. Keep the feature available, but do not replace G4 without a larger held-out benchmark.",
+    "artifacts": [
+      "lidar_geometry/artifacts/risk_model_audit_g5_clearance.json",
+      "lidar_geometry/artifacts/fusion_sweep_g5_clearance.json",
+      "lidar_geometry/models/risk_model_g5_clearance.json"
+    ]
+  },
+  {
+    "id": "EXP-007",
+    "title": "Persistent low-score critical-geometry rescue lane",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Four-frame persistence can safely rescue compact and thin vertical obstacles rejected by the strict candidate ranker.",
+    "change": "Added a second component tracker for compact or thin-vertical candidates scoring at least 0.3; the normal high-confidence lane remained unchanged.",
+    "data": {
+      "sources": ["five organizer assumed-normal bags", "21 moving ray-synthetic sequences"],
+      "split_unit": "whole_bag",
+      "leakage_check": "The shape rule was declared before the run. Synthetic success is target-attributed, and all real background frames are counted.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_evidence_fusion external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --every 2 --synthetic-frames 12 --output lidar_geometry/artifacts/evidence_fusion_g6.json",
+    "metrics": {
+      "baseline_real_alarm_frames": 48,
+      "candidate_real_alarm_frames": 535,
+      "baseline_real_alarm_episodes": 27,
+      "candidate_real_alarm_episodes": 193,
+      "real_frames": 1145,
+      "baseline_synthetic_sequences_detected": 13,
+      "candidate_synthetic_sequences_detected": 18,
+      "synthetic_sequences_total": 21,
+      "latency_p50_ms": 101.162,
+      "latency_p95_ms": 153.747
+    },
+    "decision": "reject",
+    "conclusion": "Persistence is not independent evidence: rails, switches, and platform structure persist too. The rescue lane recovered five synthetic sequences but multiplied weak-normal alarm frames by 11.1 and episodes by 7.1. Future recall recovery must use background contradiction or stronger rail-relative evidence, not more temporal voting.",
+    "artifacts": [
+      "lidar_geometry/artifacts/evidence_fusion_g6.json",
+      "lidar_geometry/evidence_fusion.py",
+      "lidar_geometry/evaluate_evidence_fusion.py"
+    ]
+  },
+  {
+    "id": "EXP-008",
+    "title": "Recover synthetic masks by matching organizer source frames",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "The official synthetic recording reuses organizer frames, so unchanged XYZ returns can reveal the inserted-object mask by exact set subtraction.",
+    "change": "Built coarse geometric fingerprints over all 2488 organizer frames, then measured exact XYZ overlap for the best source-frame candidate.",
+    "data": {
+      "sources": ["six organizer bags", "organizer official synthetic bag"],
+      "split_unit": "frame matching feasibility",
+      "leakage_check": "No detector fitting; this checks data provenance only.",
+      "blind": false
+    },
+    "command": "Compare robust frame fingerprints, then intersect exact float32 XYZ hashes for official frame 150 and its nearest organizer candidate.",
+    "metrics": {
+      "official_valid_points": 307131,
+      "exact_shared_xyz_points": 4,
+      "exact_overlap_fraction": 0.000013
+    },
+    "decision": "reject",
+    "conclusion": "The official bag is not a point-preserving copy of the available organizer frames. Background subtraction cannot provide free point masks; pseudo-labels must come from known scenarios plus temporal/geometric evidence and remain explicitly non-blind.",
+    "artifacts": []
+  },
+  {
+    "id": "EXP-009",
+    "title": "Separable occupancy-neighbourhood sum",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A separable 3x3 sum will reduce rail-profile latency without changing any detector decisions.",
+    "change": "Replaced nine shifted array sums with an equivalent three-row plus three-column sum and added an exact-equivalence unit test.",
+    "data": {
+      "sources": ["30 consecutive organizer frames"],
+      "split_unit": "runtime microbenchmark",
+      "leakage_check": "The transform is algebraically and unit-test equivalent; no quality parameters changed.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m unittest discover -s lidar_geometry -p 'test_*.py' && paired direct/separable timing on the same 30 decoded clouds",
+    "metrics": {
+      "direct_median_ms": 90.94,
+      "separable_median_ms": 88.23,
+      "unit_tests": 20,
+      "p95_10hz_gate_passed": false
+    },
+    "decision": "accept",
+    "conclusion": "The exact transform gives a small median improvement, but p95 remains unstable and above the 100 ms budget. Keep the simpler fast form; runtime optimization remains an open submission gate.",
+    "artifacts": ["lidar_geometry/fast_detector.py", "lidar_geometry/test_fast_detector.py"]
+  },
+  {
+    "id": "EXP-010",
+    "title": "LiDAR-only ego-motion from tunnel walls",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Stable longitudinal structure in tunnel-wall returns is sufficient to estimate train motion without an odometry topic.",
+    "change": "Added a streaming wall-profile correlator and integrated its cumulative motion into the evidence pipeline.",
+    "data": {
+      "sources": ["organizer official synthetic bag"],
+      "split_unit": "whole_bag_audit",
+      "leakage_check": "No labels, scenario order, or object intensity were used to estimate motion. The first large object was used only as an independent post-hoc consistency check.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.ego_motion external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --output lidar_geometry/artifacts/official_ego_motion.json",
+    "metrics": {
+      "frames": 1510,
+      "inferred_path_m": 1836.0,
+      "median_delta_m_per_frame": 1.5,
+      "median_profile_correlation": 0.989663,
+      "first_object_world_position_m": 99.243,
+      "first_object_world_position_mad_m": 0.556,
+      "motion_latency_p50_ms": 7.233,
+      "motion_latency_p95_ms": 9.38
+    },
+    "decision": "accept",
+    "conclusion": "Tunnel walls provide a strong self-odometry signal. The first independently visible object stays at 99.24 m in world coordinates with 0.56 m MAD, validating the coordinate transform without an external odometry topic.",
+    "artifacts": [
+      "lidar_geometry/artifacts/official_ego_motion.json",
+      "lidar_geometry/ego_motion.py"
+    ]
+  },
+  {
+    "id": "EXP-011",
+    "title": "Strict synthetic target attribution",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "The previous 0.5 m matching tolerance overstates target recall by crediting nearby infrastructure components.",
+    "change": "Reduced distance and lateral target-attribution tolerance from 0.5 m to 0.005 m and added a boundary regression test.",
+    "data": {
+      "sources": ["paired ray-consistent scenario benchmark"],
+      "split_unit": "whole_bag_background",
+      "leakage_check": "Detector outputs are unchanged; only target attribution was made exact. All earlier absolute synthetic target metrics are superseded.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.scenario_benchmark external_data/hackathon/for_hackathon --every 50 --frames-per-bag 2 --distances 20 40 60 --output lidar_geometry/artifacts/scenario_benchmark_g1_strict.json",
+    "metrics": {
+      "old_positive_correct": 0.6131,
+      "strict_positive_correct": 0.5833,
+      "old_negative_correct": 0.9412,
+      "strict_negative_correct": 0.9529,
+      "strict_positive_candidate_rate": 0.744,
+      "strict_negative_candidate_rate": 0.0824
+    },
+    "decision": "accept",
+    "conclusion": "The old tolerance leaked nearby structure into target credit. The stricter protocol lowers claimed positive correctness and improves negative correctness; it supersedes the absolute synthetic metrics in EXP-001 through EXP-007. G4 was rescored under the corrected protocol before remaining the default.",
+    "artifacts": [
+      "lidar_geometry/artifacts/scenario_benchmark_g1_strict.json",
+      "lidar_geometry/test_scenario_benchmark.py"
+    ]
+  },
+  {
+    "id": "EXP-012",
+    "title": "Guard-band clustering around the clearance",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Clustering points just outside the clearance before retaining intersecting components will recover boundary-straddling obstacles.",
+    "change": "Added an optional 1.5 m clustering guard band while keeping final component retention tied to physical clearance intersection.",
+    "data": {
+      "sources": ["paired ray-consistent scenario benchmark"],
+      "split_unit": "whole_bag_background",
+      "leakage_check": "Baseline and candidate use identical frames, scenarios, strict 5 mm target attribution, and detector settings except for the declared guard band.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.scenario_benchmark external_data/hackathon/for_hackathon --every 50 --frames-per-bag 2 --distances 20 40 60 --guard-band 1.5 --output lidar_geometry/artifacts/scenario_benchmark_g7_guard_strict.json",
+    "metrics": {
+      "baseline_positive_correct": 0.5833,
+      "guard_positive_correct": 0.5595,
+      "baseline_negative_correct": 0.9529,
+      "guard_negative_correct": 0.9529,
+      "baseline_negative_candidate_rate": 0.0824,
+      "guard_negative_candidate_rate": 0.4118
+    },
+    "decision": "reject",
+    "conclusion": "The guard band adds infrastructure to components without recovering target evidence. Positive correctness falls and negative candidate contamination grows fivefold, so the default remains zero guard band.",
+    "artifacts": ["lidar_geometry/artifacts/scenario_benchmark_g7_guard_strict.json"]
+  },
+  {
+    "id": "EXP-013",
+    "title": "Clean retraining after attribution correction",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Rebuilding the training cache with strict target attribution will improve the held-out Pareto point over the existing G4 ranker.",
+    "change": "Rebuilt every candidate row and fold assignment under the 5 mm attribution rule, then retrained the same cost-sensitive compact ranker.",
+    "data": {
+      "sources": ["five organizer backgrounds", "paired ray-consistent scenarios"],
+      "split_unit": "whole_bag_background",
+      "leakage_check": "Cache was rebuilt after the protocol fix; thresholds and metrics are compared at the same 0.9 operating point.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --critical-weight 4 --cache lidar_geometry/artifacts/risk_training_cache_v3_strict.npz --model lidar_geometry/models/risk_model_g8_strict.json --report lidar_geometry/artifacts/risk_model_audit_g8_strict.json",
+    "metrics": {
+      "g4_strict_recall_at_0_90": 0.4405,
+      "g8_strict_recall_at_0_90": 0.4286,
+      "g4_negative_specificity_at_0_90": 0.9765,
+      "g8_negative_specificity_at_0_90": 0.9765,
+      "g4_weak_normal_alarm_rate_at_0_90": 0.00855,
+      "g8_weak_normal_alarm_rate_at_0_90": 0.00855
+    },
+    "decision": "reject",
+    "conclusion": "The cleaner training protocol is valuable, but the resulting G8 model does not beat G4: specificity and weak-normal alarms tie while recall is slightly lower. G4 remains the runtime default, with its quality claim limited to the strict post-hoc rescore.",
+    "artifacts": [
+      "lidar_geometry/artifacts/risk_model_audit_g8_strict.json",
+      "lidar_geometry/artifacts/fusion_sweep_g8_strict.json",
+      "lidar_geometry/artifacts/fusion_sweep_g4_strict_attribution.json",
+      "lidar_geometry/models/risk_model_g8_strict.json"
+    ]
+  },
+  {
+    "id": "EXP-014",
+    "title": "World-coordinate component tracking",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A true obstacle remains stationary in inferred world coordinates, whereas recurrent infrastructure aliases at similar sensor ranges will not.",
+    "change": "Combined streaming LiDAR-only ego-motion with component association in world distance and retained range tracking as a reliability fallback.",
+    "data": {
+      "sources": ["five organizer assumed-normal bags", "21 moving ray-synthetic sequences"],
+      "split_unit": "whole_bag_or_synthetic_sequence",
+      "leakage_check": "The same G4 scores, threshold, frames, and target-attribution rule are used by both trackers; only the association coordinate changes.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_world_tracker external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --threshold 0.9 --output lidar_geometry/artifacts/world_tracker_g9.json",
+    "metrics": {
+      "range_tracker_real_alarm_frames": 20,
+      "world_tracker_real_alarm_frames": 15,
+      "range_tracker_real_alarm_episodes": 11,
+      "world_tracker_real_alarm_episodes": 10,
+      "range_tracker_synthetic_detected": 12,
+      "world_tracker_synthetic_detected": 12,
+      "synthetic_total": 21,
+      "motion_latency_p50_ms": 7.233,
+      "motion_latency_p95_ms": 9.38
+    },
+    "decision": "accept",
+    "conclusion": "World-coordinate association removes 25% of weak-normal alarm frames and one episode without losing any of the 12 detected synthetic sequences. It is now the preferred tracker when wall-correlation reliability is high, with the original tracker as fallback.",
+    "artifacts": [
+      "lidar_geometry/artifacts/component_tracker_g4_t090.json",
+      "lidar_geometry/artifacts/world_tracker_g9.json",
+      "lidar_geometry/artifacts/world_tracker_synthetic_g9.json"
+    ]
+  },
+  {
+    "id": "EXP-015",
+    "title": "Forensic recovery of official scenario positions",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Self-odometry, stated scenario order and bounds, and generator-specific intensity can recover audit-only pseudo-labels for the official bag.",
+    "change": "Accumulated candidate returns in inferred world coordinates and produced confidence-ranked position hypotheses and a rail-relative review sheet.",
+    "data": {
+      "sources": ["organizer official synthetic bag", "organizer scenario description"],
+      "split_unit": "whole_bag_forensic_audit",
+      "leakage_check": "Intensity equality to one is explicitly generator-specific and is excluded from runtime detection. Recovered positions are pseudo-labels, not ground truth.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.recover_official_scenarios external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --output lidar_geometry/artifacts/official_scenario_positions.json",
+    "metrics": {
+      "scenarios_expected": 10,
+      "strongly_recovered": 2,
+      "moderately_supported": 3,
+      "ambiguous_or_missing": 5,
+      "large_center_position_m": 99.625,
+      "large_outside_position_m": 705.625
+    },
+    "decision": "inconclusive",
+    "conclusion": "The method strongly recovers the large center and large outside objects and provides useful hypotheses for three more cases, but minimum-size objects and the cable remain ambiguous. The result is valuable for human review and data forensics, not as a substitute for organizer ground truth.",
+    "artifacts": [
+      "lidar_geometry/artifacts/official_scenario_positions.json",
+      "lidar_geometry/artifacts/official_scenario_review_recovered_20m.png"
+    ]
+  },
+  {
+    "id": "EXP-016",
+    "title": "Temporal super-resolution feasibility ceiling",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Minimum obstacles missed per frame may become geometrically observable after world-coordinate accumulation across an approach sequence.",
+    "change": "Before implementing a runtime accumulator, measured an oracle upper bound by accumulating only known synthetic target returns in 0.1 m world voxels.",
+    "data": {
+      "sources": ["three organizer backgrounds", "21 moving ray-synthetic positive sequences"],
+      "split_unit": "synthetic_sequence",
+      "leakage_check": "Generator masks are used only for feasibility analysis and are explicitly unavailable to runtime. No detector score is claimed.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_temporal_superresolution external_data/hackathon/for_hackathon --frames 8 --output lidar_geometry/artifacts/temporal_superresolution_feasibility.json",
+    "metrics": {
+      "sequences": 21,
+      "never_observed": 0,
+      "single_frame_below_3_but_accumulated_at_least_3": 0,
+      "median_world_voxel_gain": 1.3729
+    },
+    "decision": "inconclusive",
+    "conclusion": "Accumulation adds about 37% distinct target voxels, but every synthetic sequence already has at least three returns in a single frame. The experiment does not support the proposed mechanism that missed minimum objects are simply below per-frame physical observability; surface removal, clustering, and ranking should be audited first.",
+    "artifacts": [
+      "lidar_geometry/artifacts/temporal_superresolution_feasibility.json",
+      "lidar_geometry/evaluate_temporal_superresolution.py"
+    ]
+  },
+  {
+    "id": "EXP-017",
+    "title": "Stage-wise recall audit with exact synthetic masks",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Separating physical observability, geometric proposal, ranking, and tracking will locate the dominant loss mechanism for critical objects.",
+    "change": "Instrumented 21 moving positive sequences with strict target attribution at every existing pipeline stage.",
+    "data": {
+      "sources": ["three organizer backgrounds", "21 moving ray-synthetic positive sequences"],
+      "split_unit": "synthetic_sequence",
+      "leakage_check": "Exact generator masks are used only for evaluation attribution. The detector and G4 model receive the same cloud and no mask-derived feature.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.audit_proposal_stages external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --frames 8 --threshold 0.9 --output lidar_geometry/artifacts/proposal_stage_audit.json",
+    "metrics": {
+      "observable_frames": 168,
+      "proposal_frames": 132,
+      "ranked_frames": 83,
+      "tracked_frames": 63,
+      "minimum_on_rail_proposal_frames": 14,
+      "minimum_on_rail_ranked_frames": 0,
+      "minimum_edge_proposal_frames": 12,
+      "minimum_edge_ranked_frames": 0,
+      "cable_proposal_frames": 20,
+      "cable_ranked_frames": 1
+    },
+    "decision": "accept",
+    "conclusion": "The dominant critical-object loss is the false-positive ranker, not LiDAR observability: it deletes every proposed minimum on-rail and edge object and 19 of 20 cable frames. The next quality experiment must add evidence that separates these objects from rail and infrastructure hard negatives; lowering the global threshold is already known to be unsafe.",
+    "artifacts": [
+      "lidar_geometry/artifacts/proposal_stage_audit.json",
+      "lidar_geometry/audit_proposal_stages.py"
+    ]
+  },
+  {
+    "id": "EXP-018",
+    "title": "World-coordinate critical-object rescue lane",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Four confirmations in inferred world coordinates will retain the low-score critical-object recall of EXP-007 while removing most persistent infrastructure aliases.",
+    "change": "Replaced both range-coordinate trackers in the two-lane fusion experiment with LiDAR-odometry world-coordinate trackers; thresholds and critical-shape rules stayed fixed.",
+    "data": {
+      "sources": ["five organizer assumed-normal bags", "21 moving ray-synthetic sequences"],
+      "split_unit": "whole_bag_or_synthetic_sequence",
+      "leakage_check": "Directly paired with EXP-007 on identical data, scores, thresholds, shape rules, and strict target attribution; only tracking coordinates differ.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_evidence_fusion external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --every 2 --synthetic-frames 12 --world-coordinates --output lidar_geometry/artifacts/evidence_fusion_world_g10.json",
+    "metrics": {
+      "range_rescue_real_alarm_frames": 535,
+      "world_rescue_real_alarm_frames": 379,
+      "range_rescue_real_alarm_episodes": 193,
+      "world_rescue_real_alarm_episodes": 154,
+      "range_rescue_synthetic_sequences": 18,
+      "world_rescue_synthetic_sequences": 18,
+      "synthetic_total": 21,
+      "latency_p50_ms": 97.274,
+      "latency_p95_ms": 118.313
+    },
+    "decision": "reject",
+    "conclusion": "World consistency removes 29% of rescue-lane alarm frames without losing recall, but 379/1145 alarm frames and 154 episodes remain unusable. Ego-motion is useful evidence, not enough independent evidence to safely lower the ranker threshold.",
+    "artifacts": ["lidar_geometry/artifacts/evidence_fusion_world_g10.json"]
+  },
+  {
+    "id": "EXP-019",
+    "title": "Physical rail-and-cable rescue rules",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Shape-specific rail and cable rules plus four world-coordinate confirmations can recover critical objects without a generic low-score lane.",
+    "change": "Replaced the generic critical-shape rescue with explicit short raised rail-interruption and thin centered cable predicates; kept G4 as the high-confidence lane.",
+    "data": {
+      "sources": ["five organizer assumed-normal bags", "21 moving ray-synthetic sequences"],
+      "split_unit": "whole_bag_or_synthetic_sequence",
+      "leakage_check": "Rules were explored on a sparse component cache, then evaluated end-to-end on every second real frame. The full temporal run is the deciding test.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_evidence_fusion external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --every 2 --synthetic-frames 12 --world-coordinates --physical-rules --output lidar_geometry/artifacts/evidence_fusion_physical_g11.json",
+    "metrics": {
+      "real_frames": 1145,
+      "real_alarm_frames": 773,
+      "real_alarm_episodes": 232,
+      "synthetic_sequences_detected": 14,
+      "synthetic_sequences_total": 21,
+      "critical_lane_sequences": 2,
+      "latency_p50_ms": 100.291,
+      "latency_p95_ms": 137.268
+    },
+    "decision": "reject",
+    "conclusion": "The sparse training cache made the predicates look selective, but the full temporal run exposes frequent short rail and infrastructure fragments. Frame subsampling can preserve bag-level separation yet still hide hard-negative frequency; full-sequence evaluation is mandatory.",
+    "artifacts": ["lidar_geometry/artifacts/evidence_fusion_physical_g11.json"]
+  },
+  {
+    "id": "EXP-020",
+    "title": "Cable-only world-coordinate rescue",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A thin, centered, vertical component with four stable world-coordinate hits is specific enough to rescue hanging cables.",
+    "change": "Removed the failed rail predicate and retained only the cable geometry exception below the normal G4 threshold.",
+    "data": {
+      "sources": ["five organizer assumed-normal bags", "21 moving ray-synthetic sequences"],
+      "split_unit": "whole_bag_or_synthetic_sequence",
+      "leakage_check": "Identical protocol to EXP-019 with only the rail predicate removed; synthetic credit remains strictly target-attributed.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_evidence_fusion external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --every 2 --synthetic-frames 12 --world-coordinates --cable-only --output lidar_geometry/artifacts/evidence_fusion_cable_g12.json",
+    "metrics": {
+      "real_frames": 1145,
+      "real_alarm_frames": 887,
+      "real_alarm_episodes": 156,
+      "synthetic_sequences_detected": 14,
+      "synthetic_sequences_total": 21,
+      "critical_lane_sequences": 2,
+      "latency_p50_ms": 100.259,
+      "latency_p95_ms": 133.167
+    },
+    "decision": "reject",
+    "conclusion": "Cable shape plus world persistence is still not independent evidence: real tunnel structures can be thin, vertical, centered, and stationary too. The two recovered sequences do not justify 156 weak-normal episodes. Cable rescue requires contextual evidence unavailable in the current component representation.",
+    "artifacts": ["lidar_geometry/artifacts/evidence_fusion_cable_g12.json"]
+  },
+  {
+    "id": "EXP-021",
+    "title": "Profile-guided detector hot-path optimization",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Removing warning-heavy nanmedian calls and redundant full-cloud float64 copies will bring the detector below 100 ms p95 without changing decisions.",
+    "change": "Added an exact fixed-window NaN median, used non-stable bin sorting where order is irrelevant, removed redundant finite checks in bounded wall masks, and retained native float32 coordinates through proposal construction.",
+    "data": {
+      "sources": ["252-frame organizer roundT_doubleT bag"],
+      "split_unit": "runtime_trace",
+      "leakage_check": "This is a semantics-preserving runtime experiment. State, reason, counts, and component coordinates rounded to 1e-5 were compared on the same first 30 frames.",
+      "blind": false
+    },
+    "command": "End-to-end timing after 10 warmup frames on roundT_doubleT_0.db3; detector and full world-mode measured around the same callback operations.",
+    "metrics": {
+      "frames": 242,
+      "detector_median_ms": 65.887,
+      "detector_p95_ms": 78.673,
+      "end_to_end_worst_repeat_median_ms": 74.264,
+      "end_to_end_worst_repeat_p95_ms": 90.815,
+      "end_to_end_worst_repeat_p99_ms": 112.205,
+      "decision_signature_unchanged": true,
+      "detector_10hz_gate_passed": true,
+      "world_mode_10hz_gate_passed": true
+    },
+    "decision": "accept",
+    "conclusion": "Detector and full world mode clear the 100 ms p95 gate in two consecutive 242-frame measurements. Decisions are unchanged at 1e-5 output precision and all 251 motion shifts match the reference formula. Rare p99 scheduling spikes remain and should be reported separately.",
+    "artifacts": [
+      "lidar_geometry/artifacts/runtime_g13.json",
+      "lidar_geometry/fast_detector.py",
+      "lidar_geometry/test_fast_detector.py"
+    ]
+  },
+  {
+    "id": "EXP-022",
+    "title": "Offline submission smoke test for both delivered layouts",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A dependency-minimal offline command can load the shipped model, process both official PointCloud2 layouts, serialize results, and fail safely on malformed input.",
+    "change": "Added a one-command smoke runner covering 16-byte XYZI, 26-byte XYZIRT, empty clouds, missing required fields, G4 ranking, both trackers, ego-motion, and JSON serialization.",
+    "data": {
+      "sources": ["organizer official synthetic bag", "organizer roundT_doubleT bag"],
+      "split_unit": "first_frame_format_smoke",
+      "leakage_check": "No quality metric or tuning is performed; this validates packaging and safety behavior only.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.smoke_test --xyzi-bag external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --xyzirt-bag external_data/hackathon/for_hackathon/roundT_doubleT/roundT_doubleT_0.db3 --output lidar_geometry/artifacts/submission_smoke.json",
+    "metrics": {
+      "xyzi_point_step": 16,
+      "xyzirt_point_step": 26,
+      "json_serialization": "pass",
+      "empty_cloud_state": "UNKNOWN",
+      "missing_field_failure": "visible",
+      "unit_tests": 43,
+      "numpy_1_26_4_python_3_12_suite": "pass",
+      "numpy_1_26_4_python_3_12_smoke": "pass"
+    },
+    "decision": "accept",
+    "conclusion": "The offline path passes on both delivered layouts, produces strict JSON, returns UNKNOWN for an empty cloud, and raises a visible error for a missing intensity field. The full suite and smoke also pass in a clean Python 3.12 environment with container-pinned NumPy 1.26.4. ROS 2 and container launch remain unverified locally because their runtimes are unavailable.",
+    "artifacts": [
+      "lidar_geometry/artifacts/submission_smoke.json",
+      "lidar_geometry/smoke_test.py"
+    ]
+  },
+  {
+    "id": "EXP-023",
+    "title": "Zero-shot transfer to OSDaR23 and OSDaR-AR",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Rail-relative geometry will transfer to a different train, open stations, and a different multi-LiDAR layout better than the organizer-domain learned suppressor.",
+    "change": "Added a coordinate/schema adapter only: OSDaR x-forward/y-left/z-up is mapped to MetroGuard -y-forward/x-lateral/z-up. No weights, thresholds, or geometry parameters were fitted on OSDaR.",
+    "data": {
+      "sources": ["20 OSDaR23 real station frames", "60 deterministic OSDaR-AR frames across two stations and six obstacle classes"],
+      "split_unit": "entire_external_dataset_source",
+      "leakage_check": "OSDaR was not used for model training or threshold selection. Five evenly spaced frames per class and archive were selected before running the detector.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_osdar_transfer external_data/osdar23 external_data/osdar_ar/5_station_bergedorf_5.2_osdar_ar.zip external_data/osdar_ar/6_station_klein_flottbek_6.1_osdar_ar.zip --samples-per-class 5 --output lidar_geometry/artifacts/osdar_transfer.json",
+    "metrics": {
+      "real_frames": 20,
+      "real_track_observable_frames": 20,
+      "real_ranked_obstacle_frames": 0,
+      "real_ranked_unknown_frames": 20,
+      "augmented_frames": 60,
+      "evaluable_clearance_targets": 38,
+      "geometric_clearance_target_frames": 34,
+      "geometric_zero_shot_recall": 0.8947,
+      "ranked_clearance_target_frames": 20,
+      "ranked_zero_shot_recall": 0.5263
+    },
+    "decision": "accept",
+    "conclusion": "The physical representation transfers: without OSDaR training, geometry recovers 34/38 evaluable in-clearance targets across another train, open stations, and a merged multi-LiDAR source. The organizer-domain G4 suppressor falls to 20/38, localizing the transfer gap to learned ranking rather than clearance geometry. Real station frames produce no OBSTACLE but all remain UNKNOWN, so this is not a claim of external operational readiness.",
+    "artifacts": [
+      "lidar_geometry/artifacts/osdar_transfer.json",
+      "lidar_geometry/evaluate_osdar_transfer.py"
+    ]
+  },
+  {
+    "id": "EXP-024",
+    "title": "Minimal container runtime bundle",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "The production candidate can run from only its declared runtime modules and model, without the experiment tree or artifacts.",
+    "change": "Narrowed the Docker copy set from the full 88 MB lidar_geometry tree to nine runtime modules and one 1.3 KB model, then staged the exact set in an isolated directory.",
+    "data": {
+      "sources": ["first official XYZI frame", "first organizer XYZIRT frame"],
+      "split_unit": "packaging_smoke",
+      "leakage_check": "No quality measurement or tuning; the staged directory contains only files declared by the Dockerfile.",
+      "blind": false
+    },
+    "command": "Stage the exact Docker COPY file list under /tmp, import on Python 3.12/NumPy 1.26.4, load risk_model.json, and process one 16-byte and one 26-byte cloud.",
+    "metrics": {
+      "previous_source_tree_mb": 88,
+      "runtime_python_modules": 9,
+      "model_bytes": 1315,
+      "xyzi_state": "UNKNOWN",
+      "xyzirt_state": "UNKNOWN",
+      "isolated_import": "pass"
+    },
+    "decision": "accept",
+    "conclusion": "The candidate has no hidden dependency on experiment code or artifacts. The exact minimal Docker payload imports, loads the frozen model, and processes both delivered point layouts in the pinned compatibility environment.",
+    "artifacts": ["lidar_geometry/Dockerfile.mvp"]
+  },
+  {
+    "id": "EXP-025",
+    "title": "ROS 2 Humble container integration smoke",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "The minimal image builds from a data-free context, launches the production node in ROS 2 Humble, consumes the official PointCloud2 topic, and publishes a valid decision.",
+    "change": "Installed Docker CLI 29.8.1 with Colima, added a strict Docker build-context allowlist, built the x86_64 image, matched the official bag's reliable QoS, and compared two isolated detector/player/subscriber sessions at 1x playback.",
+    "data": {
+      "sources": ["organizer official synthetic bag"],
+      "split_unit": "runtime_integration_smoke",
+      "leakage_check": "No model fitting, threshold selection, or quality measurement; the bag was mounted read-only and excluded from the 98.3 kB build context.",
+      "blind": false
+    },
+    "command": "docker build -f lidar_geometry/Dockerfile.mvp -t metro-guard:mvp .; run detector, ros2 bag play, and ros2 topic echo in an isolated Docker network with ROS_DOMAIN_ID=73",
+    "metrics": {
+      "docker_client": "29.8.1",
+      "docker_server": "29.5.2",
+      "ros_distribution": "humble",
+      "image_bytes": 296684909,
+      "build_context_bytes": 99330,
+      "bag_messages": 1510,
+      "bag_topic": "/lidar_points",
+      "pointcloud_to_json": "pass",
+      "playback_rate": 1.0,
+      "clean_runs": 2,
+      "frames_per_run": 10,
+      "consecutive_timestamps_equal": true,
+      "stable_payloads_equal_excluding_latency": true,
+      "run_1_p95_ms": 81.7480880000403,
+      "run_2_p95_ms": 92.34376899985364,
+      "ten_frame_gate": "pass"
+    },
+    "decision": "accept",
+    "conclusion": "The release path passes end to end in ROS 2 Humble at the official 10 Hz playback rate. Two clean runs consumed the same first ten frames and produced identical payloads after excluding wall-clock latency; both p95 measurements stayed below 100 ms. Matching the bag's reliable QoS removed the nondeterministic frame drops seen with best-effort input.",
+    "artifacts": [
+      ".dockerignore",
+      "lidar_geometry/Dockerfile.mvp",
+      "lidar_geometry/artifacts/ros2_container_smoke.json",
+      "tools/ros2_capture.py",
+      "tools/ros2_container_smoke.py"
+    ]
+  },
+  {
+    "id": "EXP-026",
+    "title": "Domain-invariant suppressor transfer audit",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Removing absolute position features from the learned suppressor will improve external sensor transfer without sacrificing organizer-domain false-alarm control.",
+    "change": "Evaluated the already frozen G3 invariant ablation and the accepted G4 cost-sensitive model on the identical preselected OSDaR23 and OSDaR-AR frames, then joined those results to their existing organizer audits.",
+    "data": {
+      "sources": ["EXP-004 organizer audit", "EXP-005 organizer audit", "20 OSDaR23 frames", "60 OSDaR-AR frames"],
+      "split_unit": "entire_recording_and_external_source",
+      "leakage_check": "Both models were frozen before OSDaR evaluation. The same 38 evaluable clearance targets and preselected frames were used; no external threshold tuning was performed.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.evaluate_osdar_transfer external_data/osdar23 external_data/osdar_ar/5_station_bergedorf_5.2_osdar_ar.zip external_data/osdar_ar/6_station_klein_flottbek_6.1_osdar_ar.zip --samples-per-class 5 --model lidar_geometry/models/risk_model_g3_invariant.json --output lidar_geometry/artifacts/osdar_transfer_g3_invariant.json",
+    "metrics": {
+      "evaluable_external_targets": 38,
+      "g3_external_targets_recovered": 13,
+      "g3_external_recall": 0.3421,
+      "g4_external_targets_recovered": 20,
+      "g4_external_recall": 0.5263,
+      "g3_organizer_scenario_recall": 0.4464,
+      "g4_organizer_scenario_recall": 0.4405,
+      "g3_weak_normal_alarm_rate": 0.0513,
+      "g4_weak_normal_alarm_rate": 0.00855
+    },
+    "decision": "reject",
+    "conclusion": "The invariant suppressor is dominated: it recovers seven fewer external targets and raises the organizer weak-normal alarm rate by 6x for only a 0.6 percentage-point scenario-recall change. Keep rail-relative geometry as the domain-general safety representation and treat learned suppression as explicitly domain-sensitive.",
+    "artifacts": [
+      "lidar_geometry/artifacts/osdar_transfer_g3_invariant.json",
+      "lidar_geometry/artifacts/risk_model_audit_g3_invariant.json",
+      "lidar_geometry/artifacts/osdar_transfer.json",
+      "lidar_geometry/artifacts/risk_model_audit_g4_cost_sensitive.json"
+    ]
+  },
+  {
+    "id": "EXP-027",
+    "title": "Sustained 100-frame ROS 2 replay",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "The release container will process the same 100 consecutive official frames deterministically in two 1x replays while keeping p95 callback latency below the 100 ms frame period.",
+    "change": "Extended the accepted two-run ROS 2 protocol from 10 to 100 frames without changing the image, bag, playback rate, QoS, or comparison rule.",
+    "data": {
+      "sources": ["first 100 frames of organizer official synthetic bag"],
+      "split_unit": "two_clean_container_restarts",
+      "leakage_check": "No fitting or threshold selection; the test compares a frozen image on an identical read-only bag prefix and excludes only wall-clock latency from payload equality.",
+      "blind": false
+    },
+    "command": "python3 tools/ros2_container_smoke.py external_data/hackathon/synthetic_official/data/cloud_with_fake_obj --count 100 --timeout 120 --output lidar_geometry/artifacts/ros2_container_sustained_100.json",
+    "metrics": {
+      "playback_rate": 1.0,
+      "clean_runs": 2,
+      "frames_per_run": 100,
+      "consecutive_timestamps_equal": true,
+      "stable_payloads_equal_excluding_latency": true,
+      "run_1_median_ms": 77.69051700006457,
+      "run_1_p95_ms": 102.70981499979825,
+      "run_1_max_ms": 187.40437799988285,
+      "run_2_median_ms": 77.69838050012368,
+      "run_2_p95_ms": 142.03112900031556,
+      "run_2_max_ms": 268.1311559999813,
+      "hard_100ms_p95_gate": false
+    },
+    "decision": "reject",
+    "conclusion": "Functional reproducibility passes for a sustained prefix: both clean runs consume the same 100 frames and produce identical stable payloads. The hard real-time claim fails on the 4-CPU/6-GB Colima environment because both p95 values exceed 100 ms and scheduling tails reach 268 ms. Reliable QoS prevents data loss, but queueing is not a hard-deadline guarantee.",
+    "artifacts": [
+      "lidar_geometry/artifacts/ros2_container_sustained_100.json",
+      "tools/ros2_container_smoke.py"
+    ]
+  },
+  {
+    "id": "EXP-028",
+    "title": "Quadratic candidate ranker",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Pairwise interactions between the 13 component features will separate infrastructure from obstacles better than the linear G4 protocol.",
+    "change": "Expanded standardized component features with squares and all pairwise products, then trained a balanced cost-sensitive logistic model under the same five leave-one-recording-out folds and threshold calibration.",
+    "data": {
+      "sources": ["frozen G4 candidate cache from five organizer bags", "ray-consistent scenarios"],
+      "split_unit": "whole_bag",
+      "leakage_check": "Feature scaling, interaction scaling, weights, and the 99th-percentile real-frame threshold are fitted inside each training fold only.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.compare_candidate_models lidar_geometry/artifacts/risk_training_cache_v2.npz",
+    "metrics": {
+      "mean_positive_recall": 0.23339342093833504,
+      "worst_positive_recall": 0.08695652173913043,
+      "mean_synthetic_negative_specificity": 0.9716666666666667,
+      "mean_real_frame_alarm_rate": 0.016898954703832753,
+      "worst_real_frame_alarm_rate": 0.04878048780487805,
+      "linear_mean_positive_recall": 0.5343299584852401,
+      "linear_mean_real_frame_alarm_rate": 0.007142857142857143
+    },
+    "decision": "reject",
+    "conclusion": "Quadratic interactions overfit the limited tunnel backgrounds. Specificity rises, but mean positive recall falls from 53.4% to 23.3% and real-frame alarms more than double. Nonlinearity does not compensate for missing independent evidence.",
+    "artifacts": [
+      "lidar_geometry/artifacts/candidate_model_comparison.json",
+      "lidar_geometry/compare_candidate_models.py"
+    ]
+  },
+  {
+    "id": "EXP-029",
+    "title": "Tiny NumPy MLP candidate ranker",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A dependency-free 13-to-8-to-1 MLP will capture useful nonlinear component structure while remaining small enough for CPU deployment.",
+    "change": "Trained a deterministic tanh MLP with weighted binary cross-entropy and Adam under the exact G4 whole-bag folds, critical-object weights, and real-frame threshold protocol.",
+    "data": {
+      "sources": ["frozen G4 candidate cache from five organizer bags", "ray-consistent scenarios"],
+      "split_unit": "whole_bag",
+      "leakage_check": "Normalization, network weights, and thresholds are fitted inside each training fold. Seed 20260928 is fixed; no fold result selects hyperparameters.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.compare_candidate_models lidar_geometry/artifacts/risk_training_cache_v2.npz",
+    "metrics": {
+      "mean_positive_recall": 0.49262374227994893,
+      "worst_positive_recall": 0.3472222222222222,
+      "mean_synthetic_negative_specificity": 0.8866666666666667,
+      "mean_real_frame_alarm_rate": 0.024041811846689895,
+      "worst_real_frame_alarm_rate": 0.07142857142857142,
+      "linear_mean_positive_recall": 0.5343299584852401,
+      "linear_mean_real_frame_alarm_rate": 0.007142857142857143
+    },
+    "decision": "reject",
+    "conclusion": "The tiny MLP is dominated by the linear protocol: mean recall falls by 4.2 points, worst-fold recall falls by 6.6 points, and real-frame alarms rise from 0.71% to 2.40%. A neural ranker needs richer local spatial input, not more capacity over the same summary features.",
+    "artifacts": [
+      "lidar_geometry/artifacts/candidate_model_comparison.json",
+      "lidar_geometry/compare_candidate_models.py"
+    ]
+  },
+  {
+    "id": "EXP-030",
+    "title": "Normal-only component anomaly detector",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Distance from the distribution of real infrastructure components can detect unknown obstacles without positive labels.",
+    "change": "Fitted a diagonal standardized-distance model using training-fold negative components only and calibrated it from training real-frame maxima.",
+    "data": {
+      "sources": ["real geometric components from five organizer bags", "ray-consistent scenarios for audit only"],
+      "split_unit": "whole_bag",
+      "leakage_check": "Only training-fold real negatives define the normal distribution and threshold; held-out synthetic labels are evaluation-only.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.compare_candidate_models lidar_geometry/artifacts/risk_training_cache_v2.npz",
+    "metrics": {
+      "mean_positive_recall": 0.03888888888888889,
+      "worst_positive_recall": 0.0,
+      "mean_synthetic_negative_specificity": 0.9368421052631579,
+      "mean_real_frame_alarm_rate": 0.0642857142857143,
+      "worst_real_frame_alarm_rate": 0.32142857142857145
+    },
+    "decision": "reject",
+    "conclusion": "The component-level normal model neither recognizes obstacles nor transfers between tunnels: four folds recover no positives and the worst held-out bag alarms on 32.1% of real frames. Unknown-tunnel variation is larger than the anomaly signal in these summary features.",
+    "artifacts": [
+      "lidar_geometry/artifacts/candidate_model_comparison.json",
+      "lidar_geometry/compare_candidate_models.py"
+    ]
+  },
+  {
+    "id": "EXP-031",
+    "title": "Classical convolution features on rail-relative patches",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Local BEV texture around a candidate will separate obstacles from rails, platforms, and switches better than component summaries alone.",
+    "change": "Built 3x16x16 rail-relative patches with density, maximum height, and surface residual; extracted Sobel, Laplacian, line, center-surround, and spatial-pooling descriptors without intensity; compared spatial-only and component-plus-spatial logistic models.",
+    "data": {
+      "sources": ["2336 components regenerated from five organizer bags", "ray-consistent scenarios"],
+      "split_unit": "whole_bag",
+      "leakage_check": "Patches use the current frozen geometry. All scaling, model weights, and thresholds are fitted inside each training-bag fold; intensity and generator identity are excluded.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.spatial_patch_experiment external_data/hackathon/for_hackathon",
+    "metrics": {
+      "samples": 2336,
+      "component_features": 13,
+      "spatial_features": 102,
+      "component_mean_recall": 0.5710072444793577,
+      "component_worst_recall": 0.4444444444444444,
+      "component_mean_real_alarm_rate": 0.007142857142857143,
+      "spatial_only_mean_recall": 0.1699331662489557,
+      "spatial_only_worst_recall": 0.0,
+      "spatial_only_specificity": 0.9666666666666668,
+      "combined_mean_recall": 0.4404029975436103,
+      "combined_worst_recall": 0.3208955223880597,
+      "combined_mean_real_alarm_rate": 0.007142857142857143
+    },
+    "decision": "reject",
+    "conclusion": "The patch descriptor learns tunnel-specific infrastructure texture rather than transferable obstacle evidence. Spatial-only recall collapses to 17.0% and reaches zero in one held-out tunnel; adding it to component features lowers recall from 57.1% to 44.0% without reducing real-frame alarms.",
+    "artifacts": [
+      "lidar_geometry/artifacts/spatial_patch_cache_v1.npz",
+      "lidar_geometry/artifacts/spatial_patch_comparison.json",
+      "lidar_geometry/spatial_patch_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-032",
+    "title": "Tiny neural ranker on convolution patch features",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A small nonlinear student over local convolution features will recover obstacle recall while retaining the strong negative specificity of the classical patch descriptor.",
+    "change": "Trained a deterministic 102-to-8-to-1 tanh MLP on the fixed convolution and pooling descriptor under the same whole-bag folds, critical weights, and real-frame threshold calibration.",
+    "data": {
+      "sources": ["frozen EXP-031 spatial patch cache"],
+      "split_unit": "whole_bag",
+      "leakage_check": "The patch cache, folds, preprocessing, seed, and threshold protocol are fixed before evaluation; no held-out or OSDaR result selects hyperparameters.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.spatial_patch_experiment external_data/hackathon/for_hackathon",
+    "metrics": {
+      "features": 102,
+      "hidden_units": 8,
+      "mean_positive_recall": 0.36299816705943966,
+      "worst_positive_recall": 0.08955223880597014,
+      "mean_synthetic_negative_specificity": 1.0,
+      "mean_real_frame_alarm_rate": 0.046825396825396826,
+      "worst_real_frame_alarm_rate": 0.17857142857142858,
+      "component_baseline_mean_recall": 0.5710072444793577,
+      "component_baseline_mean_real_alarm_rate": 0.007142857142857143
+    },
+    "decision": "reject",
+    "conclusion": "Nonlinearity does not repair the domain shortcut. The spatial MLP reaches only 36.3% mean recall and 9.0% worst-fold recall while increasing mean real-frame alarms from 0.71% to 4.68%. A deployable neural branch requires substantially broader labelled tunnel diversity, not a larger classifier on current patches.",
+    "artifacts": [
+      "lidar_geometry/artifacts/spatial_patch_comparison.json",
+      "lidar_geometry/spatial_patch_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-033",
+    "title": "Tunnel-familiarity gated geometry/CV fusion",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A background-only domain gate can give CV more weight in familiar tunnels and fall back to geometry in unfamiliar tunnels, improving the safety trade-off.",
+    "change": "Built a 24-value tunnel-context signature from the outer ring of each rail-relative patch, estimated nearest-neighbour familiarity using training real candidates only, and swept fixed static and familiarity-gated mixtures of threshold-relative geometry and CV scores.",
+    "data": {
+      "sources": ["frozen EXP-031 spatial patch cache", "real tunnel context from training folds only"],
+      "split_unit": "whole_bag",
+      "leakage_check": "The held-out bag, synthetic labels, patch center, and obstacle intensity are excluded from domain fitting; fusion weights are a fixed sweep and are not selected on held-out results.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.domain_gated_fusion",
+    "metrics": {
+      "geometry_mean_recall": 0.5710072444793577,
+      "geometry_mean_real_alarm_rate": 0.007142857142857143,
+      "gated_25_mean_recall": 0.4940136410678437,
+      "gated_25_worst_recall": 0.37777777777777777,
+      "gated_25_mean_real_alarm_rate": 0.007142857142857143,
+      "static_25_mean_recall": 0.4442292297908952,
+      "static_25_mean_real_alarm_rate": 0.0,
+      "mean_domain_confidence": 0.7055995925182166,
+      "folds_where_cv_recall_beats_geometry": 0,
+      "folds_where_cv_alarm_rate_beats_geometry": 0
+    },
+    "decision": "reject",
+    "conclusion": "The familiarity gate behaves coherently and preserves more recall than the same static mixture, but cannot make a dominated expert useful. At 25% maximum CV weight, gated recall is 49.4% versus 44.4% for static fusion and 57.1% for geometry, with no alarm-rate improvement over geometry. CV beats geometry in zero of five folds on recall and zero of five on real-frame alarms. Keep domain familiarity for abstention/UNKNOWN, not runtime score fusion.",
+    "artifacts": [
+      "lidar_geometry/artifacts/domain_gated_fusion.json",
+      "lidar_geometry/domain_gated_fusion.py",
+      "lidar_geometry/test_domain_gated_fusion.py"
+    ]
+  },
+  {
+    "id": "EXP-034",
+    "title": "OOD abstention with strong-geometry bypass",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Tunnel familiarity should downgrade weak alarms to UNKNOWN while a large threshold-relative geometry margin preserves critical evidence in unseen environments.",
+    "change": "Added a production DomainGuard fitted on 1960 real background contexts. Candidates below 0.25 familiarity become UNKNOWN unless their geometry-ranker log-odds exceed the normal alarm threshold by at least 1.0. Packaged the 137 kB reference model into ROS and Docker.",
+    "data": {
+      "sources": ["five organizer bags", "frozen spatial patch cache", "official synthetic bag runtime audit"],
+      "split_unit": "whole_bag",
+      "leakage_check": "Only training-fold real outer-patch context fits familiarity; obstacle centers, synthetic labels, and held-out bags are excluded. Abstention and bypass thresholds were fixed before the official runtime audit.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.domain_gated_fusion && .venv-lidar/bin/python -m lidar_geometry.train_domain_guard",
+    "metrics": {
+      "baseline_mean_recall": 0.5710072444793577,
+      "guarded_mean_recall": 0.5627590119577551,
+      "guarded_worst_recall": 0.4444444444444444,
+      "baseline_mean_real_alarm_rate": 0.007142857142857143,
+      "guarded_mean_real_alarm_rate": 0.0,
+      "guarded_synthetic_negative_specificity": 0.8205128205128205,
+      "official_plain_obstacle_frames_audited": 32,
+      "official_guarded_obstacle_frames": 29,
+      "official_late_frames_downgraded": 3,
+      "conditional_guarded_p95_ms": 72.41748557426035,
+      "domain_model_kib": 137
+    },
+    "decision": "accept",
+    "conclusion": "The conservative guard removes all held-out real-frame alarms while retaining 56.3% mean recall versus 57.1% for geometry. Strong-evidence bypass preserves the baseline worst-fold recall. On the official bag it downgrades three late alarms whose reconstructed world positions are outside the ten announced object locations. Reusing detector context reduces conditional p95 from 198.2 to 72.4 ms.",
+    "artifacts": [
+      "lidar_geometry/artifacts/domain_gated_fusion.json",
+      "lidar_geometry/artifacts/domain_guard_official_runtime.json",
+      "lidar_geometry/models/domain_guard.npz",
+      "lidar_geometry/domain_guard.py",
+      "lidar_geometry/train_domain_guard.py"
+    ]
+  },
+  {
+    "id": "EXP-035",
+    "title": "Domain-invariant and random-convolution CV",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Outer-context normalization and a multi-scale random convolution bank will prevent tunnel-texture shortcuts and make the spatial expert competitive with geometry.",
+    "change": "Added per-patch robust context normalization, center/context contrasts, projections, symmetry and gradient features, plus 48 deterministic three-channel convolution kernels across three dilation scales and a learned regularized head.",
+    "data": {
+      "sources": ["frozen EXP-031 spatial patch cache"],
+      "split_unit": "whole_bag",
+      "leakage_check": "The convolution bank is deterministic and label-independent; scaling, head weights, and alarm thresholds are fitted within each training fold. Intensity remains excluded.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment",
+    "metrics": {
+      "original_spatial_mean_recall": 0.1699331662489557,
+      "invariant_mean_recall": 0.1711,
+      "random_conv_mean_recall": 0.17835658798738138,
+      "random_conv_worst_recall": 0.03731343283582089,
+      "random_conv_real_alarm_rate": 0.0,
+      "component_plus_random_conv_recall": 0.3715,
+      "geometry_mean_recall": 0.5710072444793577
+    },
+    "decision": "reject",
+    "conclusion": "After matching the training patch support to runtime, the stronger spatial representation reaches 17.8% CV-only recall with zero real-frame alarms, still far below geometry at 57.1%. With current data, the missing ingredient is diverse real obstacle supervision across tunnels, not another compact architecture.",
+    "artifacts": [
+      "lidar_geometry/artifacts/invariant_spatial_comparison.json",
+      "lidar_geometry/invariant_spatial_experiment.py",
+      "lidar_geometry/test_invariant_spatial.py"
+    ]
+  },
+  {
+    "id": "EXP-036",
+    "title": "Single-pass geometry and OOD context",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "The OOD latency regression is caused by recomputing the rail profile and can be removed without changing decisions by sharing rail-relative arrays from the geometric pass.",
+    "change": "Added an optional context output to detect_fast and passed the same distance, lateral, height, and residual arrays into DomainGuard. Removed the second rail-profile and surface reconstruction pass.",
+    "data": {
+      "sources": ["59 potentially alarming frames from the official synthetic bag"],
+      "split_unit": "frame_runtime_pair",
+      "leakage_check": "This is decision-equivalent runtime profiling; no labels, thresholds, or model parameters are fitted from timing results.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.smoke_test --xyzi-bag external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --xyzirt-bag external_data/hackathon/for_hackathon/doubleT_platform/doubleT_platform_0.db3",
+    "metrics": {
+      "frames": 59,
+      "plain_p50_ms": 60.85170106962323,
+      "guarded_p50_ms": 59.715821873396635,
+      "plain_p95_ms": 77.20197159796952,
+      "guarded_p95_ms": 72.41748557426035,
+      "guarded_obstacle_frames": 29,
+      "downgraded_frames": 3,
+      "docker_build": "pass",
+      "container_guard_references": 1960
+    },
+    "decision": "accept",
+    "conclusion": "Sharing geometry context eliminates the OOD guard's duplicate rail search: conditional p95 falls from the previous 198.2 ms to 72.4 ms, below the 100 ms gate on this deliberately difficult alarm-frame slice. The same three late alarms are downgraded; no additional state changes appear.",
+    "artifacts": [
+      "lidar_geometry/artifacts/domain_guard_official_runtime.json",
+      "lidar_geometry/fast_detector.py",
+      "lidar_geometry/domain_guard.py",
+      "lidar_geometry/hybrid_detector.py",
+      "lidar_geometry/Dockerfile.mvp",
+      ".dockerignore"
+    ]
+  },
+  {
+    "id": "EXP-037",
+    "title": "CV domain randomization and external OSDaR supervision",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "Sensor perturbations and real railway obstacle examples will improve spatial-CV transfer to an unseen organizer tunnel.",
+    "change": "Compared strong and mild train-only density, dropout, coordinate-shift, scan-row, height, and residual perturbations. Also localized 69 labelled obstacles from two OSDaR-AR stations and added them as external positive training examples.",
+    "data": {
+      "sources": ["five organizer bags", "69 localized OSDaR-AR obstacles from two stations"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "Augmentations are generated only for training rows; organizer test bags remain untouched. OSDaR is train-only, and thresholds use only real frames from organizer training bags.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.build_osdar_spatial_cache external_data/osdar_ar/5_station_bergedorf_5.2_osdar_ar.zip external_data/osdar_ar/6_station_klein_flottbek_6.1_osdar_ar.zip --samples-per-class 10 && .venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment",
+    "metrics": {
+      "base_random_conv_recall": 0.17835658798738138,
+      "strong_randomization_recall": 0.22267522038928161,
+      "strong_randomization_worst_recall": 0.08208955223880597,
+      "strong_randomization_real_alarm_rate": 0.007142857142857143,
+      "mild_randomization_recall": 0.1257359817454083,
+      "osdar_training_obstacles": 69,
+      "osdar_augmented_recall": 0.12284567139241138,
+      "geometry_recall": 0.5710072444793577
+    },
+    "decision": "reject",
+    "conclusion": "Strong domain randomization improves CV recall by 4.4 points, from 17.8% to 22.3%, but restores a 0.71% real-frame alarm rate and remains far below geometry. Mild perturbations fall to 12.6%. Naively adding 69 OSDaR positives causes negative transfer and falls to 12.3%, confirming that external data needs sensor-aware adaptation rather than pooling. No CV branch is enabled in runtime.",
+    "artifacts": [
+      "lidar_geometry/artifacts/invariant_spatial_comparison.json",
+      "lidar_geometry/artifacts/osdar_spatial_cache.npz",
+      "lidar_geometry/build_osdar_spatial_cache.py",
+      "lidar_geometry/invariant_spatial_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-038",
+    "title": "Weakly supervised corridor-memory mining",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A positive bag without frame labels can yield real obstacle exemplars by selecting world-persistent components that are novel relative to normal double-track corridor memory.",
+    "change": "Tracked 3112 geometric components from doubleT_obstacle in self-odometry world coordinates, compared their random-convolution patches with normal double-track memory, selected two separated novelty hotspots, and trained CV with 485 weak positive candidates.",
+    "data": {
+      "sources": ["doubleT_obstacle positive bag", "normal double-track organizer memory"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "Obstacle-bag instance labels are never assumed known; mined candidates are external train-only pseudo-labels and evaluation remains on untouched held-out organizer bags.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.mine_weak_obstacle_bag external_data/hackathon/for_hackathon/doubleT_obstacle/doubleT_obstacle_0.db3 && .venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment",
+    "metrics": {
+      "bag_candidates": 3112,
+      "persistent_tracks": 219,
+      "hotspot_1_m": 76.6256103515625,
+      "hotspot_2_m": 94.03782272338867,
+      "selected_tracks": 23,
+      "weak_positive_candidates": 485,
+      "base_cv_recall": 0.17835658798738138,
+      "weak_trained_cv_recall": 0.1428,
+      "weak_trained_worst_recall": 0.0857,
+      "weak_trained_real_alarm_rate": 0.0049
+    },
+    "decision": "reject",
+    "conclusion": "Corridor memory finds two strong, persistent novelty zones near 76.6 m and 94.0 m, consistent with but not proving the organizer statement about people and a separate object. Treating all selected components as positives lowers mean CV recall from 17.8% to 14.3%, so the pseudo-labels are too noisy for automatic training. The method survives as active-learning triage: two short zones should be manually labelled instead of 201 full frames.",
+    "artifacts": [
+      "lidar_geometry/artifacts/weak_obstacle_mining.json",
+      "lidar_geometry/artifacts/weak_obstacle_mining.png",
+      "lidar_geometry/artifacts/weak_obstacle_candidates.npz",
+      "lidar_geometry/mine_weak_obstacle_bag.py"
+    ]
+  },
+  {
+    "id": "EXP-039",
+    "title": "OOD strong-evidence bypass sweep",
+    "status": "complete",
+    "created": "2026-09-28",
+    "hypothesis": "A lower strong-evidence margin can recover the final OOD recall gap without returning false alarms.",
+    "change": "Swept fixed log-odds bypass margins 0.25, 0.50, 0.75, 1.00, and 1.25 at the frozen 0.25 familiarity threshold, then challenged the best zero-held-out-alarm alternative on official late-alarm frames.",
+    "data": {
+      "sources": ["five whole-bag organizer folds", "official synthetic late-alarm audit"],
+      "split_unit": "whole_bag",
+      "leakage_check": "The sweep is reported as exploratory; the official bag is used only as a rejection challenge, and the previously frozen margin remains runtime default.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.domain_gated_fusion",
+    "metrics": {
+      "runtime_margin": 1.0,
+      "runtime_recall": 0.5627590119577551,
+      "runtime_real_alarm_rate": 0.0,
+      "candidate_margin": 0.5,
+      "candidate_recall": 0.564252,
+      "candidate_real_alarm_rate": 0.0,
+      "official_late_alarm_returned": 1
+    },
+    "decision": "reject",
+    "conclusion": "Margin 0.5 gains only 0.15 recall points while preserving zero alarms on the five exploratory folds, but it restores the late official alarm at frame 741. The gain is not worth weakening the conservative claim; margin 1.0 remains frozen in the runtime model.",
+    "artifacts": [
+      "lidar_geometry/artifacts/domain_gated_fusion.json",
+      "lidar_geometry/domain_gated_fusion.py"
+    ]
+  },
+  {
+    "id": "EXP-040",
+    "title": "High-precision weak real-object supervision",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Restricting the positive bag to the persistent central rail track near 76.6 m will provide a sufficiently clean real obstacle exemplar to improve CV transfer.",
+    "change": "Selected 28 sequential patches within 0.9 m of the primary corridor-memory hotspot and 0.15 m of the track center, excluding the broad people and infrastructure clusters, then added them as external positive training rows.",
+    "data": {
+      "sources": ["28 high-precision weak patches from doubleT_obstacle", "five organizer whole-bag folds"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "The weak track is external train-only data; adjacent derivatives remain together and no held-out organizer background is used to select it.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment",
+    "metrics": {
+      "weak_real_samples": 28,
+      "base_cv_recall": 0.17835658798738138,
+      "weak_real_recall": 0.13693612139802241,
+      "weak_real_worst_recall": 0.05970149253731343,
+      "weak_real_specificity": 1.0,
+      "weak_real_alarm_rate": 0.0
+    },
+    "decision": "reject",
+    "conclusion": "Even the narrow central track lowers CV recall from 17.8% to 13.7%. Twenty-eight correlated views teach one silhouette rather than transferable obstacle evidence. Direct weak-label training is rejected; the track may only serve as a donor or manual-review target.",
+    "artifacts": [
+      "lidar_geometry/artifacts/invariant_spatial_comparison.json",
+      "lidar_geometry/artifacts/weak_obstacle_candidates.npz",
+      "lidar_geometry/invariant_spatial_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-041",
+    "title": "Real-object patch transplantation",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Transplanting only a real object's coherent residual mask onto diverse training-fold organizer backgrounds will generalize better than repeating the original weakly labelled views.",
+    "change": "Extracted the central real residual support, pasted it onto real training-fold backgrounds with position jitter and range-like dropout, and trained the unchanged random-convolution head.",
+    "data": {
+      "sources": ["central real-object donor", "real organizer backgrounds from each training fold"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "Every fold builds transplants only from its own real backgrounds; donor derivatives are external and never split between validation and test.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment",
+    "metrics": {
+      "base_cv_recall": 0.17835658798738138,
+      "transplant_recall": 0.21221287048466939,
+      "transplant_worst_recall": 0.08955223880597014,
+      "transplant_specificity": 0.9205128205128205,
+      "transplant_real_alarm_rate": 0.0
+    },
+    "decision": "accept",
+    "conclusion": "Real-object transplantation improves mean CV recall from 17.8% to 21.2%, more than doubles worst-fold recall from 3.7% to 9.0%, and keeps real-frame alarms at zero. The data mechanism is valid, although CV remains too weak to replace geometry.",
+    "artifacts": [
+      "lidar_geometry/artifacts/invariant_spatial_comparison.json",
+      "lidar_geometry/invariant_spatial_experiment.py",
+      "lidar_geometry/test_invariant_spatial.py"
+    ]
+  },
+  {
+    "id": "EXP-042",
+    "title": "Real transplantation plus sensor randomization",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Combining the two independently useful data transformations will improve CV beyond either transplantation or domain randomization alone without reopening false alarms.",
+    "change": "Applied the strong sensor perturbation stack to transplanted real-object patches and trained jointly with two randomized copies of each organizer training patch.",
+    "data": {
+      "sources": ["training-fold organizer patches", "real-object transplants"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "All backgrounds and perturbations are generated within the training fold; held-out patches remain original and untouched.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment",
+    "metrics": {
+      "combined_recall": 0.23412311874212893,
+      "combined_worst_recall": 0.09701492537313433,
+      "combined_specificity": 0.8805128205128205,
+      "combined_real_alarm_rate": 0.007142857142857143,
+      "geometry_recall": 0.5710072444793577
+    },
+    "decision": "reject",
+    "conclusion": "The composition gives the best compact-CV recall, 23.4%, and a 9.7% worst fold, but restores 0.71% real alarms and lowers synthetic-negative specificity to 88.1%. It fails the safety gate and remains far below geometry.",
+    "artifacts": [
+      "lidar_geometry/artifacts/invariant_spatial_comparison.json",
+      "lidar_geometry/invariant_spatial_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-043",
+    "title": "Unaligned familiar-route change detection",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A clean rail-relative reference patch from a previous traversal can reveal a new obstacle by direct positive channel difference.",
+    "change": "Built 376 paired clean/current patches and calibrated a top-cell positive-change score from training clean perturbations without using obstacle labels for the threshold.",
+    "data": {
+      "sources": ["376 same-location clean and ray-injected organizer pairs"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "Reference/current derivatives stay in one bag fold; thresholds see only clean training changes.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.route_memory_experiment external_data/hackathon/for_hackathon",
+    "metrics": {
+      "mean_recall": 0.37277584508535017,
+      "worst_recall": 0.29850746268656714,
+      "negative_specificity": 0.36615384615384616,
+      "mean_clean_alarm_rate": 0.016,
+      "worst_clean_alarm_rate": 0.08
+    },
+    "decision": "reject",
+    "conclusion": "Direct subtraction is dominated by one-cell registration error: recall is only 37.3%, mean clean alarms are 1.6%, and one tunnel reaches 8%. Route memory requires explicit local alignment.",
+    "artifacts": [
+      "lidar_geometry/artifacts/route_memory_pairs.npz",
+      "lidar_geometry/artifacts/route_memory_evaluation.json",
+      "lidar_geometry/route_memory_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-044",
+    "title": "Aligned clearance-aware familiar-route memory",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Outer-context registration, coherent multi-channel change, clean-max calibration, and an above-clearance veto will make route memory a reliable expert for previously mapped corridors.",
+    "change": "Aligned reference/current over ±1 BEV cell using only the outer border, required co-located density and residual growth, calibrated to the maximum training clean change, and rejected changes confined to the roof boundary.",
+    "data": {
+      "sources": ["376 same-location clean and ray-injected organizer pairs"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "All registration is local and label-free; thresholds use clean training changes only, and complete organizer recordings are held out.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.route_memory_experiment external_data/hackathon/for_hackathon",
+    "metrics": {
+      "mean_recall": 0.8770605618523921,
+      "worst_recall": 0.8,
+      "negative_specificity": 1.0,
+      "mean_clean_alarm_rate": 0.0032258064516129032,
+      "worst_clean_alarm_rate": 0.016129032258064516,
+      "hanging_cable_recall": 0.9814814814814815,
+      "minimum_edge_recall": 0.3870967741935484
+    },
+    "decision": "accept",
+    "conclusion": "The mapped-corridor expert reaches 87.7% mean recall, 80.0% worst-fold recall, 100% negative specificity, and 0.32% mean clean alarms. It retains 53/54 hanging cables. The limitation is explicit: evaluation uses controlled same-location references because no second real traversal is available; this is an optional seen-route expert, not the universal submission default.",
+    "artifacts": [
+      "lidar_geometry/artifacts/route_memory_pairs.npz",
+      "lidar_geometry/artifacts/route_memory_evaluation.json",
+      "lidar_geometry/route_memory_experiment.py",
+      "lidar_geometry/test_route_memory.py"
+    ]
+  },
+  {
+    "id": "EXP-045",
+    "title": "Random Forest candidate ranker",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A bagged nonlinear ensemble over the 13 geometric component features will exceed 57.1% recall without raising the 0.71% real-frame alarm rate.",
+    "change": "Replaced only the linear candidate score with a fixed 300-tree Random Forest of depth six; candidate generation, folds, weights, threshold protocol, and features stayed unchanged.",
+    "data": {
+      "sources": ["frozen organizer spatial-patch cache with exact synthetic labels"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "All adjacent frames and synthetic derivatives of a background stay in one bag fold; thresholds use only real frames from the training bags.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.tree_ensemble_experiment",
+    "metrics": {
+      "baseline_recall": 0.5710072444793577,
+      "mean_positive_recall": 0.6765605556179005,
+      "worst_positive_recall": 0.6142857142857143,
+      "synthetic_negative_specificity": 1.0,
+      "mean_real_frame_alarm_rate": 0.05365853658536586,
+      "worst_real_frame_alarm_rate": 0.2682926829268293
+    },
+    "decision": "reject",
+    "conclusion": "Random Forest improves mean recall by 10.6 points and reaches 100% synthetic-negative specificity, but raises real-frame alarms from 0.71% to 5.37%; one held-out tunnel reaches 26.8%. It is rejected because background transfer is unsafe.",
+    "artifacts": [
+      "lidar_geometry/artifacts/tree_ensemble_comparison.json",
+      "lidar_geometry/tree_ensemble_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-046",
+    "title": "Extremely randomized tree candidate ranker",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Randomized split thresholds will regularize tunnel-specific feature boundaries and beat linear recall without increasing false alarms.",
+    "change": "Replaced only the linear candidate score with a fixed 300-tree Extra Trees ensemble of depth six; all evaluation inputs and calibration remained identical.",
+    "data": {
+      "sources": ["frozen organizer spatial-patch cache with exact synthetic labels"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "All adjacent frames and synthetic derivatives of a background stay in one bag fold; thresholds use only real frames from the training bags.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.tree_ensemble_experiment",
+    "metrics": {
+      "baseline_recall": 0.5710072444793577,
+      "mean_positive_recall": 0.6460968341251138,
+      "worst_positive_recall": 0.5111111111111111,
+      "synthetic_negative_specificity": 1.0,
+      "mean_real_frame_alarm_rate": 0.007142857142857143,
+      "worst_real_frame_alarm_rate": 0.03571428571428571
+    },
+    "decision": "accept",
+    "conclusion": "Extra Trees raises mean recall from 57.1% to 64.6% and worst-fold recall from 44.4% to 51.1%, reaches 100% synthetic-negative specificity, and exactly matches the linear model's 0.71% mean and 3.57% worst-fold real alarm rates. It is the first nonlinear summary-feature model to pass the comparison gate.",
+    "artifacts": [
+      "lidar_geometry/artifacts/tree_ensemble_comparison.json",
+      "lidar_geometry/tree_ensemble_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-047",
+    "title": "Histogram gradient boosting candidate ranker",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Sequential shallow trees will recover hard nonlinear obstacle cases while preserving the linear model's real-frame alarm rate.",
+    "change": "Replaced only the linear candidate score with fixed histogram gradient boosting using 200 iterations and at most 15 leaves; all evaluation inputs and calibration remained identical.",
+    "data": {
+      "sources": ["frozen organizer spatial-patch cache with exact synthetic labels"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "All adjacent frames and synthetic derivatives of a background stay in one bag fold; thresholds use only real frames from the training bags.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.tree_ensemble_experiment",
+    "metrics": {
+      "baseline_recall": 0.5710072444793577,
+      "mean_positive_recall": 0.8658021920472823,
+      "worst_positive_recall": 0.8,
+      "synthetic_negative_specificity": 1.0,
+      "mean_real_frame_alarm_rate": 0.14392179636082075,
+      "worst_real_frame_alarm_rate": 0.3902439024390244
+    },
+    "decision": "reject",
+    "conclusion": "Boosting reaches 86.6% mean and 80.0% worst-fold recall, but produces alarms on 14.4% of real frames on average and 39.0% in the worst tunnel. It optimizes sensitivity by learning tunnel-specific false-positive regions and is rejected.",
+    "artifacts": [
+      "lidar_geometry/artifacts/tree_ensemble_comparison.json",
+      "lidar_geometry/tree_ensemble_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-048",
+    "title": "RBF SVM candidate ranker",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A scaled RBF margin will separate obstacle candidates across unseen tunnels while keeping real-frame alarms at or below 0.71%.",
+    "change": "Replaced only the component ranker with a fixed C=1 RBF SVM; geometry, features, bag folds, and train-only threshold calibration stayed fixed.",
+    "data": {"sources": ["frozen organizer candidate cache"], "split_unit": "whole_organizer_bag", "leakage_check": "Complete bags and their derivatives remain in one fold.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment",
+    "metrics": {"mean_positive_recall": 0.024948066684123242, "worst_positive_recall": 0.0, "synthetic_negative_specificity": 1.0, "mean_real_frame_alarm_rate": 0.06341463414634146},
+    "decision": "reject",
+    "conclusion": "RBF SVM collapses to 2.5% recall and still alarms on 6.34% of real frames because its training-domain margin does not transfer to the held-out tunnel.",
+    "artifacts": ["lidar_geometry/artifacts/classical_hybrid_comparison.json", "lidar_geometry/classical_hybrid_experiment.py"]
+  },
+  {
+    "id": "EXP-049",
+    "title": "Distance-weighted kNN candidate ranker",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Local neighborhoods in standardized component-feature space will yield high recall without exceeding 0.71% real-frame alarms.",
+    "change": "Replaced only the ranker with fixed distance-weighted 15-nearest-neighbor classification.",
+    "data": {"sources": ["frozen organizer candidate cache"], "split_unit": "whole_organizer_bag", "leakage_check": "Complete bags and their derivatives remain in one fold.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment",
+    "metrics": {"mean_positive_recall": 0.9129667452212621, "worst_positive_recall": 0.8, "synthetic_negative_specificity": 0.8, "mean_real_frame_alarm_rate": 0.5063104916763453},
+    "decision": "reject",
+    "conclusion": "kNN reaches 91.3% recall but alarms on 50.6% of real frames, including every frame of one unseen tunnel. Feature proximity is dominated by tunnel identity.",
+    "artifacts": ["lidar_geometry/artifacts/classical_hybrid_comparison.json", "lidar_geometry/classical_hybrid_experiment.py"]
+  },
+  {
+    "id": "EXP-050",
+    "title": "Gaussian Naive Bayes candidate ranker",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A low-variance generative classifier will transfer better than flexible discriminative models at the conservative alarm operating point.",
+    "change": "Replaced only the ranker with weighted Gaussian Naive Bayes using fixed variance smoothing.",
+    "data": {"sources": ["frozen organizer candidate cache"], "split_unit": "whole_organizer_bag", "leakage_check": "Complete bags and their derivatives remain in one fold.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment",
+    "metrics": {"mean_positive_recall": 0.150830558984526, "worst_positive_recall": 0.02631578947368421, "synthetic_negative_specificity": 0.88, "mean_real_frame_alarm_rate": 0.0642857142857143},
+    "decision": "reject",
+    "conclusion": "Naive Bayes retains only 15.1% recall and raises alarms to 6.43%; independent Gaussian feature assumptions are badly mismatched.",
+    "artifacts": ["lidar_geometry/artifacts/classical_hybrid_comparison.json", "lidar_geometry/classical_hybrid_experiment.py"]
+  },
+  {
+    "id": "EXP-051",
+    "title": "AdaBoost stump candidate ranker",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A conservative additive ensemble of weak stumps will beat 57.1% recall without exceeding 0.71% real-frame alarms.",
+    "change": "Replaced only the ranker with 200 fixed-learning-rate AdaBoost estimators.",
+    "data": {"sources": ["frozen organizer candidate cache"], "split_unit": "whole_organizer_bag", "leakage_check": "Complete bags and their derivatives remain in one fold.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment",
+    "metrics": {"mean_positive_recall": 0.49009139764834975, "worst_positive_recall": 0.35555555555555557, "synthetic_negative_specificity": 0.9538461538461538, "mean_real_frame_alarm_rate": 0.016898954703832753},
+    "decision": "reject",
+    "conclusion": "AdaBoost is below the linear baseline at 49.0% recall and more than doubles alarms to 1.69%.",
+    "artifacts": ["lidar_geometry/artifacts/classical_hybrid_comparison.json", "lidar_geometry/classical_hybrid_experiment.py"]
+  },
+  {
+    "id": "EXP-052",
+    "title": "Equal linear and Extra Trees averaging",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Equal probability averaging will combine geometric smoothness and nonlinear interactions without increasing alarms.",
+    "change": "Averaged the fixed linear and 300-tree scores with weights 0.5 and 0.5.",
+    "data": {"sources": ["frozen organizer candidate cache"], "split_unit": "whole_organizer_bag", "leakage_check": "Both base learners and the threshold use training bags only.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment",
+    "metrics": {"mean_positive_recall": 0.6427635007917805, "worst_positive_recall": 0.5111111111111111, "synthetic_negative_specificity": 1.0, "mean_real_frame_alarm_rate": 0.012020905923344948},
+    "decision": "reject",
+    "conclusion": "Equal averaging improves recall to 64.3% but raises real-frame alarms to 1.20%, so it misses the safety gate.",
+    "artifacts": ["lidar_geometry/artifacts/classical_hybrid_comparison.json", "lidar_geometry/classical_hybrid_experiment.py"]
+  },
+  {
+    "id": "EXP-053",
+    "title": "Geometry-weighted Extra Trees averaging",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A fixed 25% linear and 75% Extra Trees mixture will exceed either base learner at the same alarm rate.",
+    "change": "Combined the two fixed scores using a declared 0.25/0.75 average; no weight search used held-out folds.",
+    "data": {"sources": ["frozen organizer candidate cache"], "split_unit": "whole_organizer_bag", "leakage_check": "Both base learners and the threshold use training bags only; weight was fixed before evaluation.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment",
+    "metrics": {"mean_positive_recall": 0.6674614396688238, "worst_positive_recall": 0.5111111111111111, "synthetic_negative_specificity": 1.0, "mean_real_frame_alarm_rate": 0.007142857142857143},
+    "decision": "accept",
+    "conclusion": "The fixed mixture reaches 66.75% recall and 100% synthetic-negative specificity at the baseline 0.71% real-frame alarm rate. It is the best 300-tree box-benchmark hybrid, subject to the later shape-transfer audit.",
+    "artifacts": ["lidar_geometry/artifacts/classical_hybrid_comparison.json", "lidar_geometry/classical_hybrid_experiment.py"]
+  },
+  {
+    "id": "EXP-054",
+    "title": "Linear and tree max voting",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "An OR-style maximum score will recover complementary positives without increasing alarms or losing negative specificity.",
+    "change": "Used the maximum of the fixed linear and Extra Trees scores before train-only thresholding.",
+    "data": {"sources": ["frozen organizer candidate cache"], "split_unit": "whole_organizer_bag", "leakage_check": "Both base learners and the threshold use training bags only.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment",
+    "metrics": {"mean_positive_recall": 0.6693912642302273, "worst_positive_recall": 0.5777777777777777, "synthetic_negative_specificity": 0.7805128205128206, "mean_real_frame_alarm_rate": 0.007142857142857143},
+    "decision": "reject",
+    "conclusion": "Max voting gains only 0.19 recall points over weighted averaging but drops negative specificity from 100% to 78.1%; it is dominated by the weighted hybrid.",
+    "artifacts": ["lidar_geometry/artifacts/classical_hybrid_comparison.json", "lidar_geometry/classical_hybrid_experiment.py"]
+  },
+  {
+    "id": "EXP-055",
+    "title": "Nested bag-level linear/tree stacking",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A leakage-safe meta-learner trained on inner held-out bags will outperform fixed averaging.",
+    "change": "Trained a logistic meta-model only on inner leave-one-bag-out predictions of the linear and Extra Trees base learners.",
+    "data": {"sources": ["frozen organizer candidate cache"], "split_unit": "nested_whole_organizer_bag", "leakage_check": "Meta training uses out-of-fold base predictions; the outer test bag remains untouched.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment",
+    "metrics": {"mean_positive_recall": 0.6505412785695582, "worst_positive_recall": 0.5333333333333333, "synthetic_negative_specificity": 1.0, "mean_real_frame_alarm_rate": 0.012020905923344948},
+    "decision": "reject",
+    "conclusion": "Stacking reaches 65.1% recall but raises alarms to 1.20%; four inner bags are insufficient to learn a more transferable combiner than the fixed weight.",
+    "artifacts": ["lidar_geometry/artifacts/classical_hybrid_comparison.json", "lidar_geometry/classical_hybrid_experiment.py"]
+  },
+  {
+    "id": "EXP-056",
+    "title": "Compact Extra Trees count sweep",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Reducing the accepted hybrid from 300 to 100 trees will preserve or improve quality while creating a safe latency margin.",
+    "change": "Changed only Extra Trees count across fixed values 25, 50, 100, and 150 with all other model and evaluation settings frozen.",
+    "data": {"sources": ["frozen organizer candidate cache"], "split_unit": "whole_organizer_bag", "leakage_check": "Tree-count alternatives share identical whole-bag folds; no other hyperparameter changes.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.compact_tree_experiment",
+    "metrics": {"selected_trees": 100, "mean_positive_recall": 0.6813210887916308, "worst_positive_recall": 0.5111111111111111, "synthetic_negative_specificity": 1.0, "mean_real_frame_alarm_rate": 0.007142857142857143},
+    "decision": "accept",
+    "conclusion": "The 100-tree 25/75 hybrid improves recall to 68.13%, preserves 100% negative specificity and 0.71% alarms, and is better than the 300-tree version. More trees are not monotonically better.",
+    "artifacts": ["lidar_geometry/artifacts/compact_tree_comparison.json", "lidar_geometry/compact_tree_experiment.py"]
+  },
+  {
+    "id": "EXP-057",
+    "title": "Zero-shot composite-shape generalization",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Rankers trained only on ray-consistent boxes will preserve their box-benchmark advantage on unseen composite obstacle silhouettes.",
+    "change": "Added test-only person, L-debris, forked-cable, outside-stack, and overhead-bracket composites; training remained box-only.",
+    "data": {"sources": ["337 ray-consistent composite cases on organizer backgrounds", "box-only training cache"], "split_unit": "whole_organizer_bag_and_unseen_shape_family", "leakage_check": "Composite shapes never enter training; the background bag is also held out.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.shape_generalization_experiment external_data/hackathon/for_hackathon",
+    "metrics": {"geometry_proposal_recall": 0.905993721280999, "linear_ranked_recall": 0.16380616647374513, "extra_trees_ranked_recall": 0.05091813111648953, "hybrid_ranked_recall": 0.06534866182609, "negative_specificity": 1.0},
+    "decision": "reject_as_submission_candidate",
+    "conclusion": "The shape hypothesis is falsified. Geometry proposes 90.6% of complex positives, but linear retains 16.4%, Extra Trees 5.1%, and the hybrid 6.5%. The learned ranker recognizes generator shapes and cannot own the universal safety decision.",
+    "artifacts": ["lidar_geometry/artifacts/shape_generalization.json", "lidar_geometry/artifacts/complex_shape_cache_v1.npz", "lidar_geometry/complex_synthetic.py", "lidar_geometry/shape_generalization_experiment.py"]
+  },
+  {
+    "id": "EXP-058",
+    "title": "Composite-shape augmentation and joint shape holdout",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Training-fold composite augmentation will teach shape-invariant evidence that transfers to a jointly unseen tunnel and shape.",
+    "change": "Added proposed composite candidates from training bags, then evaluated both held-out bags and the stricter simultaneous held-out bag plus positive shape.",
+    "data": {"sources": ["box cache", "337 composite cases"], "split_unit": "whole_bag_and_shape", "leakage_check": "The strict audit excludes both the target bag and target positive shape from augmentation.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.shape_generalization_experiment external_data/hackathon/for_hackathon",
+    "metrics": {"seen_shape_heldout_bag_recall": 0.4618032901890631, "joint_unseen_shape_bag_recall": 0.14031813865147194, "joint_unseen_worst_recall": 0.0, "geometry_proposal_recall": 0.9029534662867996},
+    "decision": "reject",
+    "conclusion": "Augmentation raises recall to 46.2% when the same silhouettes are seen elsewhere, but joint shape-and-bag holdout falls to 14.0% with a zero-recall fold. It learns the augmentation catalog rather than a transferable obstacle concept.",
+    "artifacts": ["lidar_geometry/artifacts/shape_generalization.json", "lidar_geometry/shape_generalization_experiment.py"]
+  },
+  {
+    "id": "EXP-059",
+    "title": "Same-pair universal versus mapped-route comparison",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "On identical obstacle clouds, a clean same-location reference provides measurable value beyond the universal ranker.",
+    "change": "Stored universal component features for all 376 route-memory pairs and evaluated linear, 100-tree hybrid, and aligned memory on the same held-out current clouds.",
+    "data": {"sources": ["376 identical clean/current organizer pairs", "box candidate training cache"], "split_unit": "whole_organizer_bag", "leakage_check": "All methods see the same outer test pairs; universal models train on other bags and route thresholds use other-bag clean changes.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.route_comparable_experiment",
+    "metrics": {"linear_recall": 0.5710072444793577, "hybrid_recall": 0.6813210887916308, "route_memory_recall": 0.8770605618523921, "hybrid_negative_specificity": 1.0, "route_memory_negative_specificity": 1.0},
+    "decision": "accept",
+    "conclusion": "On exactly the same obstacle pairs, aligned route memory reaches 87.7% recall versus 68.1% for the universal hybrid at 100% negative specificity. The gain is real but conditional on a clean same-location reference; false-alarm rates remain regime-specific and are not compared.",
+    "artifacts": ["lidar_geometry/artifacts/route_comparable_comparison.json", "lidar_geometry/artifacts/route_memory_pairs_v2.npz", "lidar_geometry/artifacts/route_memory_evaluation_v2.json", "lidar_geometry/route_comparable_experiment.py"]
+  },
+  {
+    "id": "EXP-060",
+    "title": "Portable 100-tree hybrid runtime",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "The selected 100-tree ranker can be packaged without sklearn and keep end-to-end p95 below 100 ms.",
+    "change": "Exported exact tree arrays to dependency-free NPZ and benchmarked two rotated-order repetitions over 51 identical real frames after warm-up.",
+    "data": {"sources": ["roundT_doubleT real organizer bag", "full frozen candidate cache"], "split_unit": "runtime_frames", "leakage_check": "Timing uses no labels; score equivalence is asserted against sklearn to 1e-12.", "blind": false},
+    "command": ".venv-lidar/bin/python -m lidar_geometry.benchmark_tree_runtime external_data/hackathon/for_hackathon/roundT_doubleT/roundT_doubleT_0.db3 --trees 100",
+    "metrics": {"portable_model_bytes": 74744, "portable_load_ms": 2.7032378129661083, "portable_max_abs_error": 4.884981308350689e-15, "portable_hybrid_max_abs_error": 0.0, "geometry_p95_ms": 69.75165222538635, "hybrid_p95_ms": 79.88203730201347, "hybrid_p99_ms": 83.0769984703511, "unit_tests": 44},
+    "decision": "accept",
+    "conclusion": "The self-contained portable hybrid is 74.7 KB, loads in 2.7 ms, matches sklearn exactly as a hybrid (tree branch within 4.9e-15), and runs end-to-end at 79.9 ms p95 and 83.1 ms p99 locally. It removes the sklearn runtime dependency, but remains an optional ranker because shape transfer failed.",
+    "artifacts": ["lidar_geometry/artifacts/tree_runtime_benchmark.json", "lidar_geometry/artifacts/linear_extra_trees_hybrid.npz", "lidar_geometry/benchmark_tree_runtime.py", "lidar_geometry/portable_trees.py", "lidar_geometry/test_portable_trees.py"]
+  },
+  {
+    "id": "EXP-061",
+    "title": "Physics-routed ground and hanging candidate experts",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Separating ground-supported and hanging candidates before ranking will improve the accepted 100-tree hybrid's mean positive recall from 68.13% to at least 72% while preserving 100% synthetic-negative specificity and no more than 0.71% mean real-frame alarms.",
+    "change": "Replace the single ranker with two independently fitted rankers selected by a fixed observed height_min_m >= 0.5 m router; keep features, learners, threshold calibration, and folds unchanged.",
+    "expected_effect": "At least 3.87 percentage points of recall gain because hanging infrastructure and rail-level clutter no longer share one decision boundary.",
+    "failure_condition": "Reject if mean recall is below 72%, synthetic-negative specificity is below 100%, or mean real-frame alarm rate exceeds 0.71%.",
+    "data": {
+      "sources": ["frozen organizer spatial-patch cache with exact synthetic labels"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "Both experts and the threshold use training bags only; every adjacent frame and synthetic derivative of a held-out background remains in its held-out bag.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.vertical_expert_experiment",
+    "metrics": {
+      "baseline_mean_positive_recall": 0.6813210887916308,
+      "vertical_experts_mean_positive_recall": 0.6484195563535706,
+      "baseline_worst_positive_recall": 0.5111111111111111,
+      "vertical_experts_worst_positive_recall": 0.5333333333333333,
+      "synthetic_negative_specificity": 1.0,
+      "mean_real_frame_alarm_rate": 0.007142857142857143
+    },
+    "decision": "reject",
+    "conclusion": "The fixed vertical router preserves 100% synthetic-negative specificity and the 0.71% mean real-frame alarm rate, but lowers mean recall from 68.13% to 64.84%. Hanging recall improves or stays flat in four folds, while ground-object recall falls in four folds; splitting the limited training set costs more than specialization gains. The runtime default remains unchanged.",
+    "artifacts": [
+      "lidar_geometry/artifacts/vertical_expert_comparison.json",
+      "lidar_geometry/vertical_expert_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-062",
+    "title": "Official synthetic generator-signature audit",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "The official synthetic bag contains point-order or intensity signatures that separate inserted obstacle returns from native tunnel returns, while those signatures are absent from every normal organizer bag.",
+    "change": "Measure only provenance-related statistics: adjacent-point continuity, ring/time monotonicity, repeated values, intensity distributions, and frame-to-frame discontinuities on the official synthetic bag and all normal organizer bags.",
+    "expected_effect": "Find at least one stable synthetic-only signature with a non-overlapping normal-bag range and enough spatial concentration to support weak offline labeling of inserted objects.",
+    "failure_condition": "Reject if candidate signatures overlap normal bags, do not localize coherent spatial regions, or cannot be distinguished from ordinary sensor ordering and quantization.",
+    "data": {
+      "sources": ["official synthetic organizer bag", "all six organizer bags"],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "No learned detector is evaluated; 64 deterministic frames are sampled independently from every bag. The run threshold is selected post hoc from the sampled normal maximum and is not claimed as validated.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.audit_synthetic_provenance external_data/hackathon --sample-frames 64",
+    "metrics": {
+      "normal_bags": 6,
+      "normal_sampled_frames": 384,
+      "official_sampled_frames": 64,
+      "normal_point_step": 26,
+      "official_point_step": 16,
+      "normal_max_intensity_one_run": 35,
+      "official_frames_above_normal_run_max": 21,
+      "official_compact_long_run_proposals": 11,
+      "normal_compact_long_run_proposals": 0
+    },
+    "decision": "inconclusive",
+    "conclusion": "The synthetic bag has an unmistakable dataset-level signature (16-byte XYZI versus 26-byte XYZIRT), but that cannot localize inserted points. Intensity 1 occurs in every normal bag, so it is not a label. A combined long-run and compactness heuristic yields sparse proposals in 11/64 official frames and none in 384 sampled normal frames, including a coherent approach trajectory for the first large object. Because the threshold is post hoc, coverage is sparse, and no independent point mask exists, this is admissible only for offline weak-label proposals followed by geometry and human review. It must not be a runtime feature or automatic ground truth.",
+    "artifacts": [
+      "lidar_geometry/artifacts/synthetic_provenance_audit.json",
+      "lidar_geometry/audit_synthetic_provenance.py"
+    ]
+  },
+  {
+    "id": "EXP-063",
+    "title": "Uncertainty-aware clearance boundary",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A rail-fit uncertainty interval applied only to components whose clearance membership is ambiguous will reduce normal-background alarms without lowering recall for confidently in-gauge obstacles.",
+    "change": "Estimate local centerline uncertainty from neighbouring observed rail fits and downgrade only components whose lateral extent crosses the resulting clearance interval from OBSTACLE to UNKNOWN; leave confidently in-gauge decisions unchanged.",
+    "data": {
+      "sources": [
+        "five organizer whole-bag backgrounds",
+        "ray-consistent exact positive and negative clearance scenarios",
+        "analytic clearance-boundary cases"
+      ],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "Thresholds are fixed from the 5 cm rail-grid resolution and official 1.05 m half-clearance before evaluation; complete bags remain intact and injected derivatives stay with their source bag.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.uncertainty_clearance_experiment external_data/hackathon/for_hackathon",
+    "metrics": {
+      "baseline_positive_recall": 0.39880952380952384,
+      "gated_positive_recall": 0.39880952380952384,
+      "baseline_negative_specificity": 0.9529411764705882,
+      "gated_negative_specificity": 0.9529411764705882,
+      "baseline_normal_alarm_rate": 0.03418803418803419,
+      "gated_normal_alarm_rate": 0.03418803418803419,
+      "normal_alarm_frames_removed": 0,
+      "boundary_cases_correct": 4
+    },
+    "decision": "reject",
+    "conclusion": "The uncertainty interval behaves correctly on all four boundary invariants and never removes confidently in-gauge recall, but it changes no accepted decision: recall remains 39.9%, negative specificity 95.3%, and the weak-normal alarm rate 3.42%. The existing ranker already rejects lateral boundary components, so this extra gate is redundant and stays outside the runtime default.",
+    "artifacts": [
+      "lidar_geometry/artifacts/uncertainty_clearance.json",
+      "lidar_geometry/uncertainty_clearance.py",
+      "lidar_geometry/uncertainty_clearance_experiment.py",
+      "lidar_geometry/test_uncertainty_clearance.py"
+    ]
+  },
+  {
+    "id": "EXP-064",
+    "title": "Angular-density point support",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Scaling minimum component support with the inverse square of range, as expected for a fixed-angular-resolution LiDAR, will recover sparse distant obstacles without admitting additional alarms on normal organizer bags.",
+    "change": "Replace only the frozen component point-support curve 6*(30/r)^0.35 with a clipped inverse-square curve 6*(30/r)^2; keep candidates, voxel connectivity, geometry filters, confidence, and temporal logic unchanged.",
+    "expected_effect": "Improve exact-mask target-candidate recall by at least 10 percentage points in evaluable 60-100 m bins, preserve recall within 2 points at 20-40 m, and add no raw OBSTACLE frames across the five whole normal bags.",
+    "failure_condition": "Reject if distant recall gains less than 10 points, near recall drops by more than 2 points, or any normal bag gains an OBSTACLE frame.",
+    "data": {
+      "sources": [
+        "five whole organizer normal bags",
+        "ray-consistent exact-mask obstacle insertions",
+        "official synthetic bag forensic pseudo-label audit"
+      ],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "No fitting or threshold selection is performed; results are reported per whole bag and distance bin, and every derivative stays with its source bag.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.range_support_experiment external_data/hackathon/for_hackathon",
+    "metrics": {
+      "frozen_distant_recall": 0.591304347826087,
+      "inverse_square_distant_recall": 0.6275362318840579,
+      "distant_recall_gain": 0.03623188405797084,
+      "frozen_near_recall": 0.7784090909090908,
+      "inverse_square_near_recall": 0.7819264069264069,
+      "frozen_negative_specificity": 0.8981481481481481,
+      "inverse_square_negative_specificity": 0.8888888888888888,
+      "frozen_normal_obstacle_frames": 1842,
+      "inverse_square_normal_obstacle_frames": 1923,
+      "official_positive_proposal_gain_frames": 4
+    },
+    "decision": "reject",
+    "conclusion": "Inverse-square support improves exact-mask recall at 60-100 m by only 3.62 points, below the planned 10-point gate, and adds 81 raw OBSTACLE frames across 2,287 normal frames. It also lowers synthetic-negative specificity from 89.81% to 88.89%. The official pseudo-label audit gains four positive proposal frames, all net gain coming from the large edge-inside object, while minimum-edge support loses one frame and the hanging cable remains undetected. Keep the frozen support curve as the runtime default.",
+    "artifacts": [
+      "lidar_geometry/artifacts/range_support_comparison.json",
+      "lidar_geometry/range_support_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-065",
+    "title": "Three-of-five temporal confirmation",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Requiring three spatially associated detections in a five-frame horizon will reduce persistent false alarms on complete normal bags relative to two-of-three confirmation without losing obstacle events or more than one frame of first-confirmation distance; world-coordinate association may preserve recall when range motion is irregular.",
+    "change": "Change only temporal confirmation from two hits in a three-frame horizon to three hits in a five-frame horizon, evaluating both range/lateral component association and the existing world-coordinate association; geometry, ranker, threshold, synthetic scenes, and runtime defaults remain frozen.",
+    "expected_effect": "Preserve all synthetic event detections, delay median first confirmation by at most one frame (one metre in the exact sequences), and reduce both alarm frames and alarm episodes on the same complete normal bags by at least 20% relative to two-of-three.",
+    "failure_condition": "Reject if any synthetic event is lost, median first-confirmation delay exceeds one frame, or normal alarm frames and episodes do not both fall by at least 20%; reject world association separately if it fails the same gate or underperforms range/lateral association.",
+    "data": {
+      "sources": [
+        "five whole organizer normal bags",
+        "ray-consistent exact-mask obstacle sequences on fixed organizer backgrounds"
+      ],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "The ranker and threshold are frozen before this run; identical deterministic synthetic sequences are replayed through every temporal variant, and no adjacent frames or derivatives cross bags. Metrics are reported per complete bag and per sequence.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.temporal_window_experiment external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --threshold 0.9 --output lidar_geometry/artifacts/temporal_window_exp065.json",
+    "metrics": {
+      "normal_frames": 2287,
+      "range_2of3_alarm_frames": 38,
+      "range_2of3_alarm_episodes": 21,
+      "range_3of5_alarm_frames": 22,
+      "range_3of5_alarm_episodes": 14,
+      "world_2of3_alarm_frames": 29,
+      "world_2of3_alarm_episodes": 19,
+      "world_3of5_alarm_frames": 15,
+      "world_3of5_alarm_episodes": 9,
+      "range_3of5_alarm_frame_reduction": 0.42105263157894735,
+      "range_3of5_episode_reduction": 0.3333333333333333,
+      "world_3of5_alarm_frame_reduction": 0.4827586206896552,
+      "world_3of5_episode_reduction": 0.5263157894736842,
+      "synthetic_events": 21,
+      "range_2of3_detected_events": 12,
+      "range_3of5_detected_events": 12,
+      "world_2of3_detected_events": 12,
+      "world_3of5_detected_events": 12,
+      "three_of_five_median_delay_frames": 1.0
+    },
+    "decision": "accept",
+    "conclusion": "Strict three-of-five confirmation passes the declared gate. On all 2,287 frames from five complete normal bags, range association reduces alarms from 38 frames/21 episodes to 22/14 (42.1%/33.3%), while world association reduces 29/19 to 15/9 (48.3%/52.6%). Every variant detects the same 12 of 21 exact-attribution synthetic events, and three-of-five adds a median one-frame delay. World three-of-five is the strongest tested temporal variant at 15 alarm frames and 9 episodes, but the unchanged 12/21 event recall shows that temporal voting suppresses false alarms rather than recovering missed proposals.",
+    "artifacts": [
+      "lidar_geometry/artifacts/temporal_window_exp065.json",
+      "lidar_geometry/temporal_window_experiment.py",
+      "lidar_geometry/test_temporal.py"
+    ]
+  },
+  {
+    "id": "EXP-066",
+    "title": "Continuity-regularized rail centerline",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Selecting rail-pair observations jointly across range will suppress locally plausible wall and platform pairs, improving obstacle recall or raw normal-bag false positives without exceeding 100 ms p95 latency.",
+    "change": "Change only fast centerline construction: retain the existing per-range rail-pair observations, choose a path with dynamic-programming continuity costs, then apply the existing smoothing, interpolation, candidate extraction, component support, and decisions unchanged. Fall back to the frozen greedy profile when no valid joint path exists.",
+    "expected_effect": "Improve mean exact-synthetic positive recall by at least 3 percentage points or reduce raw normal-bag OBSTACLE frames by at least 10%, without lowering synthetic-negative specificity, losing official positive pseudo-label proposals, or exceeding 100 ms p95 latency.",
+    "failure_condition": "Reject if neither recall nor raw false-positive gate is met, synthetic-negative specificity decreases, official positive pseudo-label proposal coverage decreases, or p95 latency exceeds 100 ms.",
+    "data": {
+      "sources": [
+        "five whole organizer normal bags",
+        "ray-consistent exact-mask scenario benchmark",
+        "official synthetic bag forensic pseudo-label audit"
+      ],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "No fitting or threshold selection is performed; baseline and continuity variants use identical full bags, exact synthetic scenes, and official pseudo-label intervals.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.continuity_path_experiment external_data/hackathon/for_hackathon --output lidar_geometry/artifacts/continuity_path_exp066.json",
+    "metrics": {
+      "greedy_exact_positive_recall": 0.7121951219512195,
+      "continuity_exact_positive_recall": 0.7121951219512195,
+      "greedy_exact_negative_specificity": 0.8981481481481481,
+      "continuity_exact_negative_specificity": 0.8981481481481481,
+      "greedy_normal_raw_obstacle_frames": 1842,
+      "continuity_normal_raw_obstacle_frames": 1842,
+      "greedy_official_positive_proposal_frames": 116,
+      "continuity_official_positive_proposal_frames": 116,
+      "greedy_latency_p95_ms": 81.03079884313047,
+      "continuity_latency_p95_ms": 116.95342790335417
+    },
+    "decision": "reject",
+    "conclusion": "Joint rail-pair path optimization chooses the same effective centerline as the frozen greedy predecessor constraint on the full comparison: exact positive recall remains 71.22%, negative specificity 89.81%, all five normal bags retain 1,842 raw OBSTACLE frames, and the full official pseudo-label audit retains 116 positive proposal frames. DP raises p95 latency from 81.0 ms to 117.0 ms and fails the 100 ms limit. The existing greedy estimator already supplies sufficient local continuity; keep it as the runtime default.",
+    "artifacts": [
+      "lidar_geometry/artifacts/continuity_path_exp066.json",
+      "lidar_geometry/continuity_path_experiment.py",
+      "lidar_geometry/fast_detector.py",
+      "lidar_geometry/test_fast_detector.py"
+    ]
+  },
+  {
+    "id": "EXP-067",
+    "title": "Competition-weighted final scorecard",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A lexicographic comparison that prioritizes near-zero normal-bag false alarms before official-style coverage will select a safer runtime default than choosing by average synthetic recall alone.",
+    "change": "Do not change any detector or threshold; evaluate the frozen geometry, G4 linear ranker, portable 100-tree 25/75 hybrid, current OOD-guarded runtime, and only accepted EXP-065/066 variants using their shared protocols, recording unavailable cross-protocol fields as incomparable.",
+    "expected_effect": "Select one reproducible default with zero or near-zero held-out normal alarms, the strongest official-style positive coverage among equally safe candidates, preserved unseen-shape robustness, p95 below 100 ms, and verified 16-byte and 26-byte input support.",
+    "failure_condition": "Leave the runtime default unchanged and mark the comparison inconclusive if no candidate has comparable false-alarm evidence, if the selected candidate loses official-style coverage to an equally safe alternative, or if latency and input-layout support are unverified.",
+    "data": {
+      "sources": [
+        "whole-bag organizer folds and exact-mask box scenarios",
+        "held-out composite-shape benchmark",
+        "official organizer bag forensic pseudo-label scenarios",
+        "complete weak-normal organizer bags",
+        "frozen runtime latency and 16/26-byte smoke artifacts"
+      ],
+      "split_unit": "whole_organizer_bag_and_unseen_shape_family",
+      "leakage_check": "No model, threshold, or runtime behavior is changed. Only metrics produced by frozen protocols are compared; adjacent frames and derivatives remain in one bag, official intervals remain explicitly non-ground-truth, and incompatible fields are not imputed.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.competition_scorecard --output lidar_geometry/artifacts/competition_scorecard_exp067.json",
+    "metrics": {
+      "selected_default": "portable_tree_25_75",
+      "selected_normal_alarm_frames": 33,
+      "selected_normal_frames": 2287,
+      "selected_normal_alarm_rate": 0.014429383471797114,
+      "selected_normal_alarm_episodes": 23,
+      "selected_exact_box_recall": 0.4040158820192853,
+      "selected_exact_box_negative_specificity": 1.0,
+      "selected_official_pseudo_positive_coverage": 0.14285714285714285,
+      "selected_shape_recall": 0.06534866182609,
+      "selected_latency_p95_ms": 92.41460418561473,
+      "input_layouts_verified": 2,
+      "accepted_temporal_overlay_normal_alarm_frames": 15,
+      "accepted_temporal_overlay_normal_alarm_episodes": 9
+    },
+    "decision": "accept",
+    "conclusion": "The common-protocol scorecard selects the portable 100-tree 25/75 hybrid. It has the lowest complete held-out normal-bag alarm rate among standalone candidates: 33/2,287 frames (1.44%, 23 episodes), versus 75/2,287 for OOD-guarded G4, 81/2,287 for linear G4, and 1,842/2,287 for raw geometry. It preserves 100% exact-box negative specificity, reaches 40.40% exact-box recall, covers one of seven positive official pseudo-label scenarios, runs at 92.41 ms p95, and accepts both delivered point layouts. No standalone candidate achieves the desired zero/near-zero false-alarm tier. Accepted EXP-065 world three-of-five remains a separate temporal overlay: it reduces its tested G4 stream to 15 alarm frames and nine episodes without losing any of the 12 detected synthetic events, but its official, shape, and portable-hybrid effects are incomparable and were not invented. EXP-066 was rejected and is excluded. Set the demo default to the portable hybrid; keep geometry as the high-recall diagnostic alternative.",
+    "artifacts": [
+      "lidar_geometry/artifacts/competition_scorecard_exp067.json",
+      "lidar_geometry/competition_scorecard.py",
+      "lidar_geometry/test_competition_scorecard.py",
+      "ALGORITHM_COMPARISON.md"
+    ]
+  },
+  {
+    "id": "EXP-068",
+    "title": "Portable hybrid with three-of-five temporal confirmation",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Applying the accepted world-coordinate three-of-five confirmation to the selected portable 25/75 hybrid will materially reduce complete-normal-bag alarm episodes while preserving every event already detected by the per-frame hybrid and remaining below 100 ms p95 latency.",
+    "change": "Keep geometry, portable linear/tree weights, learned threshold, and all feature extraction frozen; add only either range/lateral or world-coordinate three-of-five confirmation after the portable hybrid decision.",
+    "expected_effect": "World three-of-five reduces normal alarm episodes by at least 20% relative to the per-frame portable hybrid, loses no detected exact-mask events, and keeps end-to-end p95 latency below 100 ms; compare it directly with range three-of-five under the same streams.",
+    "failure_condition": "Reject the overlay if episode reduction is below 20%, any per-frame-detected exact-mask event is lost, or end-to-end p95 latency reaches 100 ms; do not change thresholds to rescue the result.",
+    "data": {
+      "sources": [
+        "five complete organizer normal bags",
+        "ray-consistent exact-mask event sequences on organizer backgrounds",
+        "official organizer synthetic bag forensic pseudo-label scenarios"
+      ],
+      "split_unit": "whole_organizer_bag_and_complete_event_sequence",
+      "leakage_check": "The portable model and threshold are frozen before the run; the same frame streams and exact-mask sequences are replayed through per-frame, range three-of-five, and world three-of-five decisions without splitting adjacent frames or derivatives.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.portable_temporal_experiment external_data/hackathon/for_hackathon --output lidar_geometry/artifacts/portable_temporal_exp068.json",
+    "metrics": {
+      "normal_frames": 2287,
+      "per_frame_alarm_frames": 33,
+      "per_frame_alarm_episodes": 23,
+      "range_3of5_alarm_frames": 9,
+      "range_3of5_alarm_episodes": 7,
+      "world_3of5_alarm_frames": 9,
+      "world_3of5_alarm_episodes": 7,
+      "world_alarm_frame_reduction": 0.7272727272727273,
+      "world_alarm_episode_reduction": 0.6956521739130435,
+      "synthetic_events": 21,
+      "per_frame_detected_events": 17,
+      "range_3of5_detected_events": 15,
+      "world_3of5_detected_events": 15,
+      "world_events_lost": 2,
+      "per_frame_latency_p95_ms": 109.40355316270141,
+      "range_3of5_latency_p95_ms": 109.4184633111581,
+      "world_3of5_latency_p95_ms": 118.2475052773952,
+      "official_per_frame_positive_coverage": 0.14285714285714285,
+      "official_world_positive_coverage": 0.14285714285714285,
+      "official_world_negative_specificity": 1.0
+    },
+    "decision": "reject",
+    "conclusion": "Three-of-five is not the submission default. Both temporal variants reduce complete-normal-bag alarms from 33 frames/23 episodes to 9/7 (72.7%/69.6%), but each loses two of the 17 exact-mask events detected by the per-frame portable hybrid. World confirmation also raises full-sequence p95 from 109.40 ms to 118.25 ms on this run, above the declared 100 ms gate. The directional official pseudo-label audit remains unchanged at one of seven positive scenarios and three of three negative scenarios. Keep the per-frame portable hybrid as best; expose temporal confirmation only as rejected experimental evidence, not a safety decision path.",
+    "artifacts": [
+      "lidar_geometry/artifacts/portable_temporal_exp068.json",
+      "lidar_geometry/portable_temporal_experiment.py",
+      "lidar_geometry/test_portable_temporal_experiment.py"
+    ]
+  }
+]

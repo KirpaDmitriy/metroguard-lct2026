@@ -1,0 +1,3409 @@
+{
+  "experiment": "EXP-066",
+  "change": "rail centerline path selection only",
+  "models": {
+    "greedy": "frozen per-range predecessor selection",
+    "continuity": "joint dynamic-programming rail-pair path"
+  },
+  "exact_mask": {
+    "protocol": {
+      "source_unit": "whole organizer bag",
+      "frames_per_bag": 2,
+      "distances_m": [
+        20.0,
+        40.0,
+        60.0,
+        80.0,
+        100.0
+      ],
+      "target_attribution": "exact overlap with injected AABB",
+      "minimum_visible_points": 3
+    },
+    "positive_recall": {
+      "greedy": 0.7121951219512195,
+      "continuity": 0.7121951219512195
+    },
+    "negative_specificity": {
+      "greedy": 0.8981481481481481,
+      "continuity": 0.8981481481481481
+    },
+    "rows": [
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4429,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 804,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 299,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 134,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 36,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 10,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 34,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 6,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 34,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 7,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 36,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4437,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 821,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 303,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 134,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 3279,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 937,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 332,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 170,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 518,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 104,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 140,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 147,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 456,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 101,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 46,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 12,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 34,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 12,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 24,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 52,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 0,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4238,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 733,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 205,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 48,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 10,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 52,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 10,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 50,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 54,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4246,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 721,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 203,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 4188,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 601,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 273,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 751,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 158,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 210,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 564,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 86,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 20,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 40,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 14,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 34,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frame": 50,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 3,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4920,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 1043,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 336,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 139,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 52,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 50,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 48,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 54,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 10,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4882,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 1033,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 342,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 139,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 3952,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 505,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 126,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 33,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 556,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 112,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 42,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 20,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 538,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 92,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 42,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 30,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 74,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 22,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 14,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 0,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 990,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 374,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 256,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 157,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 10,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 16,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 6,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 20,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 970,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 370,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 263,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 163,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 1074,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 477,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 112,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 100.0,
+        "visible_points": 27,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 126,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 36,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 62,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 100.0,
+        "visible_points": 68,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 142,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 45,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 18,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 11,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 621,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 237,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 92,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 5,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 5,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 10,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 613,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 237,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 93,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 756,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 321,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 137,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 112,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 179,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 103,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 138,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 22,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 0,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 10,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4605,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 893,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 344,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 162,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 54,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 36,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 35,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 18,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 3,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4616,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 885,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 338,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 162,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 2397,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 742,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 376,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 173,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 564,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 112,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 129,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 100,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 426,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 102,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 26,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 12,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 68,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 8,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4800,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 824,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 265,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 59,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 18,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 48,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 50,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 3,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 50,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 48,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4814,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 839,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 267,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 65,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 14,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 1990,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 105,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 24,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 54,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 100.0,
+        "visible_points": 36,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 390,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 275,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 321,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 192,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 100.0,
+        "visible_points": 83,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 566,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 52,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 32,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 12,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 38,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 42,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 28,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4235,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 598,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 98,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 34,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 23,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 31,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 36,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4233,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 588,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 94,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 2204,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 631,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 196,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 458,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 90,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 145,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 542,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 86,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 28,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 20,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 50,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 30,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4095,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 649,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 129,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 54,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 6,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 52,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 50,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 7,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 6,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 44,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 4086,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 636,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 132,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 2800,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 1142,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 207,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 540,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 90,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 22,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 559,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 94,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 41,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 8,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 11,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 3721,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 674,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 170,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 82,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 67,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 34,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 16,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 34,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 5,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 36,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 7,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 34,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 13,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 3753,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 672,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 172,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 80.0,
+        "visible_points": 72,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 65,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 2121,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 403,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 220,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 89,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "distance_m": 100.0,
+        "visible_points": 37,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 796,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 134,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 160,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 80.0,
+        "visible_points": 120,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "distance_m": 100.0,
+        "visible_points": 55,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 550,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 130,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 60.0,
+        "visible_points": 12,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "distance_m": 100.0,
+        "visible_points": 14,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 20.0,
+        "visible_points": 16,
+        "greedy": true,
+        "continuity": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "distance_m": 40.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 20.0,
+        "visible_points": 34,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 40.0,
+        "visible_points": 8,
+        "greedy": false,
+        "continuity": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 50,
+        "scenario": "trough_below_rail",
+        "expected_alarm": false,
+        "distance_m": 60.0,
+        "visible_points": 4,
+        "greedy": false,
+        "continuity": false
+      }
+    ]
+  },
+  "normal_bags": {
+    "protocol": {
+      "source_unit": "whole organizer bag",
+      "sampling": "every frame",
+      "labels": "weak normal label from organizer filenames",
+      "timing": "alternating detector order; first frame of each bag excluded"
+    },
+    "bags": [
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frames": 268,
+        "greedy": {
+          "UNKNOWN": 46,
+          "OBSTACLE": 216,
+          "CLEAR": 6
+        },
+        "continuity": {
+          "UNKNOWN": 46,
+          "OBSTACLE": 216,
+          "CLEAR": 6
+        }
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frames": 252,
+        "greedy": {
+          "OBSTACLE": 193,
+          "UNKNOWN": 48,
+          "CLEAR": 11
+        },
+        "continuity": {
+          "OBSTACLE": 193,
+          "UNKNOWN": 48,
+          "CLEAR": 11
+        }
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frames": 545,
+        "greedy": {
+          "UNKNOWN": 111,
+          "OBSTACLE": 417,
+          "CLEAR": 17
+        },
+        "continuity": {
+          "UNKNOWN": 111,
+          "OBSTACLE": 417,
+          "CLEAR": 17
+        }
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frames": 877,
+        "greedy": {
+          "OBSTACLE": 784,
+          "UNKNOWN": 65,
+          "CLEAR": 28
+        },
+        "continuity": {
+          "OBSTACLE": 784,
+          "UNKNOWN": 65,
+          "CLEAR": 28
+        }
+      },
+      {
+        "bag": "doubleT_platform",
+        "frames": 345,
+        "greedy": {
+          "OBSTACLE": 232,
+          "UNKNOWN": 95,
+          "CLEAR": 18
+        },
+        "continuity": {
+          "OBSTACLE": 232,
+          "UNKNOWN": 95,
+          "CLEAR": 18
+        }
+      }
+    ],
+    "latency_ms": {
+      "greedy": {
+        "p50": 64.46274800691754,
+        "p95": 81.03079884313047,
+        "frames": 2282
+      },
+      "continuity": {
+        "p50": 96.38343204278499,
+        "p95": 116.95342790335417,
+        "frames": 2282
+      }
+    }
+  },
+  "official_pseudo_label": {
+    "protocol": {
+      "blind": false,
+      "label": "forensic pseudo-label using organizer order and approximate 100 m spacing",
+      "first_world_m": 99.25,
+      "spacing_m": 100.0,
+      "range_tolerance_m": 2.0,
+      "motion_source": "lidar_geometry/artifacts/official_ego_motion.json"
+    },
+    "scenarios": [
+      {
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "greedy": {
+          "visible_frames": 224,
+          "proposal_frames": 81
+        },
+        "continuity": {
+          "visible_frames": 224,
+          "proposal_frames": 81
+        }
+      },
+      {
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "greedy": {
+          "visible_frames": 93,
+          "proposal_frames": 4
+        },
+        "continuity": {
+          "visible_frames": 93,
+          "proposal_frames": 4
+        }
+      },
+      {
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "greedy": {
+          "visible_frames": 76,
+          "proposal_frames": 12
+        },
+        "continuity": {
+          "visible_frames": 76,
+          "proposal_frames": 12
+        }
+      },
+      {
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "greedy": {
+          "visible_frames": 68,
+          "proposal_frames": 6
+        },
+        "continuity": {
+          "visible_frames": 68,
+          "proposal_frames": 6
+        }
+      },
+      {
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "greedy": {
+          "visible_frames": 64,
+          "proposal_frames": 0
+        },
+        "continuity": {
+          "visible_frames": 64,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "greedy": {
+          "visible_frames": 62,
+          "proposal_frames": 9
+        },
+        "continuity": {
+          "visible_frames": 62,
+          "proposal_frames": 9
+        }
+      },
+      {
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "greedy": {
+          "visible_frames": 59,
+          "proposal_frames": 0
+        },
+        "continuity": {
+          "visible_frames": 59,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "greedy": {
+          "visible_frames": 58,
+          "proposal_frames": 0
+        },
+        "continuity": {
+          "visible_frames": 58,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "greedy": {
+          "visible_frames": 62,
+          "proposal_frames": 4
+        },
+        "continuity": {
+          "visible_frames": 62,
+          "proposal_frames": 4
+        }
+      },
+      {
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "greedy": {
+          "visible_frames": 71,
+          "proposal_frames": 0
+        },
+        "continuity": {
+          "visible_frames": 71,
+          "proposal_frames": 0
+        }
+      }
+    ]
+  },
+  "summary": {
+    "exact_positive_recall": {
+      "greedy": 0.7121951219512195,
+      "continuity": 0.7121951219512195
+    },
+    "exact_negative_specificity": {
+      "greedy": 0.8981481481481481,
+      "continuity": 0.8981481481481481
+    },
+    "normal_raw_obstacle_frames": {
+      "greedy": 1842,
+      "continuity": 1842
+    },
+    "official_positive_proposal_frames": {
+      "greedy": 116,
+      "continuity": 116
+    },
+    "latency_p95_ms": {
+      "greedy": 81.03079884313047,
+      "continuity": 116.95342790335417
+    }
+  }
+}

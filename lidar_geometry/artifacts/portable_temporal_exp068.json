@@ -1,0 +1,766 @@
+{
+  "experiment": "EXP-068",
+  "protocol": {
+    "normal_split": {
+      "split": "leave-one-organizer-recording-out",
+      "training_cache": "lidar_geometry/artifacts/spatial_patch_cache_v1.npz",
+      "threshold": "99th percentile of training real-frame maximum scores",
+      "tree": "100 Extra Trees, depth 6, minimum leaf 5, 25/75 linear/tree blend",
+      "domain_reference": "training-fold real candidates only"
+    },
+    "normal_frames": "all frames from five whole organizer bags",
+    "event_sequences": "same 21 fixed exact-mask sequences used by EXP-065",
+    "official_ground_truth": false,
+    "official_warning": "forensic coverage from approximate organizer order and spacing",
+    "frozen": [
+      "geometry",
+      "features",
+      "portable model family",
+      "25/75 weights",
+      "thresholds"
+    ]
+  },
+  "normal_summary": {
+    "per_frame": {
+      "frames": 2287,
+      "alarm_frames": 33,
+      "alarm_episodes": 23
+    },
+    "range_3of5": {
+      "frames": 2287,
+      "alarm_frames": 9,
+      "alarm_episodes": 7
+    },
+    "world_3of5": {
+      "frames": 2287,
+      "alarm_frames": 9,
+      "alarm_episodes": 7
+    }
+  },
+  "runtime": {
+    "per_frame": {
+      "p50_ms": 78.69961112737656,
+      "p95_ms": 109.40355316270141
+    },
+    "range_3of5": {
+      "p50_ms": 78.70974205434322,
+      "p95_ms": 109.4184633111581
+    },
+    "world_3of5": {
+      "p50_ms": 86.31669892929494,
+      "p95_ms": 118.2475052773952
+    }
+  },
+  "event_summary": {
+    "per_frame": {
+      "events": 21,
+      "detected_events": 17,
+      "event_recall": 0.8095238095238095
+    },
+    "range_3of5": {
+      "events": 21,
+      "detected_events": 15,
+      "event_recall": 0.7142857142857143
+    },
+    "world_3of5": {
+      "events": 21,
+      "detected_events": 15,
+      "event_recall": 0.7142857142857143
+    }
+  },
+  "official_pseudo": {
+    "models": {
+      "per_frame": {
+        "positive_scenarios_with_proposal": 1,
+        "positive_scenarios": 7,
+        "positive_coverage": 0.14285714285714285,
+        "negative_scenarios_without_proposal": 3,
+        "negative_scenarios": 3,
+        "negative_specificity": 1.0
+      },
+      "range_3of5": {
+        "positive_scenarios_with_proposal": 1,
+        "positive_scenarios": 7,
+        "positive_coverage": 0.14285714285714285,
+        "negative_scenarios_without_proposal": 3,
+        "negative_scenarios": 3,
+        "negative_specificity": 1.0
+      },
+      "world_3of5": {
+        "positive_scenarios_with_proposal": 1,
+        "positive_scenarios": 7,
+        "positive_coverage": 0.14285714285714285,
+        "negative_scenarios_without_proposal": 3,
+        "negative_scenarios": 3,
+        "negative_specificity": 1.0
+      }
+    },
+    "scenarios": [
+      {
+        "scenario": "large_center",
+        "expected_alarm": true,
+        "per_frame": {
+          "visible_frames": 224,
+          "proposal_frames": 22
+        },
+        "range_3of5": {
+          "visible_frames": 224,
+          "proposal_frames": 6
+        },
+        "world_3of5": {
+          "visible_frames": 224,
+          "proposal_frames": 6
+        }
+      },
+      {
+        "scenario": "minimum_center",
+        "expected_alarm": true,
+        "per_frame": {
+          "visible_frames": 93,
+          "proposal_frames": 0
+        },
+        "range_3of5": {
+          "visible_frames": 93,
+          "proposal_frames": 0
+        },
+        "world_3of5": {
+          "visible_frames": 93,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "minimum_on_rail",
+        "expected_alarm": true,
+        "per_frame": {
+          "visible_frames": 76,
+          "proposal_frames": 0
+        },
+        "range_3of5": {
+          "visible_frames": 76,
+          "proposal_frames": 0
+        },
+        "world_3of5": {
+          "visible_frames": 76,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "minimum_edge_inside",
+        "expected_alarm": true,
+        "per_frame": {
+          "visible_frames": 68,
+          "proposal_frames": 0
+        },
+        "range_3of5": {
+          "visible_frames": 68,
+          "proposal_frames": 0
+        },
+        "world_3of5": {
+          "visible_frames": 68,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "minimum_just_outside",
+        "expected_alarm": false,
+        "per_frame": {
+          "visible_frames": 64,
+          "proposal_frames": 0
+        },
+        "range_3of5": {
+          "visible_frames": 64,
+          "proposal_frames": 0
+        },
+        "world_3of5": {
+          "visible_frames": 64,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "large_edge_inside",
+        "expected_alarm": true,
+        "per_frame": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        },
+        "range_3of5": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        },
+        "world_3of5": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "large_outside",
+        "expected_alarm": false,
+        "per_frame": {
+          "visible_frames": 59,
+          "proposal_frames": 0
+        },
+        "range_3of5": {
+          "visible_frames": 59,
+          "proposal_frames": 0
+        },
+        "world_3of5": {
+          "visible_frames": 59,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "large_above",
+        "expected_alarm": false,
+        "per_frame": {
+          "visible_frames": 58,
+          "proposal_frames": 0
+        },
+        "range_3of5": {
+          "visible_frames": 58,
+          "proposal_frames": 0
+        },
+        "world_3of5": {
+          "visible_frames": 58,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "long_low_on_rails",
+        "expected_alarm": true,
+        "per_frame": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        },
+        "range_3of5": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        },
+        "world_3of5": {
+          "visible_frames": 62,
+          "proposal_frames": 0
+        }
+      },
+      {
+        "scenario": "hanging_cable",
+        "expected_alarm": true,
+        "per_frame": {
+          "visible_frames": 71,
+          "proposal_frames": 0
+        },
+        "range_3of5": {
+          "visible_frames": 71,
+          "proposal_frames": 0
+        },
+        "world_3of5": {
+          "visible_frames": 71,
+          "proposal_frames": 0
+        }
+      }
+    ]
+  },
+  "comparisons": {
+    "range_3of5": {
+      "alarm_frame_reduction": 0.7272727272727273,
+      "alarm_episode_reduction": 0.6956521739130435,
+      "events_lost": 2
+    },
+    "world_3of5": {
+      "alarm_frame_reduction": 0.7272727272727273,
+      "alarm_episode_reduction": 0.6956521739130435,
+      "events_lost": 2
+    }
+  },
+  "normal_by_bag": [
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "frames": 268,
+      "variants": {
+        "per_frame": {
+          "alarm_frames": 3,
+          "alarm_episodes": 1
+        },
+        "range_3of5": {
+          "alarm_frames": 1,
+          "alarm_episodes": 1
+        },
+        "world_3of5": {
+          "alarm_frames": 1,
+          "alarm_episodes": 1
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "frames": 252,
+      "variants": {
+        "per_frame": {
+          "alarm_frames": 1,
+          "alarm_episodes": 1
+        },
+        "range_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        },
+        "world_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "frames": 545,
+      "variants": {
+        "per_frame": {
+          "alarm_frames": 19,
+          "alarm_episodes": 13
+        },
+        "range_3of5": {
+          "alarm_frames": 8,
+          "alarm_episodes": 6
+        },
+        "world_3of5": {
+          "alarm_frames": 8,
+          "alarm_episodes": 6
+        }
+      }
+    },
+    {
+      "bag": "squareT_platform_squareT_switch",
+      "frames": 877,
+      "variants": {
+        "per_frame": {
+          "alarm_frames": 5,
+          "alarm_episodes": 5
+        },
+        "range_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        },
+        "world_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        }
+      }
+    },
+    {
+      "bag": "doubleT_platform",
+      "frames": 345,
+      "variants": {
+        "per_frame": {
+          "alarm_frames": 5,
+          "alarm_episodes": 3
+        },
+        "range_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        },
+        "world_3of5": {
+          "alarm_frames": 0,
+          "alarm_episodes": 0
+        }
+      }
+    }
+  ],
+  "event_sequences": [
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "large_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "minimum_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 3
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 1
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 1
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "minimum_on_rail",
+      "evaluable_frames": 11,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 1
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "minimum_edge_inside",
+      "evaluable_frames": 11,
+      "variants": {
+        "per_frame": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "large_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 9
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 7
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 7
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "long_low_on_rails",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        }
+      }
+    },
+    {
+      "bag": "roundT_pressureGate_roundT",
+      "scenario": "hanging_cable",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "large_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 12
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "minimum_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 5
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 3
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 3
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "minimum_on_rail",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "minimum_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "large_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 12
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "long_low_on_rails",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        }
+      }
+    },
+    {
+      "bag": "roundT_doubleT",
+      "scenario": "hanging_cable",
+      "evaluable_frames": 11,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "large_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 12
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 9
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 9
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "minimum_center",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 7
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 3
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 3
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "minimum_on_rail",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "minimum_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 2
+        },
+        "range_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        },
+        "world_3of5": {
+          "event_detected": false,
+          "confirmed_frames": 0
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "large_edge_inside",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 12
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 9
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 9
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "long_low_on_rails",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 7
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 7
+        }
+      }
+    },
+    {
+      "bag": "roundT_squareT_pressureGate_squareT",
+      "scenario": "hanging_cable",
+      "evaluable_frames": 12,
+      "variants": {
+        "per_frame": {
+          "event_detected": true,
+          "confirmed_frames": 10
+        },
+        "range_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        },
+        "world_3of5": {
+          "event_detected": true,
+          "confirmed_frames": 8
+        }
+      }
+    }
+  ]
+}

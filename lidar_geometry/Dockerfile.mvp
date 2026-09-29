@@ -1,0 +1,39 @@
+FROM ros:humble-ros-base-jammy
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/opt/metro-guard
+
+WORKDIR /opt/metro-guard
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY lidar_geometry/requirements-container.txt /tmp/requirements.txt
+RUN python3 -m pip install --no-cache-dir -r /tmp/requirements.txt
+
+RUN mkdir -p /opt/metro-guard/lidar_geometry/models \
+    /opt/metro-guard/lidar_geometry/artifacts
+COPY lidar_geometry/__init__.py \
+    lidar_geometry/detect_obstacles.py \
+    lidar_geometry/domain_guard.py \
+    lidar_geometry/ego_motion.py \
+    lidar_geometry/fast_detector.py \
+    lidar_geometry/hybrid_detector.py \
+    lidar_geometry/pointcloud2.py \
+    lidar_geometry/portable_trees.py \
+    lidar_geometry/risk_model.py \
+    lidar_geometry/ros2_mvp_node.py \
+    lidar_geometry/runtime_detector.py \
+    lidar_geometry/temporal.py \
+    /opt/metro-guard/lidar_geometry/
+COPY lidar_geometry/models/risk_model.json \
+    /opt/metro-guard/lidar_geometry/models/risk_model.json
+COPY lidar_geometry/models/domain_guard.npz \
+    /opt/metro-guard/lidar_geometry/models/domain_guard.npz
+COPY lidar_geometry/artifacts/linear_extra_trees_hybrid.npz \
+    /opt/metro-guard/lidar_geometry/artifacts/linear_extra_trees_hybrid.npz
+
+ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["python3", "-m", "lidar_geometry.ros2_mvp_node", "--ros-args", "-p", "input_topic:=/lidar_points"]

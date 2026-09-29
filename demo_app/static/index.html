@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MetroGuard — проверка rosbag</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div><span class="tag">LCT 2026</span><h1>MetroGuard</h1></div>
+      <a href="/metrics" target="_blank">Сравнение алгоритмов ↗</a>
+    </header>
+    <section class="hero">
+      <p>Загрузите rosbag2 SQLite-файл. Анализ выполняется офлайн: содержимое файла не запускается.</p>
+      <form id="upload-form">
+        <label class="drop"><input id="bag" name="bag" type="file" accept=".db3" required><span>Выбрать .db3</span><small id="filename">Файл не выбран</small></label>
+        <label>Алгоритм<select id="algorithm" name="algorithm"><option value="best">Лучший по метрикам</option><option value="geometry">Геометрия</option><option value="linear_hybrid">Геометрия + linear</option><option value="tree_hybrid">Геометрия + trees</option></select></label>
+        <button type="submit">Запустить анализ</button>
+      </form>
+      <div id="message"></div>
+    </section>
+    <section id="progress-card" class="card hidden"><div class="row"><strong id="status">В очереди</strong><span id="progress-label">0%</span></div><div class="progress"><i id="progress"></i></div></section>
+    <section id="results" class="hidden">
+      <div id="summary" class="summary"></div>
+      <div class="card"><h2>Временная шкала</h2><div class="legend"><span class="clear">CLEAR</span><span class="unknown">UNKNOWN</span><span class="obstacle">OBSTACLE</span></div><div id="timeline" class="timeline"></div><div id="details" class="details">Нажмите на кадр, чтобы увидеть детали.</div></div>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

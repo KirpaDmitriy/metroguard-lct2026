@@ -1,0 +1,1 @@
+"""Hackathon lidar geometry baseline."""

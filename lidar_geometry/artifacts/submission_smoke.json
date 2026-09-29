@@ -1,0 +1,421 @@
+{
+  "status": "PASS",
+  "formats": [
+    {
+      "bag": "external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3",
+      "point_step": 16,
+      "fields": [
+        "x",
+        "y",
+        "z",
+        "intensity"
+      ],
+      "points": 307187,
+      "geometric": {
+        "state": "UNKNOWN",
+        "obstacle": false,
+        "nearest_distance_m": 29.080249786376953,
+        "confidence": 0.4166666666666667,
+        "observability": 0.33333333333333337,
+        "candidate_points": 335,
+        "track_bins": 25,
+        "observed_track_bins": 10,
+        "reliable_range_min_m": 12.0,
+        "reliable_range_max_m": 62.0,
+        "obstacles": [
+          {
+            "points": 16,
+            "voxels": 2,
+            "distance_min_m": 29.080249786376953,
+            "distance_max_m": 29.118165969848633,
+            "lateral_min_m": 0.8479845762252805,
+            "lateral_max_m": 1.027647733688354,
+            "height_min_m": 0.0982818896157105,
+            "height_max_m": 0.14564637123934676,
+            "surface_residual_max_m": 0.14525793252632502,
+            "surface_residual_mean_m": 0.1044338057975085,
+            "intensity_mean": 9.25
+          },
+          {
+            "points": 8,
+            "voxels": 4,
+            "distance_min_m": 29.479759216308594,
+            "distance_max_m": 29.842222213745117,
+            "lateral_min_m": 0.7555112719535825,
+            "lateral_max_m": 0.8577759742736814,
+            "height_min_m": 0.08174935954283091,
+            "height_max_m": 0.11864007905120388,
+            "surface_residual_max_m": 0.07864007905120385,
+            "surface_residual_mean_m": 0.07262965493205936,
+            "intensity_mean": 11.0
+          }
+        ],
+        "reason": "component_only_in_boundary_guard_band"
+      },
+      "ranked": {
+        "state": "UNKNOWN",
+        "obstacle": false,
+        "nearest_distance_m": 29.080249786376953,
+        "confidence": 0.5939613871702571,
+        "observability": 0.33333333333333337,
+        "candidate_points": 335,
+        "track_bins": 25,
+        "observed_track_bins": 10,
+        "reliable_range_min_m": 12.0,
+        "reliable_range_max_m": 62.0,
+        "obstacles": [],
+        "reason": "geometric_component_rejected_by_risk_model"
+      },
+      "range_decision": {
+        "state": "UNKNOWN",
+        "obstacle": false,
+        "nearest_distance_m": 29.080249786376953,
+        "confidence": 0.5939613871702571,
+        "confirmations": 0,
+        "reason": "geometric_component_rejected_by_risk_model"
+      },
+      "world_decision": {
+        "state": "UNKNOWN",
+        "obstacle": false,
+        "nearest_distance_m": 29.080249786376953,
+        "confidence": 0.5939613871702571,
+        "confirmations": 0,
+        "reason": "geometric_component_rejected_by_risk_model"
+      },
+      "motion": {
+        "delta_m": 0.0,
+        "cumulative_m": 0.0,
+        "correlation": 1.0,
+        "reliable": false
+      }
+    },
+    {
+      "bag": "external_data/hackathon/for_hackathon/roundT_doubleT/roundT_doubleT_0.db3",
+      "point_step": 26,
+      "fields": [
+        "x",
+        "y",
+        "z",
+        "intensity",
+        "ring",
+        "timestamp"
+      ],
+      "points": 307200,
+      "geometric": {
+        "state": "OBSTACLE",
+        "obstacle": true,
+        "nearest_distance_m": 18.036657333374023,
+        "confidence": 0.7099999999999999,
+        "observability": 0.6666666666666666,
+        "candidate_points": 733,
+        "track_bins": 39,
+        "observed_track_bins": 26,
+        "reliable_range_min_m": 16.0,
+        "reliable_range_max_m": 94.0,
+        "obstacles": [
+          {
+            "points": 31,
+            "voxels": 2,
+            "distance_min_m": 16.000587463378906,
+            "distance_max_m": 16.16950225830078,
+            "lateral_min_m": -0.845573925971985,
+            "lateral_max_m": -0.6786030769348146,
+            "height_min_m": 0.013396203517913818,
+            "height_max_m": 0.08598834276199341,
+            "surface_residual_max_m": 0.17390158414840706,
+            "surface_residual_mean_m": 0.12595237462751335,
+            "intensity_mean": 14.903225806451612
+          },
+          {
+            "points": 11,
+            "voxels": 4,
+            "distance_min_m": 18.036657333374023,
+            "distance_max_m": 18.724584579467773,
+            "lateral_min_m": 0.21290490825970954,
+            "lateral_max_m": 0.36166444222132355,
+            "height_min_m": 0.062333850242377364,
+            "height_max_m": 0.17594413006952436,
+            "surface_residual_max_m": 0.13594413006952433,
+            "surface_residual_mean_m": 0.09786832789860901,
+            "intensity_mean": 4.181818181818182
+          },
+          {
+            "points": 117,
+            "voxels": 43,
+            "distance_min_m": 20.23470115661621,
+            "distance_max_m": 25.0341796875,
+            "lateral_min_m": -1.0478766202926637,
+            "lateral_max_m": -0.8460327148437501,
+            "height_min_m": 0.03865509001468581,
+            "height_max_m": 0.7677980148031338,
+            "surface_residual_max_m": 0.6325996260313529,
+            "surface_residual_mean_m": 0.4834606970046934,
+            "intensity_mean": 4.965811965811966
+          },
+          {
+            "points": 58,
+            "voxels": 19,
+            "distance_min_m": 25.410402297973633,
+            "distance_max_m": 26.597488403320312,
+            "lateral_min_m": -1.0408708810806275,
+            "lateral_max_m": -0.4691689968109133,
+            "height_min_m": -0.048456270591429984,
+            "height_max_m": 0.7607194759833078,
+            "surface_residual_max_m": 0.6914613268609173,
+            "surface_residual_mean_m": 0.3456461203102514,
+            "intensity_mean": 8.0
+          },
+          {
+            "points": 29,
+            "voxels": 14,
+            "distance_min_m": 26.91721534729004,
+            "distance_max_m": 28.308568954467773,
+            "lateral_min_m": -1.0179674386978153,
+            "lateral_max_m": -0.7748775243759158,
+            "height_min_m": 0.5690799781666556,
+            "height_max_m": 1.117805580957338,
+            "surface_residual_max_m": 0.777805580957338,
+            "surface_residual_mean_m": 0.6005255441299747,
+            "intensity_mean": 9.413793103448276
+          },
+          {
+            "points": 31,
+            "voxels": 14,
+            "distance_min_m": 28.461883544921875,
+            "distance_max_m": 29.86644172668457,
+            "lateral_min_m": -1.0427760839462281,
+            "lateral_max_m": -0.7848529577255252,
+            "height_min_m": 0.31989082787367806,
+            "height_max_m": 0.8160909510160081,
+            "surface_residual_max_m": 0.6125783749835181,
+            "surface_residual_mean_m": 0.3746552952779365,
+            "intensity_mean": 7.870967741935484
+          },
+          {
+            "points": 8,
+            "voxels": 3,
+            "distance_min_m": 28.956989288330078,
+            "distance_max_m": 29.064943313598633,
+            "lateral_min_m": -1.0404234886169434,
+            "lateral_max_m": -0.9006269931793215,
+            "height_min_m": 2.128881338542442,
+            "height_max_m": 2.1375865813423616,
+            "surface_residual_max_m": 1.8975865813423616,
+            "surface_residual_mean_m": 1.8431529699654652,
+            "intensity_mean": 41.75
+          },
+          {
+            "points": 29,
+            "voxels": 11,
+            "distance_min_m": 30.049388885498047,
+            "distance_max_m": 31.37212562561035,
+            "lateral_min_m": -1.0272760152816773,
+            "lateral_max_m": -0.7444373130798341,
+            "height_min_m": 0.08855034785779026,
+            "height_max_m": 0.794682724423069,
+            "surface_residual_max_m": 0.608975951867701,
+            "surface_residual_mean_m": 0.4047309409962944,
+            "intensity_mean": 8.310344827586206
+          },
+          {
+            "points": 9,
+            "voxels": 5,
+            "distance_min_m": 31.666654586791992,
+            "distance_max_m": 32.069801330566406,
+            "lateral_min_m": -1.0331716299057008,
+            "lateral_max_m": -0.7417856216430665,
+            "height_min_m": 0.07964264514362185,
+            "height_max_m": 0.7038308155351842,
+            "surface_residual_max_m": 0.5838308155351842,
+            "surface_residual_mean_m": 0.2884391987757858,
+            "intensity_mean": 7.888888888888889
+          },
+          {
+            "points": 10,
+            "voxels": 5,
+            "distance_min_m": 33.409934997558594,
+            "distance_max_m": 33.78398513793945,
+            "lateral_min_m": -1.0285206317901614,
+            "lateral_max_m": -0.8934516668319704,
+            "height_min_m": 0.3841850861263083,
+            "height_max_m": 0.8336180376227276,
+            "surface_residual_max_m": 0.5402077047793137,
+            "surface_residual_mean_m": 0.3804321331454339,
+            "intensity_mean": 4.3
+          },
+          {
+            "points": 9,
+            "voxels": 4,
+            "distance_min_m": 34.20679473876953,
+            "distance_max_m": 34.345767974853516,
+            "lateral_min_m": -1.0015801668167117,
+            "lateral_max_m": -0.8846435785293582,
+            "height_min_m": 0.5988162159919739,
+            "height_max_m": 0.8392311334609985,
+            "surface_residual_max_m": 0.5977788734436036,
+            "surface_residual_mean_m": 0.4694851446151734,
+            "intensity_mean": 3.0
+          },
+          {
+            "points": 6,
+            "voxels": 3,
+            "distance_min_m": 34.61231994628906,
+            "distance_max_m": 34.954925537109375,
+            "lateral_min_m": 0.07210160493850681,
+            "lateral_max_m": 0.4359121680259702,
+            "height_min_m": -0.02966487407684326,
+            "height_max_m": 0.14669346809387207,
+            "surface_residual_max_m": 0.11254848480224622,
+            "surface_residual_mean_m": 0.10645620822906499,
+            "intensity_mean": 4.5
+          },
+          {
+            "points": 7,
+            "voxels": 3,
+            "distance_min_m": 37.03664779663086,
+            "distance_max_m": 37.194190979003906,
+            "lateral_min_m": -1.0367419719696047,
+            "lateral_max_m": -0.97088098526001,
+            "height_min_m": 0.6571552157402039,
+            "height_max_m": 0.811378002166748,
+            "surface_residual_max_m": 0.5713780021667481,
+            "surface_residual_mean_m": 0.4829674032756261,
+            "intensity_mean": 4.142857142857143
+          },
+          {
+            "points": 98,
+            "voxels": 27,
+            "distance_min_m": 39.183570861816406,
+            "distance_max_m": 39.95927810668945,
+            "lateral_min_m": -1.0311408042907717,
+            "lateral_max_m": -0.4714634418487551,
+            "height_min_m": 0.1449755290605026,
+            "height_max_m": 1.4432843551835504,
+            "surface_residual_max_m": 1.552833219199656,
+            "surface_residual_mean_m": 0.8989546735429808,
+            "intensity_mean": 46.826530612244895
+          },
+          {
+            "points": 5,
+            "voxels": 1,
+            "distance_min_m": 46.020442962646484,
+            "distance_max_m": 46.035396575927734,
+            "lateral_min_m": -0.782363855838776,
+            "lateral_max_m": -0.6216254770755771,
+            "height_min_m": 0.04097425937652588,
+            "height_max_m": 0.0413433313369751,
+            "surface_residual_max_m": 0.1413433313369752,
+            "surface_residual_mean_m": 0.10914034175872808,
+            "intensity_mean": 15.2
+          },
+          {
+            "points": 16,
+            "voxels": 7,
+            "distance_min_m": 52.30442428588867,
+            "distance_max_m": 52.386436462402344,
+            "lateral_min_m": -1.0319583535194399,
+            "lateral_max_m": -0.8979836463928224,
+            "height_min_m": 2.1538006067276,
+            "height_max_m": 2.6159363985061646,
+            "surface_residual_max_m": 2.395936398506165,
+            "surface_residual_mean_m": 2.1730898535251617,
+            "intensity_mean": 215.25
+          },
+          {
+            "points": 5,
+            "voxels": 2,
+            "distance_min_m": 57.14311981201172,
+            "distance_max_m": 57.227508544921875,
+            "lateral_min_m": -0.8425826847553254,
+            "lateral_max_m": -0.6477590441703797,
+            "height_min_m": 0.0676207033366154,
+            "height_max_m": 0.06872354411939341,
+            "surface_residual_max_m": 0.08872354411939343,
+            "surface_residual_mean_m": 0.08807253584524917,
+            "intensity_mean": 13.0
+          },
+          {
+            "points": 5,
+            "voxels": 3,
+            "distance_min_m": 69.4438247680664,
+            "distance_max_m": 69.53549194335938,
+            "lateral_min_m": -0.9338777351379397,
+            "lateral_max_m": -0.8198953229188921,
+            "height_min_m": 0.3341984004381402,
+            "height_max_m": 0.7516734921202897,
+            "surface_residual_max_m": 0.5116734921202897,
+            "surface_residual_mean_m": 0.24971978698154543,
+            "intensity_mean": 0.8
+          },
+          {
+            "points": 31,
+            "voxels": 13,
+            "distance_min_m": 78.37418365478516,
+            "distance_max_m": 78.79950714111328,
+            "lateral_min_m": -0.9833539976179602,
+            "lateral_max_m": -0.40190579175949115,
+            "height_min_m": 0.1600982740297695,
+            "height_max_m": 1.2321970255477481,
+            "surface_residual_max_m": 1.592197025547748,
+            "surface_residual_mean_m": 0.7231224912602987,
+            "intensity_mean": 34.064516129032256
+          },
+          {
+            "points": 5,
+            "voxels": 3,
+            "distance_min_m": 80.04277038574219,
+            "distance_max_m": 80.32390594482422,
+            "lateral_min_m": -0.9723357224464417,
+            "lateral_max_m": -0.9167457866668702,
+            "height_min_m": 0.006559364725308103,
+            "height_max_m": 0.4862866624982416,
+            "surface_residual_max_m": 0.6462866624982415,
+            "surface_residual_mean_m": 0.3985138082340181,
+            "intensity_mean": 1.8
+          }
+        ],
+        "reason": "supported_component_inside_core_clearance"
+      },
+      "ranked": {
+        "state": "UNKNOWN",
+        "obstacle": false,
+        "nearest_distance_m": 18.036657333374023,
+        "confidence": 0.7357018741234915,
+        "observability": 0.6666666666666666,
+        "candidate_points": 733,
+        "track_bins": 39,
+        "observed_track_bins": 26,
+        "reliable_range_min_m": 16.0,
+        "reliable_range_max_m": 94.0,
+        "obstacles": [],
+        "reason": "geometric_component_rejected_by_risk_model"
+      },
+      "range_decision": {
+        "state": "UNKNOWN",
+        "obstacle": false,
+        "nearest_distance_m": 18.036657333374023,
+        "confidence": 0.7357018741234915,
+        "confirmations": 0,
+        "reason": "geometric_component_rejected_by_risk_model"
+      },
+      "world_decision": {
+        "state": "UNKNOWN",
+        "obstacle": false,
+        "nearest_distance_m": 18.036657333374023,
+        "confidence": 0.7357018741234915,
+        "confirmations": 0,
+        "reason": "geometric_component_rejected_by_risk_model"
+      },
+      "motion": {
+        "delta_m": 0.0,
+        "cumulative_m": 0.0,
+        "correlation": 1.0,
+        "reliable": false
+      }
+    }
+  ],
+  "malformed_checks": {
+    "empty_cloud_state": "UNKNOWN",
+    "missing_field_error": "PointCloud2 fields missing: ['intensity']"
+  }
+}

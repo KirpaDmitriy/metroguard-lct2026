@@ -1,0 +1,209 @@
+{
+  "protocol": {
+    "split": "leave-one-recording-out",
+    "threshold": "99th percentile of training real-frame maximum scores",
+    "selection": "fixed hyperparameters; no held-out fold tuning",
+    "features": 13,
+    "samples": 2336,
+    "seed": 20260929,
+    "scikit_learn": "1.8.0"
+  },
+  "models": {
+    "component_linear": {
+      "folds": [
+        {
+          "held_out_bag": "doubleT_platform",
+          "threshold": 0.9079236025385515,
+          "positive_recall": 0.6833333333333333,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 257
+        },
+        {
+          "held_out_bag": "roundT_doubleT",
+          "threshold": 0.9136915822697552,
+          "positive_recall": 0.4444444444444444,
+          "synthetic_negative_specificity": 0.6666666666666667,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 193
+        },
+        {
+          "held_out_bag": "roundT_pressureGate_roundT",
+          "threshold": 0.9062013406253228,
+          "positive_recall": 0.5526315789473685,
+          "synthetic_negative_specificity": 0.6666666666666667,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 197
+        },
+        {
+          "held_out_bag": "roundT_squareT_pressureGate_squareT",
+          "threshold": 0.8944793927308176,
+          "positive_recall": 0.6,
+          "synthetic_negative_specificity": 0.8,
+          "real_frame_alarm_rate": 0.03571428571428571,
+          "test_candidates": 611
+        },
+        {
+          "held_out_bag": "squareT_platform_squareT_switch",
+          "threshold": 0.9113296923146009,
+          "positive_recall": 0.5746268656716418,
+          "synthetic_negative_specificity": 0.7692307692307692,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 1078
+        }
+      ],
+      "mean_positive_recall": 0.5710072444793577,
+      "worst_positive_recall": 0.4444444444444444,
+      "mean_synthetic_negative_specificity": 0.7805128205128206,
+      "mean_real_frame_alarm_rate": 0.007142857142857143,
+      "worst_real_frame_alarm_rate": 0.03571428571428571
+    },
+    "random_forest": {
+      "folds": [
+        {
+          "held_out_bag": "doubleT_platform",
+          "threshold": 0.903616726058635,
+          "positive_recall": 0.6333333333333333,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 257
+        },
+        {
+          "held_out_bag": "roundT_doubleT",
+          "threshold": 0.846683738855273,
+          "positive_recall": 0.6222222222222222,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 193
+        },
+        {
+          "held_out_bag": "roundT_pressureGate_roundT",
+          "threshold": 0.8736269604394913,
+          "positive_recall": 0.7368421052631579,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 197
+        },
+        {
+          "held_out_bag": "roundT_squareT_pressureGate_squareT",
+          "threshold": 0.8573704066246955,
+          "positive_recall": 0.6142857142857143,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 611
+        },
+        {
+          "held_out_bag": "squareT_platform_squareT_switch",
+          "threshold": 0.8246663578831365,
+          "positive_recall": 0.7761194029850746,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.2682926829268293,
+          "test_candidates": 1078
+        }
+      ],
+      "mean_positive_recall": 0.6765605556179005,
+      "worst_positive_recall": 0.6142857142857143,
+      "mean_synthetic_negative_specificity": 1.0,
+      "mean_real_frame_alarm_rate": 0.05365853658536586,
+      "worst_real_frame_alarm_rate": 0.2682926829268293
+    },
+    "extra_trees": {
+      "folds": [
+        {
+          "held_out_bag": "doubleT_platform",
+          "threshold": 0.8295301998257539,
+          "positive_recall": 0.7333333333333333,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 257
+        },
+        {
+          "held_out_bag": "roundT_doubleT",
+          "threshold": 0.8499710855475958,
+          "positive_recall": 0.5111111111111111,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 193
+        },
+        {
+          "held_out_bag": "roundT_pressureGate_roundT",
+          "threshold": 0.8320599400681988,
+          "positive_recall": 0.6578947368421053,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 197
+        },
+        {
+          "held_out_bag": "roundT_squareT_pressureGate_squareT",
+          "threshold": 0.8484910333119706,
+          "positive_recall": 0.6714285714285714,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.03571428571428571,
+          "test_candidates": 611
+        },
+        {
+          "held_out_bag": "squareT_platform_squareT_switch",
+          "threshold": 0.8316745065863033,
+          "positive_recall": 0.6567164179104478,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.0,
+          "test_candidates": 1078
+        }
+      ],
+      "mean_positive_recall": 0.6460968341251138,
+      "worst_positive_recall": 0.5111111111111111,
+      "mean_synthetic_negative_specificity": 1.0,
+      "mean_real_frame_alarm_rate": 0.007142857142857143,
+      "worst_real_frame_alarm_rate": 0.03571428571428571
+    },
+    "hist_gradient_boosting": {
+      "folds": [
+        {
+          "held_out_bag": "doubleT_platform",
+          "threshold": 0.931331126368634,
+          "positive_recall": 0.9166666666666666,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.05555555555555555,
+          "test_candidates": 257
+        },
+        {
+          "held_out_bag": "roundT_doubleT",
+          "threshold": 0.2023609056325349,
+          "positive_recall": 0.8,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.08333333333333333,
+          "test_candidates": 193
+        },
+        {
+          "held_out_bag": "roundT_pressureGate_roundT",
+          "threshold": 0.9272568775399671,
+          "positive_recall": 0.868421052631579,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.08333333333333333,
+          "test_candidates": 197
+        },
+        {
+          "held_out_bag": "roundT_squareT_pressureGate_squareT",
+          "threshold": 0.9204934676273686,
+          "positive_recall": 0.8857142857142857,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.10714285714285714,
+          "test_candidates": 611
+        },
+        {
+          "held_out_bag": "squareT_platform_squareT_switch",
+          "threshold": 0.9068976870009825,
+          "positive_recall": 0.8582089552238806,
+          "synthetic_negative_specificity": 1.0,
+          "real_frame_alarm_rate": 0.3902439024390244,
+          "test_candidates": 1078
+        }
+      ],
+      "mean_positive_recall": 0.8658021920472823,
+      "worst_positive_recall": 0.8,
+      "mean_synthetic_negative_specificity": 1.0,
+      "mean_real_frame_alarm_rate": 0.14392179636082075,
+      "worst_real_frame_alarm_rate": 0.3902439024390244
+    }
+  }
+}
