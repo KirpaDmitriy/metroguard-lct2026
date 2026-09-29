@@ -11,6 +11,7 @@ import time
 from demo_app.algorithms import Detector
 from demo_app.config import ROOT
 from demo_app.job_store import write_json
+from demo_app.visualization import compact_cloud
 from lidar_geometry.pointcloud2 import iter_bag_messages
 
 
@@ -59,11 +60,11 @@ def analyze_bag(
         if max_frames is not None and frame >= max_frames:
             break
         frame_started = time.perf_counter()
-        detection = detector(cloud)
+        detection, context = detector.analyze(cloud)
         latency_ms = (time.perf_counter() - frame_started) * 1000
         latencies.append(latency_ms)
         states[detection.state] += 1
-        timeline.append({
+        item = {
             "frame": frame,
             "timestamp_ns": timestamp,
             "state": detection.state,
@@ -73,7 +74,11 @@ def analyze_bag(
             "latency_ms": latency_ms,
             "reason": detection.reason,
             "obstacles": [asdict(item) for item in detection.obstacles[:3]],
-        })
+        }
+        visualization = compact_cloud(context, detection.obstacles)
+        if visualization is not None:
+            item["visualization"] = visualization
+        timeline.append(item)
         if frame % 5 == 0 or frame + 1 == total:
             write_json(progress_path, {
                 "status": "running",

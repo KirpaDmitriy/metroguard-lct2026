@@ -100,6 +100,16 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             raise HTTPException(404, "Preset result not found")
         return {"preset": item, "result": read_json(path)}
 
+    @app.get("/api/presets/{preset_id}/visualization")
+    async def api_preset_visualization(preset_id: str):
+        manifest = read_json(PRESETS / "manifest.json")["presets"]
+        if not any(entry["id"] == preset_id for entry in manifest):
+            raise HTTPException(404, "Preset not found")
+        path = PRESETS / preset_id / "visualization.json"
+        if not path.is_file():
+            raise HTTPException(404, "Preset visualization not found")
+        return read_json(path)
+
     @app.post("/api/jobs", status_code=202)
     async def create_job(
         bag: UploadFile = File(...),

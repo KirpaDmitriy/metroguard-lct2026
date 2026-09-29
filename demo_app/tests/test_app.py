@@ -52,6 +52,11 @@ class AppTest(unittest.TestCase):
             422,
         )
 
+    def test_preset_visualization_can_be_loaded(self):
+        response = self.client.get("/api/presets/obstacle/visualization")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("frames", response.json())
+
     def test_upload_creates_job_with_resolved_algorithm(self):
         with patch("demo_app.app.run_job", no_worker):
             response = self.client.post(
