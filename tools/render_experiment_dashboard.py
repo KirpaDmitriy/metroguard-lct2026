@@ -13,11 +13,11 @@ REGISTRY = ROOT / "experiments" / "registry.json"
 OUTPUT = ROOT / "experiments" / "dashboard.html"
 
 LANES = {
-    "Data & evaluation": {0, 1, 8, 11, 15, 17, 38, 40, 57, 58, 62, 63, 64, 67},
-    "Candidate ranking": {2, 4, 5, 6, 12, 13, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 41, 42, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 61},
-    "Temporal evidence": {3, 7, 10, 14, 16, 18, 19, 20, 43, 44, 59, 65, 68},
-    "Runtime & release": {9, 21, 22, 24, 25, 27, 36, 60, 66},
-    "Transfer": {23, 26},
+    "Данные и оценка": {0, 1, 8, 11, 15, 17, 38, 40, 57, 58, 62, 63, 64, 67},
+    "Ранжирование кандидатов": {2, 4, 5, 6, 12, 13, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 41, 42, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 61},
+    "Временные признаки": {3, 7, 10, 14, 16, 18, 19, 20, 43, 44, 59, 65, 68},
+    "Производительность и выпуск": {9, 21, 22, 24, 25, 27, 36, 60, 66},
+    "Переносимость": {23, 26},
 }
 
 DECISION_LABELS = {
@@ -25,6 +25,12 @@ DECISION_LABELS = {
     "reject": "rejected",
     "reject_as_submission_candidate": "rejected",
     "inconclusive": "inconclusive",
+}
+
+STATUS_LABELS = {
+    "pass": "пройден",
+    "warn": "внимание",
+    "fail": "не пройден",
 }
 
 
@@ -52,10 +58,10 @@ def card(item: dict) -> str:
         <header><span>{item['id']}</span><strong>{escape(item['title'])}</strong></header>
         <p>{escape(item['conclusion'])}</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> {escape(sources)}</p>
-          <p><b>Split:</b> {escape(item['data']['split_unit'])}</p>
-          <p><b>Leakage check:</b> {escape(item['data']['leakage_check'])}</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> {escape(sources)}</p>
+          <p><b>Единица разбиения:</b> {escape(item['data']['split_unit'])}</p>
+          <p><b>Проверка утечки:</b> {escape(item['data']['leakage_check'])}</p>
           <dl>{metric_text(item['metrics'])}</dl>
           <code>{escape(item['command'])}</code>
         </details>
@@ -91,46 +97,46 @@ def summary_table(runs: list[dict]) -> str:
         / world["range_tracker_real_alarm_frames"]
     )
     rows = [
-        ("Strict scenario recall", f'{g4["scenario_recall_strict"]:.1%}', "measured", "EXP-005", "warn"),
-        ("Strict negative specificity", f'{g4["scenario_negative_specificity_strict"]:.1%}', ">= 95%", "EXP-005", "pass"),
-        ("Weak-normal alarm rate", f'{g4["assumed_normal_alarm_rate_strict"]:.3%}', "<= 1%", "EXP-005", "pass"),
-        ("World-tracker alarm reduction", f'{world_reduction:.0%} (20 -> 15)', "> 0%", "EXP-014", "pass"),
-        ("External geometry recall", f'{transfer["geometric_clearance_target_frames"]}/{transfer["evaluable_clearance_targets"]} ({transfer["geometric_zero_shot_recall"]:.1%})', "audit", "EXP-023", "pass"),
-        ("External G4 recall", f'{transfer["ranked_clearance_target_frames"]}/{transfer["evaluable_clearance_targets"]} ({transfer["ranked_zero_shot_recall"]:.1%})', "audit", "EXP-023", "warn"),
-        ("Offline full-mode p95", f'{runtime["end_to_end_worst_repeat_p95_ms"]:.2f} ms', "< 100 ms", "EXP-021", "pass"),
-        ("ROS 10-frame worst p95", f'{max(ros_short["run_1_p95_ms"], ros_short["run_2_p95_ms"]):.2f} ms', "< 100 ms", "EXP-025", "pass"),
-        ("ROS 100-frame reproducibility", "100/100 exact stable payloads", "exact", "EXP-027", "pass"),
-        ("ROS 100-frame worst p95", f'{max(ros_long["run_1_p95_ms"], ros_long["run_2_p95_ms"]):.2f} ms', "< 100 ms", "EXP-027", "fail"),
-        ("Linear vs tiny MLP", f'{mlp["linear_mean_positive_recall"]:.1%} vs {mlp["mean_positive_recall"]:.1%} recall; {mlp["linear_mean_real_frame_alarm_rate"]:.2%} vs {mlp["mean_real_frame_alarm_rate"]:.2%} alarms', "MLP dominates", "EXP-029", "fail"),
-        ("Component + spatial CV recall", f'{spatial["component_mean_recall"]:.1%} -> {spatial["combined_mean_recall"]:.1%}', "improves", "EXP-031", "fail"),
-        ("Spatial MLP recall / alarms", f'{spatial_mlp["mean_positive_recall"]:.1%} / {spatial_mlp["mean_real_frame_alarm_rate"]:.2%}', "beats component baseline", "EXP-032", "fail"),
-        ("Domain-gated CV recall", f'{gated["geometry_mean_recall"]:.1%} -> {gated["gated_25_mean_recall"]:.1%}', "improves", "EXP-033", "fail"),
-        ("OOD sparse-audit recall / alarms", f'{abstention["guarded_mean_recall"]:.1%} / {abstention["guarded_mean_real_alarm_rate"]:.2%}', "candidate-cache audit", "EXP-034", "pass"),
-        ("Random-conv CV recall", f'{stronger_cv["original_spatial_mean_recall"]:.1%} -> {stronger_cv["random_conv_mean_recall"]:.1%}', "beats geometry", "EXP-035", "fail"),
-        ("OOD alarm-frame p95", f'{shared_context["guarded_p95_ms"]:.2f} ms', "< 100 ms", "EXP-036", "pass"),
-        ("Randomized CV recall", f'{randomized_cv["base_random_conv_recall"]:.1%} -> {randomized_cv["strong_randomization_recall"]:.1%}', "beats geometry", "EXP-037", "fail"),
-        ("Real-transplant CV recall", f'{transplant["base_cv_recall"]:.1%} -> {transplant["transplant_recall"]:.1%}', "improves with zero alarms", "EXP-041", "pass"),
-        ("Extra Trees recall / alarms", f'{extra_trees["mean_positive_recall"]:.1%} / {extra_trees["mean_real_frame_alarm_rate"]:.2%}', ">57.1% / <=0.71%", "EXP-046", "pass"),
-        ("100-tree hybrid recall / alarms", f'{compact_hybrid["mean_positive_recall"]:.1%} / {compact_hybrid["mean_real_frame_alarm_rate"]:.2%}', ">57.1% / <=0.71%", "EXP-056", "pass"),
-        ("Unseen-shape hybrid recall", f'{shape_audit["hybrid_ranked_recall"]:.1%}', ">57.1%", "EXP-057", "fail"),
-        ("Portable hybrid p95 / size", f'{portable["hybrid_p95_ms"]:.1f} ms / {portable["portable_model_bytes"] / 1000:.1f} KB', "<100 ms", "EXP-060", "pass"),
-        ("Regression suite", f'{portable["unit_tests"]}/44', "44/44", "EXP-060", "pass"),
-        ("Selected full-bag alarm rate", f'{final["selected_normal_alarm_rate"]:.2%}', "lowest tested standalone", "EXP-067", "warn"),
-        ("Selected exact-box specificity", f'{final["selected_exact_box_negative_specificity"]:.1%}', "100%", "EXP-067", "pass"),
-        ("Selected runtime p95", f'{final["selected_latency_p95_ms"]:.2f} ms', "< 100 ms", "EXP-067", "pass"),
-        ("Portable temporal episodes", f'{portable_temporal["per_frame_alarm_episodes"]} -> {portable_temporal["world_3of5_alarm_episodes"]}', "no event loss", "EXP-068", "fail"),
+        ("Полнота на строгих сценариях", f'{g4["scenario_recall_strict"]:.1%}', "измерение", "EXP-005", "warn"),
+        ("Специфичность на отрицательных примерах", f'{g4["scenario_negative_specificity_strict"]:.1%}', ">= 95%", "EXP-005", "pass"),
+        ("Доля тревог на условно чистых данных", f'{g4["assumed_normal_alarm_rate_strict"]:.3%}', "<= 1%", "EXP-005", "pass"),
+        ("Снижение тревог мировым трекером", f'{world_reduction:.0%} (20 -> 15)', "> 0%", "EXP-014", "pass"),
+        ("Внешняя полнота геометрии", f'{transfer["geometric_clearance_target_frames"]}/{transfer["evaluable_clearance_targets"]} ({transfer["geometric_zero_shot_recall"]:.1%})', "аудит", "EXP-023", "pass"),
+        ("Внешняя полнота G4", f'{transfer["ranked_clearance_target_frames"]}/{transfer["evaluable_clearance_targets"]} ({transfer["ranked_zero_shot_recall"]:.1%})', "аудит", "EXP-023", "warn"),
+        ("Офлайн-обработка, p95", f'{runtime["end_to_end_worst_repeat_p95_ms"]:.2f} мс', "< 100 мс", "EXP-021", "pass"),
+        ("ROS, 10 кадров: худший p95", f'{max(ros_short["run_1_p95_ms"], ros_short["run_2_p95_ms"]):.2f} мс', "< 100 мс", "EXP-025", "pass"),
+        ("ROS, 100 кадров: воспроизводимость", "100/100 идентичных результатов", "точное совпадение", "EXP-027", "pass"),
+        ("ROS, 100 кадров: худший p95", f'{max(ros_long["run_1_p95_ms"], ros_long["run_2_p95_ms"]):.2f} мс', "< 100 мс", "EXP-027", "fail"),
+        ("Линейная модель против компактной MLP", f'{mlp["linear_mean_positive_recall"]:.1%} против {mlp["mean_positive_recall"]:.1%} полноты; {mlp["linear_mean_real_frame_alarm_rate"]:.2%} против {mlp["mean_real_frame_alarm_rate"]:.2%} тревог', "MLP должна победить", "EXP-029", "fail"),
+        ("Компоненты + пространственное CV: полнота", f'{spatial["component_mean_recall"]:.1%} -> {spatial["combined_mean_recall"]:.1%}', "рост", "EXP-031", "fail"),
+        ("Пространственная MLP: полнота / тревоги", f'{spatial_mlp["mean_positive_recall"]:.1%} / {spatial_mlp["mean_real_frame_alarm_rate"]:.2%}', "лучше базовых компонентов", "EXP-032", "fail"),
+        ("CV с учётом домена: полнота", f'{gated["geometry_mean_recall"]:.1%} -> {gated["gated_25_mean_recall"]:.1%}', "рост", "EXP-033", "fail"),
+        ("OOD-аудит: полнота / тревоги", f'{abstention["guarded_mean_recall"]:.1%} / {abstention["guarded_mean_real_alarm_rate"]:.2%}', "аудит кэша кандидатов", "EXP-034", "pass"),
+        ("CV со случайными свёртками: полнота", f'{stronger_cv["original_spatial_mean_recall"]:.1%} -> {stronger_cv["random_conv_mean_recall"]:.1%}', "лучше геометрии", "EXP-035", "fail"),
+        ("OOD-кадры с тревогой, p95", f'{shared_context["guarded_p95_ms"]:.2f} мс', "< 100 мс", "EXP-036", "pass"),
+        ("CV с рандомизацией: полнота", f'{randomized_cv["base_random_conv_recall"]:.1%} -> {randomized_cv["strong_randomization_recall"]:.1%}', "лучше геометрии", "EXP-037", "fail"),
+        ("CV с пересадкой реальных объектов: полнота", f'{transplant["base_cv_recall"]:.1%} -> {transplant["transplant_recall"]:.1%}', "рост без тревог", "EXP-041", "pass"),
+        ("Extra Trees: полнота / тревоги", f'{extra_trees["mean_positive_recall"]:.1%} / {extra_trees["mean_real_frame_alarm_rate"]:.2%}', ">57,1% / <=0,71%", "EXP-046", "pass"),
+        ("Гибрид из 100 деревьев: полнота / тревоги", f'{compact_hybrid["mean_positive_recall"]:.1%} / {compact_hybrid["mean_real_frame_alarm_rate"]:.2%}', ">57,1% / <=0,71%", "EXP-056", "pass"),
+        ("Гибрид на незнакомых формах: полнота", f'{shape_audit["hybrid_ranked_recall"]:.1%}', ">57,1%", "EXP-057", "fail"),
+        ("Переносимый гибрид: p95 / размер", f'{portable["hybrid_p95_ms"]:.1f} мс / {portable["portable_model_bytes"] / 1000:.1f} КБ', "<100 мс", "EXP-060", "pass"),
+        ("Регрессионные тесты", f'{portable["unit_tests"]}/44', "44/44", "EXP-060", "pass"),
+        ("Итоговая доля тревог на полных bag", f'{final["selected_normal_alarm_rate"]:.2%}', "минимум среди автономных вариантов", "EXP-067", "warn"),
+        ("Итоговая специфичность на точных боксах", f'{final["selected_exact_box_negative_specificity"]:.1%}', "100%", "EXP-067", "pass"),
+        ("Итоговое время обработки, p95", f'{final["selected_latency_p95_ms"]:.2f} мс', "< 100 мс", "EXP-067", "pass"),
+        ("Эпизоды тревог после временного фильтра", f'{portable_temporal["per_frame_alarm_episodes"]} -> {portable_temporal["world_3of5_alarm_episodes"]}', "без потери событий", "EXP-068", "fail"),
     ]
     body = "".join(
         f'<tr><td>{escape(metric)}</td><td>{escape(value)}</td>'
         f'<td>{escape(gate)}</td><td><a href="#{evidence}">{evidence}</a></td>'
-        f'<td><span class="metric-status {status}">{status}</span></td></tr>'
+        f'<td><span class="metric-status {status}">{STATUS_LABELS[status]}</span></td></tr>'
         for metric, value, gate, evidence, status in rows
     )
     return f"""<section class="metric-summary">
-    <h2>Decision metrics</h2>
-    <p>Frozen headline metrics only. Audit rows are transfer evidence, not organizer ground truth.</p>
+    <h2>Итоговые метрики</h2>
+    <p>Зафиксированные результаты. Строки «аудит» показывают переносимость, а не качество на скрытой выборке организаторов.</p>
     <div class="table-scroll"><table>
-      <thead><tr><th>Metric</th><th>Result</th><th>Gate</th><th>Evidence</th><th>Status</th></tr></thead>
+      <thead><tr><th>Метрика</th><th>Результат</th><th>Критерий</th><th>Эксперимент</th><th>Статус</th></tr></thead>
       <tbody>{body}</tbody>
     </table></div>
   </section>"""
@@ -139,14 +145,14 @@ def summary_table(runs: list[dict]) -> str:
 def regime_comparison_table(runs: list[dict]) -> str:
     metrics = {item["id"]: item["metrics"] for item in runs}["EXP-059"]
     return f"""<section class="metric-summary">
-    <h2>Universal detector vs mapped-route expert</h2>
-    <p>Recall and negative specificity below use the same 376 obstacle pairs. The mapped expert additionally receives a clean same-location reference, so it is a separate operating regime.</p>
+    <h2>Универсальный детектор и эксперт знакомого маршрута</h2>
+    <p>Полнота и специфичность рассчитаны на одних и тех же 376 парах. Эксперт маршрута дополнительно получает чистый эталон той же позиции — это отдельный режим работы.</p>
     <div class="table-scroll"><table>
-      <thead><tr><th>Mode</th><th>Extra input</th><th>Recall</th><th>Negative specificity</th><th>Evidence</th></tr></thead>
+      <thead><tr><th>Режим</th><th>Дополнительные данные</th><th>Полнота</th><th>Специфичность</th><th>Эксперимент</th></tr></thead>
       <tbody>
-        <tr><td>Universal linear</td><td>None</td><td>{metrics['linear_recall']:.1%}</td><td>78.1%</td><td><a href="#EXP-059">EXP-059</a></td></tr>
-        <tr><td>Universal 100-tree hybrid</td><td>None</td><td>{metrics['hybrid_recall']:.1%}</td><td>{metrics['hybrid_negative_specificity']:.1%}</td><td><a href="#EXP-059">EXP-059</a></td></tr>
-        <tr><td>Aligned route memory</td><td>Clean same-location reference</td><td>{metrics['route_memory_recall']:.1%}</td><td>{metrics['route_memory_negative_specificity']:.1%}</td><td><a href="#EXP-059">EXP-059</a></td></tr>
+        <tr><td>Универсальная линейная модель</td><td>Нет</td><td>{metrics['linear_recall']:.1%}</td><td>78.1%</td><td><a href="#EXP-059">EXP-059</a></td></tr>
+        <tr><td>Универсальный гибрид из 100 деревьев</td><td>Нет</td><td>{metrics['hybrid_recall']:.1%}</td><td>{metrics['hybrid_negative_specificity']:.1%}</td><td><a href="#EXP-059">EXP-059</a></td></tr>
+        <tr><td>Память знакомого маршрута</td><td>Чистый эталон той же позиции</td><td>{metrics['route_memory_recall']:.1%}</td><td>{metrics['route_memory_negative_specificity']:.1%}</td><td><a href="#EXP-059">EXP-059</a></td></tr>
       </tbody>
     </table></div>
   </section>"""
@@ -170,11 +176,11 @@ def render(runs: list[dict], registry_hash: str) -> str:
         )
     cards = "".join(card(item) for item in runs)
     return f"""<!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MetroGuard experiment map</title>
+  <title>MetroGuard — карта экспериментов</title>
   <style>
     :root {{ color-scheme: dark; --bg:#0b1017; --panel:#121a24; --text:#edf3fa;
       --muted:#9eb0c3; --line:#293747; --green:#40c98a; --red:#ff6b72;
@@ -234,25 +240,25 @@ def render(runs: list[dict], registry_hash: str) -> str:
 </head>
 <body>
 <main>
-  <h1>MetroGuard experiment map</h1>
-  <div class="subtitle">AI-native development · safety-native runtime</div>
+  <h1>Карта экспериментов MetroGuard</h1>
+  <div class="subtitle">Разработка с AI · безопасный и объяснимый runtime</div>
   <div class="stats">
-    <span><b>{len(runs)}</b>experiments</span>
-    <span><b>{counts['accepted']}</b>accepted</span>
-    <span><b>{counts['rejected']}</b>rejected</span>
-    <span><b>{counts['inconclusive']}</b>inconclusive</span>
+    <span><b>{len(runs)}</b>экспериментов</span>
+    <span><b>{counts['accepted']}</b>принято</span>
+    <span><b>{counts['rejected']}</b>отклонено</span>
+    <span><b>{counts['inconclusive']}</b>без вывода</span>
   </div>
   {summary_table(runs)}
   {regime_comparison_table(runs)}
   <section class="map">{"".join(lanes)}</section>
-  <nav aria-label="Filter by decision">
-    <button type="button" data-filter="all" aria-pressed="true">All</button>
-    <button type="button" data-filter="accepted" aria-pressed="false">Accepted</button>
-    <button type="button" data-filter="rejected" aria-pressed="false">Rejected</button>
-    <button type="button" data-filter="inconclusive" aria-pressed="false">Inconclusive</button>
+  <nav aria-label="Фильтр по решению">
+    <button type="button" data-filter="all" aria-pressed="true">Все</button>
+    <button type="button" data-filter="accepted" aria-pressed="false">Принятые</button>
+    <button type="button" data-filter="rejected" aria-pressed="false">Отклонённые</button>
+    <button type="button" data-filter="inconclusive" aria-pressed="false">Без вывода</button>
   </nav>
   <section class="experiments">{cards}</section>
-  <p class="hash">registry sha256: {registry_hash}</p>
+  <p class="hash">SHA-256 реестра: {registry_hash}</p>
 </main>
 <script>
   const buttons = [...document.querySelectorAll('button[data-filter]')];

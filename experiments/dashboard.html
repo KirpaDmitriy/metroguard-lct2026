@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MetroGuard experiment map</title>
+  <title>MetroGuard — карта экспериментов</title>
   <style>
     :root { color-scheme: dark; --bg:#0b1017; --panel:#121a24; --text:#edf3fa;
       --muted:#9eb0c3; --line:#293747; --green:#40c98a; --red:#ff6b72;
@@ -63,50 +63,50 @@
 </head>
 <body>
 <main>
-  <h1>MetroGuard experiment map</h1>
-  <div class="subtitle">AI-native development · safety-native runtime</div>
+  <h1>Карта экспериментов MetroGuard</h1>
+  <div class="subtitle">Разработка с AI · безопасный и объяснимый runtime</div>
   <div class="stats">
-    <span><b>69</b>experiments</span>
-    <span><b>25</b>accepted</span>
-    <span><b>40</b>rejected</span>
-    <span><b>4</b>inconclusive</span>
+    <span><b>69</b>экспериментов</span>
+    <span><b>25</b>принято</span>
+    <span><b>40</b>отклонено</span>
+    <span><b>4</b>без вывода</span>
   </div>
   <section class="metric-summary">
-    <h2>Decision metrics</h2>
-    <p>Frozen headline metrics only. Audit rows are transfer evidence, not organizer ground truth.</p>
+    <h2>Итоговые метрики</h2>
+    <p>Зафиксированные результаты. Строки «аудит» показывают переносимость, а не качество на скрытой выборке организаторов.</p>
     <div class="table-scroll"><table>
-      <thead><tr><th>Metric</th><th>Result</th><th>Gate</th><th>Evidence</th><th>Status</th></tr></thead>
-      <tbody><tr><td>Strict scenario recall</td><td>44.0%</td><td>measured</td><td><a href="#EXP-005">EXP-005</a></td><td><span class="metric-status warn">warn</span></td></tr><tr><td>Strict negative specificity</td><td>97.7%</td><td>&gt;= 95%</td><td><a href="#EXP-005">EXP-005</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>Weak-normal alarm rate</td><td>0.855%</td><td>&lt;= 1%</td><td><a href="#EXP-005">EXP-005</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>World-tracker alarm reduction</td><td>25% (20 -&gt; 15)</td><td>&gt; 0%</td><td><a href="#EXP-014">EXP-014</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>External geometry recall</td><td>34/38 (89.5%)</td><td>audit</td><td><a href="#EXP-023">EXP-023</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>External G4 recall</td><td>20/38 (52.6%)</td><td>audit</td><td><a href="#EXP-023">EXP-023</a></td><td><span class="metric-status warn">warn</span></td></tr><tr><td>Offline full-mode p95</td><td>90.81 ms</td><td>&lt; 100 ms</td><td><a href="#EXP-021">EXP-021</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>ROS 10-frame worst p95</td><td>92.34 ms</td><td>&lt; 100 ms</td><td><a href="#EXP-025">EXP-025</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>ROS 100-frame reproducibility</td><td>100/100 exact stable payloads</td><td>exact</td><td><a href="#EXP-027">EXP-027</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>ROS 100-frame worst p95</td><td>142.03 ms</td><td>&lt; 100 ms</td><td><a href="#EXP-027">EXP-027</a></td><td><span class="metric-status fail">fail</span></td></tr><tr><td>Linear vs tiny MLP</td><td>53.4% vs 49.3% recall; 0.71% vs 2.40% alarms</td><td>MLP dominates</td><td><a href="#EXP-029">EXP-029</a></td><td><span class="metric-status fail">fail</span></td></tr><tr><td>Component + spatial CV recall</td><td>57.1% -&gt; 44.0%</td><td>improves</td><td><a href="#EXP-031">EXP-031</a></td><td><span class="metric-status fail">fail</span></td></tr><tr><td>Spatial MLP recall / alarms</td><td>36.3% / 4.68%</td><td>beats component baseline</td><td><a href="#EXP-032">EXP-032</a></td><td><span class="metric-status fail">fail</span></td></tr><tr><td>Domain-gated CV recall</td><td>57.1% -&gt; 49.4%</td><td>improves</td><td><a href="#EXP-033">EXP-033</a></td><td><span class="metric-status fail">fail</span></td></tr><tr><td>OOD sparse-audit recall / alarms</td><td>56.3% / 0.00%</td><td>candidate-cache audit</td><td><a href="#EXP-034">EXP-034</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>Random-conv CV recall</td><td>17.0% -&gt; 17.8%</td><td>beats geometry</td><td><a href="#EXP-035">EXP-035</a></td><td><span class="metric-status fail">fail</span></td></tr><tr><td>OOD alarm-frame p95</td><td>72.42 ms</td><td>&lt; 100 ms</td><td><a href="#EXP-036">EXP-036</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>Randomized CV recall</td><td>17.8% -&gt; 22.3%</td><td>beats geometry</td><td><a href="#EXP-037">EXP-037</a></td><td><span class="metric-status fail">fail</span></td></tr><tr><td>Real-transplant CV recall</td><td>17.8% -&gt; 21.2%</td><td>improves with zero alarms</td><td><a href="#EXP-041">EXP-041</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>Extra Trees recall / alarms</td><td>64.6% / 0.71%</td><td>&gt;57.1% / &lt;=0.71%</td><td><a href="#EXP-046">EXP-046</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>100-tree hybrid recall / alarms</td><td>68.1% / 0.71%</td><td>&gt;57.1% / &lt;=0.71%</td><td><a href="#EXP-056">EXP-056</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>Unseen-shape hybrid recall</td><td>6.5%</td><td>&gt;57.1%</td><td><a href="#EXP-057">EXP-057</a></td><td><span class="metric-status fail">fail</span></td></tr><tr><td>Portable hybrid p95 / size</td><td>79.9 ms / 74.7 KB</td><td>&lt;100 ms</td><td><a href="#EXP-060">EXP-060</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>Regression suite</td><td>44/44</td><td>44/44</td><td><a href="#EXP-060">EXP-060</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>Selected full-bag alarm rate</td><td>1.44%</td><td>lowest tested standalone</td><td><a href="#EXP-067">EXP-067</a></td><td><span class="metric-status warn">warn</span></td></tr><tr><td>Selected exact-box specificity</td><td>100.0%</td><td>100%</td><td><a href="#EXP-067">EXP-067</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>Selected runtime p95</td><td>92.41 ms</td><td>&lt; 100 ms</td><td><a href="#EXP-067">EXP-067</a></td><td><span class="metric-status pass">pass</span></td></tr><tr><td>Portable temporal episodes</td><td>23 -&gt; 7</td><td>no event loss</td><td><a href="#EXP-068">EXP-068</a></td><td><span class="metric-status fail">fail</span></td></tr></tbody>
+      <thead><tr><th>Метрика</th><th>Результат</th><th>Критерий</th><th>Эксперимент</th><th>Статус</th></tr></thead>
+      <tbody><tr><td>Полнота на строгих сценариях</td><td>44.0%</td><td>измерение</td><td><a href="#EXP-005">EXP-005</a></td><td><span class="metric-status warn">внимание</span></td></tr><tr><td>Специфичность на отрицательных примерах</td><td>97.7%</td><td>&gt;= 95%</td><td><a href="#EXP-005">EXP-005</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Доля тревог на условно чистых данных</td><td>0.855%</td><td>&lt;= 1%</td><td><a href="#EXP-005">EXP-005</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Снижение тревог мировым трекером</td><td>25% (20 -&gt; 15)</td><td>&gt; 0%</td><td><a href="#EXP-014">EXP-014</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Внешняя полнота геометрии</td><td>34/38 (89.5%)</td><td>аудит</td><td><a href="#EXP-023">EXP-023</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Внешняя полнота G4</td><td>20/38 (52.6%)</td><td>аудит</td><td><a href="#EXP-023">EXP-023</a></td><td><span class="metric-status warn">внимание</span></td></tr><tr><td>Офлайн-обработка, p95</td><td>90.81 мс</td><td>&lt; 100 мс</td><td><a href="#EXP-021">EXP-021</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>ROS, 10 кадров: худший p95</td><td>92.34 мс</td><td>&lt; 100 мс</td><td><a href="#EXP-025">EXP-025</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>ROS, 100 кадров: воспроизводимость</td><td>100/100 идентичных результатов</td><td>точное совпадение</td><td><a href="#EXP-027">EXP-027</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>ROS, 100 кадров: худший p95</td><td>142.03 мс</td><td>&lt; 100 мс</td><td><a href="#EXP-027">EXP-027</a></td><td><span class="metric-status fail">не пройден</span></td></tr><tr><td>Линейная модель против компактной MLP</td><td>53.4% против 49.3% полноты; 0.71% против 2.40% тревог</td><td>MLP должна победить</td><td><a href="#EXP-029">EXP-029</a></td><td><span class="metric-status fail">не пройден</span></td></tr><tr><td>Компоненты + пространственное CV: полнота</td><td>57.1% -&gt; 44.0%</td><td>рост</td><td><a href="#EXP-031">EXP-031</a></td><td><span class="metric-status fail">не пройден</span></td></tr><tr><td>Пространственная MLP: полнота / тревоги</td><td>36.3% / 4.68%</td><td>лучше базовых компонентов</td><td><a href="#EXP-032">EXP-032</a></td><td><span class="metric-status fail">не пройден</span></td></tr><tr><td>CV с учётом домена: полнота</td><td>57.1% -&gt; 49.4%</td><td>рост</td><td><a href="#EXP-033">EXP-033</a></td><td><span class="metric-status fail">не пройден</span></td></tr><tr><td>OOD-аудит: полнота / тревоги</td><td>56.3% / 0.00%</td><td>аудит кэша кандидатов</td><td><a href="#EXP-034">EXP-034</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>CV со случайными свёртками: полнота</td><td>17.0% -&gt; 17.8%</td><td>лучше геометрии</td><td><a href="#EXP-035">EXP-035</a></td><td><span class="metric-status fail">не пройден</span></td></tr><tr><td>OOD-кадры с тревогой, p95</td><td>72.42 мс</td><td>&lt; 100 мс</td><td><a href="#EXP-036">EXP-036</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>CV с рандомизацией: полнота</td><td>17.8% -&gt; 22.3%</td><td>лучше геометрии</td><td><a href="#EXP-037">EXP-037</a></td><td><span class="metric-status fail">не пройден</span></td></tr><tr><td>CV с пересадкой реальных объектов: полнота</td><td>17.8% -&gt; 21.2%</td><td>рост без тревог</td><td><a href="#EXP-041">EXP-041</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Extra Trees: полнота / тревоги</td><td>64.6% / 0.71%</td><td>&gt;57,1% / &lt;=0,71%</td><td><a href="#EXP-046">EXP-046</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Гибрид из 100 деревьев: полнота / тревоги</td><td>68.1% / 0.71%</td><td>&gt;57,1% / &lt;=0,71%</td><td><a href="#EXP-056">EXP-056</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Гибрид на незнакомых формах: полнота</td><td>6.5%</td><td>&gt;57,1%</td><td><a href="#EXP-057">EXP-057</a></td><td><span class="metric-status fail">не пройден</span></td></tr><tr><td>Переносимый гибрид: p95 / размер</td><td>79.9 мс / 74.7 КБ</td><td>&lt;100 мс</td><td><a href="#EXP-060">EXP-060</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Регрессионные тесты</td><td>44/44</td><td>44/44</td><td><a href="#EXP-060">EXP-060</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Итоговая доля тревог на полных bag</td><td>1.44%</td><td>минимум среди автономных вариантов</td><td><a href="#EXP-067">EXP-067</a></td><td><span class="metric-status warn">внимание</span></td></tr><tr><td>Итоговая специфичность на точных боксах</td><td>100.0%</td><td>100%</td><td><a href="#EXP-067">EXP-067</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Итоговое время обработки, p95</td><td>92.41 мс</td><td>&lt; 100 мс</td><td><a href="#EXP-067">EXP-067</a></td><td><span class="metric-status pass">пройден</span></td></tr><tr><td>Эпизоды тревог после временного фильтра</td><td>23 -&gt; 7</td><td>без потери событий</td><td><a href="#EXP-068">EXP-068</a></td><td><span class="metric-status fail">не пройден</span></td></tr></tbody>
     </table></div>
   </section>
   <section class="metric-summary">
-    <h2>Universal detector vs mapped-route expert</h2>
-    <p>Recall and negative specificity below use the same 376 obstacle pairs. The mapped expert additionally receives a clean same-location reference, so it is a separate operating regime.</p>
+    <h2>Универсальный детектор и эксперт знакомого маршрута</h2>
+    <p>Полнота и специфичность рассчитаны на одних и тех же 376 парах. Эксперт маршрута дополнительно получает чистый эталон той же позиции — это отдельный режим работы.</p>
     <div class="table-scroll"><table>
-      <thead><tr><th>Mode</th><th>Extra input</th><th>Recall</th><th>Negative specificity</th><th>Evidence</th></tr></thead>
+      <thead><tr><th>Режим</th><th>Дополнительные данные</th><th>Полнота</th><th>Специфичность</th><th>Эксперимент</th></tr></thead>
       <tbody>
-        <tr><td>Universal linear</td><td>None</td><td>57.1%</td><td>78.1%</td><td><a href="#EXP-059">EXP-059</a></td></tr>
-        <tr><td>Universal 100-tree hybrid</td><td>None</td><td>68.1%</td><td>100.0%</td><td><a href="#EXP-059">EXP-059</a></td></tr>
-        <tr><td>Aligned route memory</td><td>Clean same-location reference</td><td>87.7%</td><td>100.0%</td><td><a href="#EXP-059">EXP-059</a></td></tr>
+        <tr><td>Универсальная линейная модель</td><td>Нет</td><td>57.1%</td><td>78.1%</td><td><a href="#EXP-059">EXP-059</a></td></tr>
+        <tr><td>Универсальный гибрид из 100 деревьев</td><td>Нет</td><td>68.1%</td><td>100.0%</td><td><a href="#EXP-059">EXP-059</a></td></tr>
+        <tr><td>Память знакомого маршрута</td><td>Чистый эталон той же позиции</td><td>87.7%</td><td>100.0%</td><td><a href="#EXP-059">EXP-059</a></td></tr>
       </tbody>
     </table></div>
   </section>
-  <section class="map"><div class="lane"><span>Data &amp; evaluation</span><div><a class="cell rejected" href="#EXP-000" title="Frozen detector on organizer synthetic bag">E00</a><a class="cell accepted" href="#EXP-001" title="Remove the side-boundary veto and test paired clearance scenarios">E01</a><a class="cell rejected" href="#EXP-008" title="Recover synthetic masks by matching organizer source frames">E08</a><a class="cell accepted" href="#EXP-011" title="Strict synthetic target attribution">E11</a><a class="cell inconclusive" href="#EXP-015" title="Forensic recovery of official scenario positions">E15</a><a class="cell accepted" href="#EXP-017" title="Stage-wise recall audit with exact synthetic masks">E17</a><a class="cell rejected" href="#EXP-038" title="Weakly supervised corridor-memory mining">E38</a><a class="cell rejected" href="#EXP-040" title="High-precision weak real-object supervision">E40</a><a class="cell rejected" href="#EXP-057" title="Zero-shot composite-shape generalization">E57</a><a class="cell rejected" href="#EXP-058" title="Composite-shape augmentation and joint shape holdout">E58</a><a class="cell inconclusive" href="#EXP-062" title="Official synthetic generator-signature audit">E62</a><a class="cell rejected" href="#EXP-063" title="Uncertainty-aware clearance boundary">E63</a><a class="cell rejected" href="#EXP-064" title="Angular-density point support">E64</a><a class="cell accepted" href="#EXP-067" title="Competition-weighted final scorecard">E67</a></div></div><div class="lane"><span>Candidate ranking</span><div><a class="cell accepted" href="#EXP-002" title="Group-validated compact ranker for geometric candidates">E02</a><a class="cell rejected" href="#EXP-004" title="Remove absolute-position shortcuts from the ranker">E04</a><a class="cell accepted" href="#EXP-005" title="Cost-sensitive ranker for safety-critical obstacle modes">E05</a><a class="cell inconclusive" href="#EXP-006" title="Explicit side-clearance feature">E06</a><a class="cell rejected" href="#EXP-012" title="Guard-band clustering around the clearance">E12</a><a class="cell rejected" href="#EXP-013" title="Clean retraining after attribution correction">E13</a><a class="cell rejected" href="#EXP-028" title="Quadratic candidate ranker">E28</a><a class="cell rejected" href="#EXP-029" title="Tiny NumPy MLP candidate ranker">E29</a><a class="cell rejected" href="#EXP-030" title="Normal-only component anomaly detector">E30</a><a class="cell rejected" href="#EXP-031" title="Classical convolution features on rail-relative patches">E31</a><a class="cell rejected" href="#EXP-032" title="Tiny neural ranker on convolution patch features">E32</a><a class="cell rejected" href="#EXP-033" title="Tunnel-familiarity gated geometry/CV fusion">E33</a><a class="cell accepted" href="#EXP-034" title="OOD abstention with strong-geometry bypass">E34</a><a class="cell rejected" href="#EXP-035" title="Domain-invariant and random-convolution CV">E35</a><a class="cell rejected" href="#EXP-037" title="CV domain randomization and external OSDaR supervision">E37</a><a class="cell rejected" href="#EXP-039" title="OOD strong-evidence bypass sweep">E39</a><a class="cell accepted" href="#EXP-041" title="Real-object patch transplantation">E41</a><a class="cell rejected" href="#EXP-042" title="Real transplantation plus sensor randomization">E42</a><a class="cell rejected" href="#EXP-045" title="Random Forest candidate ranker">E45</a><a class="cell accepted" href="#EXP-046" title="Extremely randomized tree candidate ranker">E46</a><a class="cell rejected" href="#EXP-047" title="Histogram gradient boosting candidate ranker">E47</a><a class="cell rejected" href="#EXP-048" title="RBF SVM candidate ranker">E48</a><a class="cell rejected" href="#EXP-049" title="Distance-weighted kNN candidate ranker">E49</a><a class="cell rejected" href="#EXP-050" title="Gaussian Naive Bayes candidate ranker">E50</a><a class="cell rejected" href="#EXP-051" title="AdaBoost stump candidate ranker">E51</a><a class="cell rejected" href="#EXP-052" title="Equal linear and Extra Trees averaging">E52</a><a class="cell accepted" href="#EXP-053" title="Geometry-weighted Extra Trees averaging">E53</a><a class="cell rejected" href="#EXP-054" title="Linear and tree max voting">E54</a><a class="cell rejected" href="#EXP-055" title="Nested bag-level linear/tree stacking">E55</a><a class="cell accepted" href="#EXP-056" title="Compact Extra Trees count sweep">E56</a><a class="cell rejected" href="#EXP-061" title="Physics-routed ground and hanging candidate experts">E61</a></div></div><div class="lane"><span>Temporal evidence</span><div><a class="cell accepted" href="#EXP-003" title="Range-lateral component tracking after a lower ranker threshold">E03</a><a class="cell rejected" href="#EXP-007" title="Persistent low-score critical-geometry rescue lane">E07</a><a class="cell accepted" href="#EXP-010" title="LiDAR-only ego-motion from tunnel walls">E10</a><a class="cell accepted" href="#EXP-014" title="World-coordinate component tracking">E14</a><a class="cell inconclusive" href="#EXP-016" title="Temporal super-resolution feasibility ceiling">E16</a><a class="cell rejected" href="#EXP-018" title="World-coordinate critical-object rescue lane">E18</a><a class="cell rejected" href="#EXP-019" title="Physical rail-and-cable rescue rules">E19</a><a class="cell rejected" href="#EXP-020" title="Cable-only world-coordinate rescue">E20</a><a class="cell rejected" href="#EXP-043" title="Unaligned familiar-route change detection">E43</a><a class="cell accepted" href="#EXP-044" title="Aligned clearance-aware familiar-route memory">E44</a><a class="cell accepted" href="#EXP-059" title="Same-pair universal versus mapped-route comparison">E59</a><a class="cell accepted" href="#EXP-065" title="Three-of-five temporal confirmation">E65</a><a class="cell rejected" href="#EXP-068" title="Portable hybrid with three-of-five temporal confirmation">E68</a></div></div><div class="lane"><span>Runtime &amp; release</span><div><a class="cell accepted" href="#EXP-009" title="Separable occupancy-neighbourhood sum">E09</a><a class="cell accepted" href="#EXP-021" title="Profile-guided detector hot-path optimization">E21</a><a class="cell accepted" href="#EXP-022" title="Offline submission smoke test for both delivered layouts">E22</a><a class="cell accepted" href="#EXP-024" title="Minimal container runtime bundle">E24</a><a class="cell accepted" href="#EXP-025" title="ROS 2 Humble container integration smoke">E25</a><a class="cell rejected" href="#EXP-027" title="Sustained 100-frame ROS 2 replay">E27</a><a class="cell accepted" href="#EXP-036" title="Single-pass geometry and OOD context">E36</a><a class="cell accepted" href="#EXP-060" title="Portable 100-tree hybrid runtime">E60</a><a class="cell rejected" href="#EXP-066" title="Continuity-regularized rail centerline">E66</a></div></div><div class="lane"><span>Transfer</span><div><a class="cell accepted" href="#EXP-023" title="Zero-shot transfer to OSDaR23 and OSDaR-AR">E23</a><a class="cell rejected" href="#EXP-026" title="Domain-invariant suppressor transfer audit">E26</a></div></div></section>
-  <nav aria-label="Filter by decision">
-    <button type="button" data-filter="all" aria-pressed="true">All</button>
-    <button type="button" data-filter="accepted" aria-pressed="false">Accepted</button>
-    <button type="button" data-filter="rejected" aria-pressed="false">Rejected</button>
-    <button type="button" data-filter="inconclusive" aria-pressed="false">Inconclusive</button>
+  <section class="map"><div class="lane"><span>Данные и оценка</span><div><a class="cell rejected" href="#EXP-000" title="Frozen detector on organizer synthetic bag">E00</a><a class="cell accepted" href="#EXP-001" title="Remove the side-boundary veto and test paired clearance scenarios">E01</a><a class="cell rejected" href="#EXP-008" title="Recover synthetic masks by matching organizer source frames">E08</a><a class="cell accepted" href="#EXP-011" title="Strict synthetic target attribution">E11</a><a class="cell inconclusive" href="#EXP-015" title="Forensic recovery of official scenario positions">E15</a><a class="cell accepted" href="#EXP-017" title="Stage-wise recall audit with exact synthetic masks">E17</a><a class="cell rejected" href="#EXP-038" title="Weakly supervised corridor-memory mining">E38</a><a class="cell rejected" href="#EXP-040" title="High-precision weak real-object supervision">E40</a><a class="cell rejected" href="#EXP-057" title="Zero-shot composite-shape generalization">E57</a><a class="cell rejected" href="#EXP-058" title="Composite-shape augmentation and joint shape holdout">E58</a><a class="cell inconclusive" href="#EXP-062" title="Official synthetic generator-signature audit">E62</a><a class="cell rejected" href="#EXP-063" title="Uncertainty-aware clearance boundary">E63</a><a class="cell rejected" href="#EXP-064" title="Angular-density point support">E64</a><a class="cell accepted" href="#EXP-067" title="Competition-weighted final scorecard">E67</a></div></div><div class="lane"><span>Ранжирование кандидатов</span><div><a class="cell accepted" href="#EXP-002" title="Group-validated compact ranker for geometric candidates">E02</a><a class="cell rejected" href="#EXP-004" title="Remove absolute-position shortcuts from the ranker">E04</a><a class="cell accepted" href="#EXP-005" title="Cost-sensitive ranker for safety-critical obstacle modes">E05</a><a class="cell inconclusive" href="#EXP-006" title="Explicit side-clearance feature">E06</a><a class="cell rejected" href="#EXP-012" title="Guard-band clustering around the clearance">E12</a><a class="cell rejected" href="#EXP-013" title="Clean retraining after attribution correction">E13</a><a class="cell rejected" href="#EXP-028" title="Quadratic candidate ranker">E28</a><a class="cell rejected" href="#EXP-029" title="Tiny NumPy MLP candidate ranker">E29</a><a class="cell rejected" href="#EXP-030" title="Normal-only component anomaly detector">E30</a><a class="cell rejected" href="#EXP-031" title="Classical convolution features on rail-relative patches">E31</a><a class="cell rejected" href="#EXP-032" title="Tiny neural ranker on convolution patch features">E32</a><a class="cell rejected" href="#EXP-033" title="Tunnel-familiarity gated geometry/CV fusion">E33</a><a class="cell accepted" href="#EXP-034" title="OOD abstention with strong-geometry bypass">E34</a><a class="cell rejected" href="#EXP-035" title="Domain-invariant and random-convolution CV">E35</a><a class="cell rejected" href="#EXP-037" title="CV domain randomization and external OSDaR supervision">E37</a><a class="cell rejected" href="#EXP-039" title="OOD strong-evidence bypass sweep">E39</a><a class="cell accepted" href="#EXP-041" title="Real-object patch transplantation">E41</a><a class="cell rejected" href="#EXP-042" title="Real transplantation plus sensor randomization">E42</a><a class="cell rejected" href="#EXP-045" title="Random Forest candidate ranker">E45</a><a class="cell accepted" href="#EXP-046" title="Extremely randomized tree candidate ranker">E46</a><a class="cell rejected" href="#EXP-047" title="Histogram gradient boosting candidate ranker">E47</a><a class="cell rejected" href="#EXP-048" title="RBF SVM candidate ranker">E48</a><a class="cell rejected" href="#EXP-049" title="Distance-weighted kNN candidate ranker">E49</a><a class="cell rejected" href="#EXP-050" title="Gaussian Naive Bayes candidate ranker">E50</a><a class="cell rejected" href="#EXP-051" title="AdaBoost stump candidate ranker">E51</a><a class="cell rejected" href="#EXP-052" title="Equal linear and Extra Trees averaging">E52</a><a class="cell accepted" href="#EXP-053" title="Geometry-weighted Extra Trees averaging">E53</a><a class="cell rejected" href="#EXP-054" title="Linear and tree max voting">E54</a><a class="cell rejected" href="#EXP-055" title="Nested bag-level linear/tree stacking">E55</a><a class="cell accepted" href="#EXP-056" title="Compact Extra Trees count sweep">E56</a><a class="cell rejected" href="#EXP-061" title="Physics-routed ground and hanging candidate experts">E61</a></div></div><div class="lane"><span>Временные признаки</span><div><a class="cell accepted" href="#EXP-003" title="Range-lateral component tracking after a lower ranker threshold">E03</a><a class="cell rejected" href="#EXP-007" title="Persistent low-score critical-geometry rescue lane">E07</a><a class="cell accepted" href="#EXP-010" title="LiDAR-only ego-motion from tunnel walls">E10</a><a class="cell accepted" href="#EXP-014" title="World-coordinate component tracking">E14</a><a class="cell inconclusive" href="#EXP-016" title="Temporal super-resolution feasibility ceiling">E16</a><a class="cell rejected" href="#EXP-018" title="World-coordinate critical-object rescue lane">E18</a><a class="cell rejected" href="#EXP-019" title="Physical rail-and-cable rescue rules">E19</a><a class="cell rejected" href="#EXP-020" title="Cable-only world-coordinate rescue">E20</a><a class="cell rejected" href="#EXP-043" title="Unaligned familiar-route change detection">E43</a><a class="cell accepted" href="#EXP-044" title="Aligned clearance-aware familiar-route memory">E44</a><a class="cell accepted" href="#EXP-059" title="Same-pair universal versus mapped-route comparison">E59</a><a class="cell accepted" href="#EXP-065" title="Three-of-five temporal confirmation">E65</a><a class="cell rejected" href="#EXP-068" title="Portable hybrid with three-of-five temporal confirmation">E68</a></div></div><div class="lane"><span>Производительность и выпуск</span><div><a class="cell accepted" href="#EXP-009" title="Separable occupancy-neighbourhood sum">E09</a><a class="cell accepted" href="#EXP-021" title="Profile-guided detector hot-path optimization">E21</a><a class="cell accepted" href="#EXP-022" title="Offline submission smoke test for both delivered layouts">E22</a><a class="cell accepted" href="#EXP-024" title="Minimal container runtime bundle">E24</a><a class="cell accepted" href="#EXP-025" title="ROS 2 Humble container integration smoke">E25</a><a class="cell rejected" href="#EXP-027" title="Sustained 100-frame ROS 2 replay">E27</a><a class="cell accepted" href="#EXP-036" title="Single-pass geometry and OOD context">E36</a><a class="cell accepted" href="#EXP-060" title="Portable 100-tree hybrid runtime">E60</a><a class="cell rejected" href="#EXP-066" title="Continuity-regularized rail centerline">E66</a></div></div><div class="lane"><span>Переносимость</span><div><a class="cell accepted" href="#EXP-023" title="Zero-shot transfer to OSDaR23 and OSDaR-AR">E23</a><a class="cell rejected" href="#EXP-026" title="Domain-invariant suppressor transfer audit">E26</a></div></div></section>
+  <nav aria-label="Фильтр по решению">
+    <button type="button" data-filter="all" aria-pressed="true">Все</button>
+    <button type="button" data-filter="accepted" aria-pressed="false">Принятые</button>
+    <button type="button" data-filter="rejected" aria-pressed="false">Отклонённые</button>
+    <button type="button" data-filter="inconclusive" aria-pressed="false">Без вывода</button>
   </nav>
   <section class="experiments">
       <article class="experiment rejected" data-decision="rejected" id="EXP-000">
         <header><span>EXP-000</span><strong>Frozen detector on organizer synthetic bag</strong></header>
         <p>Geometry over-alerts severely. The learned hybrid suppresses alarms but converts most frames to UNKNOWN and still misses the 10 Hz budget. Keep both only as frozen anchors.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> organizer/cloud_with_fake_obj</p>
-          <p><b>Split:</b> whole_bag_audit</p>
-          <p><b>Leakage check:</b> Bag was unseen during detector development; exact scenario order was known only for interpretation after the run.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> organizer/cloud_with_fake_obj</p>
+          <p><b>Единица разбиения:</b> whole_bag_audit</p>
+          <p><b>Проверка утечки:</b> Bag was unseen during detector development; exact scenario order was known only for interpretation after the run.</p>
           <dl><dt>frames</dt><dd>1510</dd><dt>geometry obstacle frames</dt><dd>1116</dd><dt>geometry unknown frames</dt><dd>313</dd><dt>geometry clear frames</dt><dd>81</dd><dt>geometry episodes</dt><dd>215</dd><dt>hybrid obstacle frames</dt><dd>59</dd><dt>hybrid unknown frames</dt><dd>1370</dd><dt>hybrid clear frames</dt><dd>81</dd><dt>hybrid episodes</dt><dd>44</dd><dt>latency p50 ms</dt><dd>140.9</dd><dt>latency p95 ms</dt><dd>284.1</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_official_bag external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --output lidar_geometry/artifacts/official_synthetic_frozen.json</code>
         </details>
@@ -115,10 +115,10 @@
         <header><span>EXP-001</span><strong>Remove the side-boundary veto and test paired clearance scenarios</strong></header>
         <p>The veto contradicted the task: a centered 2 m obstacle touches nearly the whole 2.1 m clearance and was deleted. Removing it roughly doubled positive correctness at every tested range. The 20 m negative score and assumed-normal alarm rate worsened slightly, so boundary contact must be handled by later independent evidence rather than restored as a hard deletion.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> organizer/roundT_pressureGate_roundT, organizer/roundT_doubleT, organizer/roundT_squareT_pressureGate_squareT, organizer/squareT_platform_squareT_switch, organizer/doubleT_platform</p>
-          <p><b>Split:</b> whole_bag_background</p>
-          <p><b>Leakage check:</b> No fitting was performed. G0 and G1 use identical backgrounds, seeds, distances, and ray-consistent inserted objects; target attribution requires distance and lateral overlap.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> organizer/roundT_pressureGate_roundT, organizer/roundT_doubleT, organizer/roundT_squareT_pressureGate_squareT, organizer/squareT_platform_squareT_switch, organizer/doubleT_platform</p>
+          <p><b>Единица разбиения:</b> whole_bag_background</p>
+          <p><b>Проверка утечки:</b> No fitting was performed. G0 and G1 use identical backgrounds, seeds, distances, and ray-consistent inserted objects; target attribution requires distance and lateral overlap.</p>
           <dl><dt>positive correct g0 20m</dt><dd>0.339</dd><dt>positive correct g1 20m</dt><dd>0.679</dd><dt>positive correct g0 40m</dt><dd>0.212</dd><dt>positive correct g1 40m</dt><dd>0.561</dd><dt>positive correct g0 60m</dt><dd>0.261</dd><dt>positive correct g1 60m</dt><dd>0.609</dd><dt>negative correct g0 20m</dt><dd>0.9</dd><dt>negative correct g1 20m</dt><dd>0.833</dd><dt>negative correct g1 40m</dt><dd>1</dd><dt>negative correct g1 60m</dt><dd>1</dd><dt>assumed normal alarm rate g0</dt><dd>0.521</dd><dt>assumed normal alarm rate g1</dt><dd>0.547</dd><dt>latency p50 ms</dt><dd>81.48</dd><dt>latency p95 ms</dt><dd>113.6</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.scenario_benchmark external_data/hackathon/for_hackathon --every 50 --frames-per-bag 2 --distances 20 40 60 --output lidar_geometry/artifacts/scenario_benchmark_g1.json</code>
         </details>
@@ -127,10 +127,10 @@
         <header><span>EXP-002</span><strong>Group-validated compact ranker for geometric candidates</strong></header>
         <p>The ranker creates a useful low-false-positive operating point, but it rejects many thin and edge obstacles. It is evidence for a narrow ML role, not for replacing geometry.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer assumed-normal bags, ray-consistent scenario matrix</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> Every fold holds out an organizer bag and all synthetic variants derived from it. Thresholds use only training-bag frame maxima.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer assumed-normal bags, ray-consistent scenario matrix</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> Every fold holds out an organizer bag and all synthetic variants derived from it. Thresholds use only training-bag frame maxima.</p>
           <dl><dt>held out real frame fpr min</dt><dd>0</dd><dt>held out real frame fpr max</dt><dd>0.0357</dd><dt>scenario recall at 0 90</dt><dd>0.3929</dd><dt>scenario negative specificity at 0 90</dt><dd>0.9647</dd><dt>assumed normal alarm rate at 0 90</dt><dd>0.00855</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --every 20 --synthetic-every 100 --cache lidar_geometry/artifacts/risk_training_cache_v2.npz --model lidar_geometry/models/risk_model_g2.json --report lidar_geometry/artifacts/risk_model_audit_g2.json</code>
         </details>
@@ -139,10 +139,10 @@
         <header><span>EXP-003</span><strong>Range-lateral component tracking after a lower ranker threshold</strong></header>
         <p>Identity-aware tracking removes 60% of alarm frames and 68% of episodes, but 4.2% of weak-normal frames still alarm and small rail/edge objects remain a systematic miss. Tracking is necessary evidence, not a sufficient classifier.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> The tracker has no fitted parameters from evaluation bags. Synthetic sequences are target-attributed so unrelated alarms cannot count as hits.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> The tracker has no fitted parameters from evaluation bags. Synthetic sequences are target-attributed so unrelated alarms cannot count as hits.</p>
           <dl><dt>real frames</dt><dd>1145</dd><dt>raw alarm frames</dt><dd>120</dd><dt>tracked alarm frames</dt><dd>48</dd><dt>raw episodes</dt><dd>85</dd><dt>tracked episodes</dt><dd>27</dd><dt>synthetic sequences detected</dt><dd>13</dd><dt>synthetic sequences total</dt><dd>21</dd><dt>latency p50 ms</dt><dd>97.33</dd><dt>latency p95 ms</dt><dd>115.8</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_tracker external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g2.json --threshold 0.8 --every 2 --synthetic-frames 12 --output lidar_geometry/artifacts/component_tracker_evaluation_t080.json</code>
         </details>
@@ -151,10 +151,10 @@
         <header><span>EXP-004</span><strong>Remove absolute-position shortcuts from the ranker</strong></header>
         <p>The ablation removed a shortcut but also useful infrastructure context. It is dominated by later cost-sensitive training and does not recover the critical small edge/rail cases.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> cached EXP-002 training matrix, paired scenario benchmark</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> Identical cached samples and group folds were used; only the three declared features changed.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> cached EXP-002 training matrix, paired scenario benchmark</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> Identical cached samples and group folds were used; only the three declared features changed.</p>
           <dl><dt>scenario recall at 0 80</dt><dd>0.4464</dd><dt>scenario negative specificity at 0 80</dt><dd>0.9529</dd><dt>assumed normal alarm rate at 0 80</dt><dd>0.0513</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --invariant --cache lidar_geometry/artifacts/risk_training_cache_v2.npz --model lidar_geometry/models/risk_model_g3_invariant.json --report lidar_geometry/artifacts/risk_model_audit_g3_invariant.json</code>
         </details>
@@ -163,10 +163,10 @@
         <header><span>EXP-005</span><strong>Cost-sensitive ranker for safety-critical obstacle modes</strong></header>
         <p>Weight four improves both scenario recall and negative specificity over the unweighted strict operating point at the same weak-normal alarm rate. Larger weights hurt grouped recall. This is the current default candidate, but exact official scenario recall is still unknown because organizer intervals are absent.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> cached EXP-002 training matrix, paired scenario benchmark, official synthetic audit bag</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> Duplicated critical rows remain inside their source bag group. The official bag is audit-only and did not set model weights or threshold.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> cached EXP-002 training matrix, paired scenario benchmark, official synthetic audit bag</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> Duplicated critical rows remain inside their source bag group. The official bag is audit-only and did not set model weights or threshold.</p>
           <dl><dt>scenario recall strict</dt><dd>0.4405</dd><dt>scenario negative specificity strict</dt><dd>0.9765</dd><dt>assumed normal alarm rate strict</dt><dd>0.00855</dd><dt>official hybrid frames</dt><dd>81</dd><dt>official tracked frames</dt><dd>38</dd><dt>official hybrid episodes</dt><dd>38</dd><dt>official tracked episodes</dt><dd>18</dd><dt>latency p50 ms</dt><dd>96.1</dd><dt>latency p95 ms</dt><dd>120.1</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --critical-weight 4 --cache lidar_geometry/artifacts/risk_training_cache_v2.npz --model lidar_geometry/models/risk_model_g4_cost_sensitive.json --report lidar_geometry/artifacts/risk_model_audit_g4_cost_sensitive.json</code>
         </details>
@@ -175,10 +175,10 @@
         <header><span>EXP-006</span><strong>Explicit side-clearance feature</strong></header>
         <p>The strict operating point is unchanged and the lower-threshold recall gain is too small for its false-alarm cost. Keep the feature available, but do not replace G4 without a larger held-out benchmark.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> cached EXP-002 training matrix, paired scenario benchmark</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> The feature was derived from existing geometry; samples, folds, weights, and thresholds otherwise match EXP-005.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> cached EXP-002 training matrix, paired scenario benchmark</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> The feature was derived from existing geometry; samples, folds, weights, and thresholds otherwise match EXP-005.</p>
           <dl><dt>scenario recall strict</dt><dd>0.4405</dd><dt>scenario negative specificity strict</dt><dd>0.9765</dd><dt>assumed normal alarm rate strict</dt><dd>0.00855</dd><dt>scenario recall at 0 80</dt><dd>0.5655</dd><dt>assumed normal alarm rate at 0 80</dt><dd>0.1026</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --critical-weight 4 --cache lidar_geometry/artifacts/risk_training_cache_v2.npz --model lidar_geometry/models/risk_model_g5_clearance.json --report lidar_geometry/artifacts/risk_model_audit_g5_clearance.json</code>
         </details>
@@ -187,10 +187,10 @@
         <header><span>EXP-007</span><strong>Persistent low-score critical-geometry rescue lane</strong></header>
         <p>Persistence is not independent evidence: rails, switches, and platform structure persist too. The rescue lane recovered five synthetic sequences but multiplied weak-normal alarm frames by 11.1 and episodes by 7.1. Future recall recovery must use background contradiction or stronger rail-relative evidence, not more temporal voting.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> The shape rule was declared before the run. Synthetic success is target-attributed, and all real background frames are counted.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> The shape rule was declared before the run. Synthetic success is target-attributed, and all real background frames are counted.</p>
           <dl><dt>baseline real alarm frames</dt><dd>48</dd><dt>candidate real alarm frames</dt><dd>535</dd><dt>baseline real alarm episodes</dt><dd>27</dd><dt>candidate real alarm episodes</dt><dd>193</dd><dt>real frames</dt><dd>1145</dd><dt>baseline synthetic sequences detected</dt><dd>13</dd><dt>candidate synthetic sequences detected</dt><dd>18</dd><dt>synthetic sequences total</dt><dd>21</dd><dt>latency p50 ms</dt><dd>101.2</dd><dt>latency p95 ms</dt><dd>153.7</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_evidence_fusion external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --every 2 --synthetic-frames 12 --output lidar_geometry/artifacts/evidence_fusion_g6.json</code>
         </details>
@@ -199,10 +199,10 @@
         <header><span>EXP-008</span><strong>Recover synthetic masks by matching organizer source frames</strong></header>
         <p>The official bag is not a point-preserving copy of the available organizer frames. Background subtraction cannot provide free point masks; pseudo-labels must come from known scenarios plus temporal/geometric evidence and remain explicitly non-blind.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> six organizer bags, organizer official synthetic bag</p>
-          <p><b>Split:</b> frame matching feasibility</p>
-          <p><b>Leakage check:</b> No detector fitting; this checks data provenance only.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> six organizer bags, organizer official synthetic bag</p>
+          <p><b>Единица разбиения:</b> frame matching feasibility</p>
+          <p><b>Проверка утечки:</b> No detector fitting; this checks data provenance only.</p>
           <dl><dt>official valid points</dt><dd>307131</dd><dt>exact shared xyz points</dt><dd>4</dd><dt>exact overlap fraction</dt><dd>1.3e-05</dd></dl>
           <code>Compare robust frame fingerprints, then intersect exact float32 XYZ hashes for official frame 150 and its nearest organizer candidate.</code>
         </details>
@@ -211,10 +211,10 @@
         <header><span>EXP-009</span><strong>Separable occupancy-neighbourhood sum</strong></header>
         <p>The exact transform gives a small median improvement, but p95 remains unstable and above the 100 ms budget. Keep the simpler fast form; runtime optimization remains an open submission gate.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 30 consecutive organizer frames</p>
-          <p><b>Split:</b> runtime microbenchmark</p>
-          <p><b>Leakage check:</b> The transform is algebraically and unit-test equivalent; no quality parameters changed.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 30 consecutive organizer frames</p>
+          <p><b>Единица разбиения:</b> runtime microbenchmark</p>
+          <p><b>Проверка утечки:</b> The transform is algebraically and unit-test equivalent; no quality parameters changed.</p>
           <dl><dt>direct median ms</dt><dd>90.94</dd><dt>separable median ms</dt><dd>88.23</dd><dt>unit tests</dt><dd>20</dd><dt>p95 10hz gate passed</dt><dd>False</dd></dl>
           <code>.venv-lidar/bin/python -m unittest discover -s lidar_geometry -p &#x27;test_*.py&#x27; &amp;&amp; paired direct/separable timing on the same 30 decoded clouds</code>
         </details>
@@ -223,10 +223,10 @@
         <header><span>EXP-010</span><strong>LiDAR-only ego-motion from tunnel walls</strong></header>
         <p>Tunnel walls provide a strong self-odometry signal. The first independently visible object stays at 99.24 m in world coordinates with 0.56 m MAD, validating the coordinate transform without an external odometry topic.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> organizer official synthetic bag</p>
-          <p><b>Split:</b> whole_bag_audit</p>
-          <p><b>Leakage check:</b> No labels, scenario order, or object intensity were used to estimate motion. The first large object was used only as an independent post-hoc consistency check.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> organizer official synthetic bag</p>
+          <p><b>Единица разбиения:</b> whole_bag_audit</p>
+          <p><b>Проверка утечки:</b> No labels, scenario order, or object intensity were used to estimate motion. The first large object was used only as an independent post-hoc consistency check.</p>
           <dl><dt>frames</dt><dd>1510</dd><dt>inferred path m</dt><dd>1836</dd><dt>median delta m per frame</dt><dd>1.5</dd><dt>median profile correlation</dt><dd>0.9897</dd><dt>first object world position m</dt><dd>99.24</dd><dt>first object world position mad m</dt><dd>0.556</dd><dt>motion latency p50 ms</dt><dd>7.233</dd><dt>motion latency p95 ms</dt><dd>9.38</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.ego_motion external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --output lidar_geometry/artifacts/official_ego_motion.json</code>
         </details>
@@ -235,10 +235,10 @@
         <header><span>EXP-011</span><strong>Strict synthetic target attribution</strong></header>
         <p>The old tolerance leaked nearby structure into target credit. The stricter protocol lowers claimed positive correctness and improves negative correctness; it supersedes the absolute synthetic metrics in EXP-001 through EXP-007. G4 was rescored under the corrected protocol before remaining the default.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> paired ray-consistent scenario benchmark</p>
-          <p><b>Split:</b> whole_bag_background</p>
-          <p><b>Leakage check:</b> Detector outputs are unchanged; only target attribution was made exact. All earlier absolute synthetic target metrics are superseded.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> paired ray-consistent scenario benchmark</p>
+          <p><b>Единица разбиения:</b> whole_bag_background</p>
+          <p><b>Проверка утечки:</b> Detector outputs are unchanged; only target attribution was made exact. All earlier absolute synthetic target metrics are superseded.</p>
           <dl><dt>old positive correct</dt><dd>0.6131</dd><dt>strict positive correct</dt><dd>0.5833</dd><dt>old negative correct</dt><dd>0.9412</dd><dt>strict negative correct</dt><dd>0.9529</dd><dt>strict positive candidate rate</dt><dd>0.744</dd><dt>strict negative candidate rate</dt><dd>0.0824</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.scenario_benchmark external_data/hackathon/for_hackathon --every 50 --frames-per-bag 2 --distances 20 40 60 --output lidar_geometry/artifacts/scenario_benchmark_g1_strict.json</code>
         </details>
@@ -247,10 +247,10 @@
         <header><span>EXP-012</span><strong>Guard-band clustering around the clearance</strong></header>
         <p>The guard band adds infrastructure to components without recovering target evidence. Positive correctness falls and negative candidate contamination grows fivefold, so the default remains zero guard band.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> paired ray-consistent scenario benchmark</p>
-          <p><b>Split:</b> whole_bag_background</p>
-          <p><b>Leakage check:</b> Baseline and candidate use identical frames, scenarios, strict 5 mm target attribution, and detector settings except for the declared guard band.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> paired ray-consistent scenario benchmark</p>
+          <p><b>Единица разбиения:</b> whole_bag_background</p>
+          <p><b>Проверка утечки:</b> Baseline and candidate use identical frames, scenarios, strict 5 mm target attribution, and detector settings except for the declared guard band.</p>
           <dl><dt>baseline positive correct</dt><dd>0.5833</dd><dt>guard positive correct</dt><dd>0.5595</dd><dt>baseline negative correct</dt><dd>0.9529</dd><dt>guard negative correct</dt><dd>0.9529</dd><dt>baseline negative candidate rate</dt><dd>0.0824</dd><dt>guard negative candidate rate</dt><dd>0.4118</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.scenario_benchmark external_data/hackathon/for_hackathon --every 50 --frames-per-bag 2 --distances 20 40 60 --guard-band 1.5 --output lidar_geometry/artifacts/scenario_benchmark_g7_guard_strict.json</code>
         </details>
@@ -259,10 +259,10 @@
         <header><span>EXP-013</span><strong>Clean retraining after attribution correction</strong></header>
         <p>The cleaner training protocol is valuable, but the resulting G8 model does not beat G4: specificity and weak-normal alarms tie while recall is slightly lower. G4 remains the runtime default, with its quality claim limited to the strict post-hoc rescore.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer backgrounds, paired ray-consistent scenarios</p>
-          <p><b>Split:</b> whole_bag_background</p>
-          <p><b>Leakage check:</b> Cache was rebuilt after the protocol fix; thresholds and metrics are compared at the same 0.9 operating point.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer backgrounds, paired ray-consistent scenarios</p>
+          <p><b>Единица разбиения:</b> whole_bag_background</p>
+          <p><b>Проверка утечки:</b> Cache was rebuilt after the protocol fix; thresholds and metrics are compared at the same 0.9 operating point.</p>
           <dl><dt>g4 strict recall at 0 90</dt><dd>0.4405</dd><dt>g8 strict recall at 0 90</dt><dd>0.4286</dd><dt>g4 negative specificity at 0 90</dt><dd>0.9765</dd><dt>g8 negative specificity at 0 90</dt><dd>0.9765</dd><dt>g4 weak normal alarm rate at 0 90</dt><dd>0.00855</dd><dt>g8 weak normal alarm rate at 0 90</dt><dd>0.00855</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.train_risk_model external_data/hackathon/for_hackathon --critical-weight 4 --cache lidar_geometry/artifacts/risk_training_cache_v3_strict.npz --model lidar_geometry/models/risk_model_g8_strict.json --report lidar_geometry/artifacts/risk_model_audit_g8_strict.json</code>
         </details>
@@ -271,10 +271,10 @@
         <header><span>EXP-014</span><strong>World-coordinate component tracking</strong></header>
         <p>World-coordinate association removes 25% of weak-normal alarm frames and one episode without losing any of the 12 detected synthetic sequences. It is now the preferred tracker when wall-correlation reliability is high, with the original tracker as fallback.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
-          <p><b>Split:</b> whole_bag_or_synthetic_sequence</p>
-          <p><b>Leakage check:</b> The same G4 scores, threshold, frames, and target-attribution rule are used by both trackers; only the association coordinate changes.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
+          <p><b>Единица разбиения:</b> whole_bag_or_synthetic_sequence</p>
+          <p><b>Проверка утечки:</b> The same G4 scores, threshold, frames, and target-attribution rule are used by both trackers; only the association coordinate changes.</p>
           <dl><dt>range tracker real alarm frames</dt><dd>20</dd><dt>world tracker real alarm frames</dt><dd>15</dd><dt>range tracker real alarm episodes</dt><dd>11</dd><dt>world tracker real alarm episodes</dt><dd>10</dd><dt>range tracker synthetic detected</dt><dd>12</dd><dt>world tracker synthetic detected</dt><dd>12</dd><dt>synthetic total</dt><dd>21</dd><dt>motion latency p50 ms</dt><dd>7.233</dd><dt>motion latency p95 ms</dt><dd>9.38</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_world_tracker external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --threshold 0.9 --output lidar_geometry/artifacts/world_tracker_g9.json</code>
         </details>
@@ -283,10 +283,10 @@
         <header><span>EXP-015</span><strong>Forensic recovery of official scenario positions</strong></header>
         <p>The method strongly recovers the large center and large outside objects and provides useful hypotheses for three more cases, but minimum-size objects and the cable remain ambiguous. The result is valuable for human review and data forensics, not as a substitute for organizer ground truth.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> organizer official synthetic bag, organizer scenario description</p>
-          <p><b>Split:</b> whole_bag_forensic_audit</p>
-          <p><b>Leakage check:</b> Intensity equality to one is explicitly generator-specific and is excluded from runtime detection. Recovered positions are pseudo-labels, not ground truth.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> organizer official synthetic bag, organizer scenario description</p>
+          <p><b>Единица разбиения:</b> whole_bag_forensic_audit</p>
+          <p><b>Проверка утечки:</b> Intensity equality to one is explicitly generator-specific and is excluded from runtime detection. Recovered positions are pseudo-labels, not ground truth.</p>
           <dl><dt>scenarios expected</dt><dd>10</dd><dt>strongly recovered</dt><dd>2</dd><dt>moderately supported</dt><dd>3</dd><dt>ambiguous or missing</dt><dd>5</dd><dt>large center position m</dt><dd>99.62</dd><dt>large outside position m</dt><dd>705.6</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.recover_official_scenarios external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --output lidar_geometry/artifacts/official_scenario_positions.json</code>
         </details>
@@ -295,10 +295,10 @@
         <header><span>EXP-016</span><strong>Temporal super-resolution feasibility ceiling</strong></header>
         <p>Accumulation adds about 37% distinct target voxels, but every synthetic sequence already has at least three returns in a single frame. The experiment does not support the proposed mechanism that missed minimum objects are simply below per-frame physical observability; surface removal, clustering, and ranking should be audited first.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> three organizer backgrounds, 21 moving ray-synthetic positive sequences</p>
-          <p><b>Split:</b> synthetic_sequence</p>
-          <p><b>Leakage check:</b> Generator masks are used only for feasibility analysis and are explicitly unavailable to runtime. No detector score is claimed.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> three organizer backgrounds, 21 moving ray-synthetic positive sequences</p>
+          <p><b>Единица разбиения:</b> synthetic_sequence</p>
+          <p><b>Проверка утечки:</b> Generator masks are used only for feasibility analysis and are explicitly unavailable to runtime. No detector score is claimed.</p>
           <dl><dt>sequences</dt><dd>21</dd><dt>never observed</dt><dd>0</dd><dt>single frame below 3 but accumulated at least 3</dt><dd>0</dd><dt>median world voxel gain</dt><dd>1.373</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_temporal_superresolution external_data/hackathon/for_hackathon --frames 8 --output lidar_geometry/artifacts/temporal_superresolution_feasibility.json</code>
         </details>
@@ -307,10 +307,10 @@
         <header><span>EXP-017</span><strong>Stage-wise recall audit with exact synthetic masks</strong></header>
         <p>The dominant critical-object loss is the false-positive ranker, not LiDAR observability: it deletes every proposed minimum on-rail and edge object and 19 of 20 cable frames. The next quality experiment must add evidence that separates these objects from rail and infrastructure hard negatives; lowering the global threshold is already known to be unsafe.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> three organizer backgrounds, 21 moving ray-synthetic positive sequences</p>
-          <p><b>Split:</b> synthetic_sequence</p>
-          <p><b>Leakage check:</b> Exact generator masks are used only for evaluation attribution. The detector and G4 model receive the same cloud and no mask-derived feature.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> three organizer backgrounds, 21 moving ray-synthetic positive sequences</p>
+          <p><b>Единица разбиения:</b> synthetic_sequence</p>
+          <p><b>Проверка утечки:</b> Exact generator masks are used only for evaluation attribution. The detector and G4 model receive the same cloud and no mask-derived feature.</p>
           <dl><dt>observable frames</dt><dd>168</dd><dt>proposal frames</dt><dd>132</dd><dt>ranked frames</dt><dd>83</dd><dt>tracked frames</dt><dd>63</dd><dt>minimum on rail proposal frames</dt><dd>14</dd><dt>minimum on rail ranked frames</dt><dd>0</dd><dt>minimum edge proposal frames</dt><dd>12</dd><dt>minimum edge ranked frames</dt><dd>0</dd><dt>cable proposal frames</dt><dd>20</dd><dt>cable ranked frames</dt><dd>1</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.audit_proposal_stages external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --frames 8 --threshold 0.9 --output lidar_geometry/artifacts/proposal_stage_audit.json</code>
         </details>
@@ -319,10 +319,10 @@
         <header><span>EXP-018</span><strong>World-coordinate critical-object rescue lane</strong></header>
         <p>World consistency removes 29% of rescue-lane alarm frames without losing recall, but 379/1145 alarm frames and 154 episodes remain unusable. Ego-motion is useful evidence, not enough independent evidence to safely lower the ranker threshold.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
-          <p><b>Split:</b> whole_bag_or_synthetic_sequence</p>
-          <p><b>Leakage check:</b> Directly paired with EXP-007 on identical data, scores, thresholds, shape rules, and strict target attribution; only tracking coordinates differ.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
+          <p><b>Единица разбиения:</b> whole_bag_or_synthetic_sequence</p>
+          <p><b>Проверка утечки:</b> Directly paired with EXP-007 on identical data, scores, thresholds, shape rules, and strict target attribution; only tracking coordinates differ.</p>
           <dl><dt>range rescue real alarm frames</dt><dd>535</dd><dt>world rescue real alarm frames</dt><dd>379</dd><dt>range rescue real alarm episodes</dt><dd>193</dd><dt>world rescue real alarm episodes</dt><dd>154</dd><dt>range rescue synthetic sequences</dt><dd>18</dd><dt>world rescue synthetic sequences</dt><dd>18</dd><dt>synthetic total</dt><dd>21</dd><dt>latency p50 ms</dt><dd>97.27</dd><dt>latency p95 ms</dt><dd>118.3</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_evidence_fusion external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --every 2 --synthetic-frames 12 --world-coordinates --output lidar_geometry/artifacts/evidence_fusion_world_g10.json</code>
         </details>
@@ -331,10 +331,10 @@
         <header><span>EXP-019</span><strong>Physical rail-and-cable rescue rules</strong></header>
         <p>The sparse training cache made the predicates look selective, but the full temporal run exposes frequent short rail and infrastructure fragments. Frame subsampling can preserve bag-level separation yet still hide hard-negative frequency; full-sequence evaluation is mandatory.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
-          <p><b>Split:</b> whole_bag_or_synthetic_sequence</p>
-          <p><b>Leakage check:</b> Rules were explored on a sparse component cache, then evaluated end-to-end on every second real frame. The full temporal run is the deciding test.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
+          <p><b>Единица разбиения:</b> whole_bag_or_synthetic_sequence</p>
+          <p><b>Проверка утечки:</b> Rules were explored on a sparse component cache, then evaluated end-to-end on every second real frame. The full temporal run is the deciding test.</p>
           <dl><dt>real frames</dt><dd>1145</dd><dt>real alarm frames</dt><dd>773</dd><dt>real alarm episodes</dt><dd>232</dd><dt>synthetic sequences detected</dt><dd>14</dd><dt>synthetic sequences total</dt><dd>21</dd><dt>critical lane sequences</dt><dd>2</dd><dt>latency p50 ms</dt><dd>100.3</dd><dt>latency p95 ms</dt><dd>137.3</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_evidence_fusion external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --every 2 --synthetic-frames 12 --world-coordinates --physical-rules --output lidar_geometry/artifacts/evidence_fusion_physical_g11.json</code>
         </details>
@@ -343,10 +343,10 @@
         <header><span>EXP-020</span><strong>Cable-only world-coordinate rescue</strong></header>
         <p>Cable shape plus world persistence is still not independent evidence: real tunnel structures can be thin, vertical, centered, and stationary too. The two recovered sequences do not justify 156 weak-normal episodes. Cable rescue requires contextual evidence unavailable in the current component representation.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
-          <p><b>Split:</b> whole_bag_or_synthetic_sequence</p>
-          <p><b>Leakage check:</b> Identical protocol to EXP-019 with only the rail predicate removed; synthetic credit remains strictly target-attributed.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer assumed-normal bags, 21 moving ray-synthetic sequences</p>
+          <p><b>Единица разбиения:</b> whole_bag_or_synthetic_sequence</p>
+          <p><b>Проверка утечки:</b> Identical protocol to EXP-019 with only the rail predicate removed; synthetic credit remains strictly target-attributed.</p>
           <dl><dt>real frames</dt><dd>1145</dd><dt>real alarm frames</dt><dd>887</dd><dt>real alarm episodes</dt><dd>156</dd><dt>synthetic sequences detected</dt><dd>14</dd><dt>synthetic sequences total</dt><dd>21</dd><dt>critical lane sequences</dt><dd>2</dd><dt>latency p50 ms</dt><dd>100.3</dd><dt>latency p95 ms</dt><dd>133.2</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_evidence_fusion external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --every 2 --synthetic-frames 12 --world-coordinates --cable-only --output lidar_geometry/artifacts/evidence_fusion_cable_g12.json</code>
         </details>
@@ -355,10 +355,10 @@
         <header><span>EXP-021</span><strong>Profile-guided detector hot-path optimization</strong></header>
         <p>Detector and full world mode clear the 100 ms p95 gate in two consecutive 242-frame measurements. Decisions are unchanged at 1e-5 output precision and all 251 motion shifts match the reference formula. Rare p99 scheduling spikes remain and should be reported separately.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 252-frame organizer roundT_doubleT bag</p>
-          <p><b>Split:</b> runtime_trace</p>
-          <p><b>Leakage check:</b> This is a semantics-preserving runtime experiment. State, reason, counts, and component coordinates rounded to 1e-5 were compared on the same first 30 frames.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 252-frame organizer roundT_doubleT bag</p>
+          <p><b>Единица разбиения:</b> runtime_trace</p>
+          <p><b>Проверка утечки:</b> This is a semantics-preserving runtime experiment. State, reason, counts, and component coordinates rounded to 1e-5 were compared on the same first 30 frames.</p>
           <dl><dt>frames</dt><dd>242</dd><dt>detector median ms</dt><dd>65.89</dd><dt>detector p95 ms</dt><dd>78.67</dd><dt>end to end worst repeat median ms</dt><dd>74.26</dd><dt>end to end worst repeat p95 ms</dt><dd>90.81</dd><dt>end to end worst repeat p99 ms</dt><dd>112.2</dd><dt>decision signature unchanged</dt><dd>True</dd><dt>detector 10hz gate passed</dt><dd>True</dd><dt>world mode 10hz gate passed</dt><dd>True</dd></dl>
           <code>End-to-end timing after 10 warmup frames on roundT_doubleT_0.db3; detector and full world-mode measured around the same callback operations.</code>
         </details>
@@ -367,10 +367,10 @@
         <header><span>EXP-022</span><strong>Offline submission smoke test for both delivered layouts</strong></header>
         <p>The offline path passes on both delivered layouts, produces strict JSON, returns UNKNOWN for an empty cloud, and raises a visible error for a missing intensity field. The full suite and smoke also pass in a clean Python 3.12 environment with container-pinned NumPy 1.26.4. ROS 2 and container launch remain unverified locally because their runtimes are unavailable.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> organizer official synthetic bag, organizer roundT_doubleT bag</p>
-          <p><b>Split:</b> first_frame_format_smoke</p>
-          <p><b>Leakage check:</b> No quality metric or tuning is performed; this validates packaging and safety behavior only.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> organizer official synthetic bag, organizer roundT_doubleT bag</p>
+          <p><b>Единица разбиения:</b> first_frame_format_smoke</p>
+          <p><b>Проверка утечки:</b> No quality metric or tuning is performed; this validates packaging and safety behavior only.</p>
           <dl><dt>xyzi point step</dt><dd>16</dd><dt>xyzirt point step</dt><dd>26</dd><dt>json serialization</dt><dd>pass</dd><dt>empty cloud state</dt><dd>UNKNOWN</dd><dt>missing field failure</dt><dd>visible</dd><dt>unit tests</dt><dd>43</dd><dt>numpy 1 26 4 python 3 12 suite</dt><dd>pass</dd><dt>numpy 1 26 4 python 3 12 smoke</dt><dd>pass</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.smoke_test --xyzi-bag external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --xyzirt-bag external_data/hackathon/for_hackathon/roundT_doubleT/roundT_doubleT_0.db3 --output lidar_geometry/artifacts/submission_smoke.json</code>
         </details>
@@ -379,10 +379,10 @@
         <header><span>EXP-023</span><strong>Zero-shot transfer to OSDaR23 and OSDaR-AR</strong></header>
         <p>The physical representation transfers: without OSDaR training, geometry recovers 34/38 evaluable in-clearance targets across another train, open stations, and a merged multi-LiDAR source. The organizer-domain G4 suppressor falls to 20/38, localizing the transfer gap to learned ranking rather than clearance geometry. Real station frames produce no OBSTACLE but all remain UNKNOWN, so this is not a claim of external operational readiness.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 20 OSDaR23 real station frames, 60 deterministic OSDaR-AR frames across two stations and six obstacle classes</p>
-          <p><b>Split:</b> entire_external_dataset_source</p>
-          <p><b>Leakage check:</b> OSDaR was not used for model training or threshold selection. Five evenly spaced frames per class and archive were selected before running the detector.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 20 OSDaR23 real station frames, 60 deterministic OSDaR-AR frames across two stations and six obstacle classes</p>
+          <p><b>Единица разбиения:</b> entire_external_dataset_source</p>
+          <p><b>Проверка утечки:</b> OSDaR was not used for model training or threshold selection. Five evenly spaced frames per class and archive were selected before running the detector.</p>
           <dl><dt>real frames</dt><dd>20</dd><dt>real track observable frames</dt><dd>20</dd><dt>real ranked obstacle frames</dt><dd>0</dd><dt>real ranked unknown frames</dt><dd>20</dd><dt>augmented frames</dt><dd>60</dd><dt>evaluable clearance targets</dt><dd>38</dd><dt>geometric clearance target frames</dt><dd>34</dd><dt>geometric zero shot recall</dt><dd>0.8947</dd><dt>ranked clearance target frames</dt><dd>20</dd><dt>ranked zero shot recall</dt><dd>0.5263</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_osdar_transfer external_data/osdar23 external_data/osdar_ar/5_station_bergedorf_5.2_osdar_ar.zip external_data/osdar_ar/6_station_klein_flottbek_6.1_osdar_ar.zip --samples-per-class 5 --output lidar_geometry/artifacts/osdar_transfer.json</code>
         </details>
@@ -391,10 +391,10 @@
         <header><span>EXP-024</span><strong>Minimal container runtime bundle</strong></header>
         <p>The candidate has no hidden dependency on experiment code or artifacts. The exact minimal Docker payload imports, loads the frozen model, and processes both delivered point layouts in the pinned compatibility environment.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> first official XYZI frame, first organizer XYZIRT frame</p>
-          <p><b>Split:</b> packaging_smoke</p>
-          <p><b>Leakage check:</b> No quality measurement or tuning; the staged directory contains only files declared by the Dockerfile.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> first official XYZI frame, first organizer XYZIRT frame</p>
+          <p><b>Единица разбиения:</b> packaging_smoke</p>
+          <p><b>Проверка утечки:</b> No quality measurement or tuning; the staged directory contains only files declared by the Dockerfile.</p>
           <dl><dt>previous source tree mb</dt><dd>88</dd><dt>runtime python modules</dt><dd>9</dd><dt>model bytes</dt><dd>1315</dd><dt>xyzi state</dt><dd>UNKNOWN</dd><dt>xyzirt state</dt><dd>UNKNOWN</dd><dt>isolated import</dt><dd>pass</dd></dl>
           <code>Stage the exact Docker COPY file list under /tmp, import on Python 3.12/NumPy 1.26.4, load risk_model.json, and process one 16-byte and one 26-byte cloud.</code>
         </details>
@@ -403,10 +403,10 @@
         <header><span>EXP-025</span><strong>ROS 2 Humble container integration smoke</strong></header>
         <p>The release path passes end to end in ROS 2 Humble at the official 10 Hz playback rate. Two clean runs consumed the same first ten frames and produced identical payloads after excluding wall-clock latency; both p95 measurements stayed below 100 ms. Matching the bag&#x27;s reliable QoS removed the nondeterministic frame drops seen with best-effort input.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> organizer official synthetic bag</p>
-          <p><b>Split:</b> runtime_integration_smoke</p>
-          <p><b>Leakage check:</b> No model fitting, threshold selection, or quality measurement; the bag was mounted read-only and excluded from the 98.3 kB build context.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> organizer official synthetic bag</p>
+          <p><b>Единица разбиения:</b> runtime_integration_smoke</p>
+          <p><b>Проверка утечки:</b> No model fitting, threshold selection, or quality measurement; the bag was mounted read-only and excluded from the 98.3 kB build context.</p>
           <dl><dt>docker client</dt><dd>29.8.1</dd><dt>docker server</dt><dd>29.5.2</dd><dt>ros distribution</dt><dd>humble</dd><dt>image bytes</dt><dd>296684909</dd><dt>build context bytes</dt><dd>99330</dd><dt>bag messages</dt><dd>1510</dd><dt>bag topic</dt><dd>/lidar_points</dd><dt>pointcloud to json</dt><dd>pass</dd><dt>playback rate</dt><dd>1</dd><dt>clean runs</dt><dd>2</dd><dt>frames per run</dt><dd>10</dd><dt>consecutive timestamps equal</dt><dd>True</dd><dt>stable payloads equal excluding latency</dt><dd>True</dd><dt>run 1 p95 ms</dt><dd>81.75</dd><dt>run 2 p95 ms</dt><dd>92.34</dd><dt>ten frame gate</dt><dd>pass</dd></dl>
           <code>docker build -f lidar_geometry/Dockerfile.mvp -t metro-guard:mvp .; run detector, ros2 bag play, and ros2 topic echo in an isolated Docker network with ROS_DOMAIN_ID=73</code>
         </details>
@@ -415,10 +415,10 @@
         <header><span>EXP-026</span><strong>Domain-invariant suppressor transfer audit</strong></header>
         <p>The invariant suppressor is dominated: it recovers seven fewer external targets and raises the organizer weak-normal alarm rate by 6x for only a 0.6 percentage-point scenario-recall change. Keep rail-relative geometry as the domain-general safety representation and treat learned suppression as explicitly domain-sensitive.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> EXP-004 organizer audit, EXP-005 organizer audit, 20 OSDaR23 frames, 60 OSDaR-AR frames</p>
-          <p><b>Split:</b> entire_recording_and_external_source</p>
-          <p><b>Leakage check:</b> Both models were frozen before OSDaR evaluation. The same 38 evaluable clearance targets and preselected frames were used; no external threshold tuning was performed.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> EXP-004 organizer audit, EXP-005 organizer audit, 20 OSDaR23 frames, 60 OSDaR-AR frames</p>
+          <p><b>Единица разбиения:</b> entire_recording_and_external_source</p>
+          <p><b>Проверка утечки:</b> Both models were frozen before OSDaR evaluation. The same 38 evaluable clearance targets and preselected frames were used; no external threshold tuning was performed.</p>
           <dl><dt>evaluable external targets</dt><dd>38</dd><dt>g3 external targets recovered</dt><dd>13</dd><dt>g3 external recall</dt><dd>0.3421</dd><dt>g4 external targets recovered</dt><dd>20</dd><dt>g4 external recall</dt><dd>0.5263</dd><dt>g3 organizer scenario recall</dt><dd>0.4464</dd><dt>g4 organizer scenario recall</dt><dd>0.4405</dd><dt>g3 weak normal alarm rate</dt><dd>0.0513</dd><dt>g4 weak normal alarm rate</dt><dd>0.00855</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.evaluate_osdar_transfer external_data/osdar23 external_data/osdar_ar/5_station_bergedorf_5.2_osdar_ar.zip external_data/osdar_ar/6_station_klein_flottbek_6.1_osdar_ar.zip --samples-per-class 5 --model lidar_geometry/models/risk_model_g3_invariant.json --output lidar_geometry/artifacts/osdar_transfer_g3_invariant.json</code>
         </details>
@@ -427,10 +427,10 @@
         <header><span>EXP-027</span><strong>Sustained 100-frame ROS 2 replay</strong></header>
         <p>Functional reproducibility passes for a sustained prefix: both clean runs consume the same 100 frames and produce identical stable payloads. The hard real-time claim fails on the 4-CPU/6-GB Colima environment because both p95 values exceed 100 ms and scheduling tails reach 268 ms. Reliable QoS prevents data loss, but queueing is not a hard-deadline guarantee.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> first 100 frames of organizer official synthetic bag</p>
-          <p><b>Split:</b> two_clean_container_restarts</p>
-          <p><b>Leakage check:</b> No fitting or threshold selection; the test compares a frozen image on an identical read-only bag prefix and excludes only wall-clock latency from payload equality.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> first 100 frames of organizer official synthetic bag</p>
+          <p><b>Единица разбиения:</b> two_clean_container_restarts</p>
+          <p><b>Проверка утечки:</b> No fitting or threshold selection; the test compares a frozen image on an identical read-only bag prefix and excludes only wall-clock latency from payload equality.</p>
           <dl><dt>playback rate</dt><dd>1</dd><dt>clean runs</dt><dd>2</dd><dt>frames per run</dt><dd>100</dd><dt>consecutive timestamps equal</dt><dd>True</dd><dt>stable payloads equal excluding latency</dt><dd>True</dd><dt>run 1 median ms</dt><dd>77.69</dd><dt>run 1 p95 ms</dt><dd>102.7</dd><dt>run 1 max ms</dt><dd>187.4</dd><dt>run 2 median ms</dt><dd>77.7</dd><dt>run 2 p95 ms</dt><dd>142</dd><dt>run 2 max ms</dt><dd>268.1</dd><dt>hard 100ms p95 gate</dt><dd>False</dd></dl>
           <code>python3 tools/ros2_container_smoke.py external_data/hackathon/synthetic_official/data/cloud_with_fake_obj --count 100 --timeout 120 --output lidar_geometry/artifacts/ros2_container_sustained_100.json</code>
         </details>
@@ -439,10 +439,10 @@
         <header><span>EXP-028</span><strong>Quadratic candidate ranker</strong></header>
         <p>Quadratic interactions overfit the limited tunnel backgrounds. Specificity rises, but mean positive recall falls from 53.4% to 23.3% and real-frame alarms more than double. Nonlinearity does not compensate for missing independent evidence.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen G4 candidate cache from five organizer bags, ray-consistent scenarios</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> Feature scaling, interaction scaling, weights, and the 99th-percentile real-frame threshold are fitted inside each training fold only.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen G4 candidate cache from five organizer bags, ray-consistent scenarios</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> Feature scaling, interaction scaling, weights, and the 99th-percentile real-frame threshold are fitted inside each training fold only.</p>
           <dl><dt>mean positive recall</dt><dd>0.2334</dd><dt>worst positive recall</dt><dd>0.08696</dd><dt>mean synthetic negative specificity</dt><dd>0.9717</dd><dt>mean real frame alarm rate</dt><dd>0.0169</dd><dt>worst real frame alarm rate</dt><dd>0.04878</dd><dt>linear mean positive recall</dt><dd>0.5343</dd><dt>linear mean real frame alarm rate</dt><dd>0.007143</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.compare_candidate_models lidar_geometry/artifacts/risk_training_cache_v2.npz</code>
         </details>
@@ -451,10 +451,10 @@
         <header><span>EXP-029</span><strong>Tiny NumPy MLP candidate ranker</strong></header>
         <p>The tiny MLP is dominated by the linear protocol: mean recall falls by 4.2 points, worst-fold recall falls by 6.6 points, and real-frame alarms rise from 0.71% to 2.40%. A neural ranker needs richer local spatial input, not more capacity over the same summary features.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen G4 candidate cache from five organizer bags, ray-consistent scenarios</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> Normalization, network weights, and thresholds are fitted inside each training fold. Seed 20260928 is fixed; no fold result selects hyperparameters.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen G4 candidate cache from five organizer bags, ray-consistent scenarios</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> Normalization, network weights, and thresholds are fitted inside each training fold. Seed 20260928 is fixed; no fold result selects hyperparameters.</p>
           <dl><dt>mean positive recall</dt><dd>0.4926</dd><dt>worst positive recall</dt><dd>0.3472</dd><dt>mean synthetic negative specificity</dt><dd>0.8867</dd><dt>mean real frame alarm rate</dt><dd>0.02404</dd><dt>worst real frame alarm rate</dt><dd>0.07143</dd><dt>linear mean positive recall</dt><dd>0.5343</dd><dt>linear mean real frame alarm rate</dt><dd>0.007143</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.compare_candidate_models lidar_geometry/artifacts/risk_training_cache_v2.npz</code>
         </details>
@@ -463,10 +463,10 @@
         <header><span>EXP-030</span><strong>Normal-only component anomaly detector</strong></header>
         <p>The component-level normal model neither recognizes obstacles nor transfers between tunnels: four folds recover no positives and the worst held-out bag alarms on 32.1% of real frames. Unknown-tunnel variation is larger than the anomaly signal in these summary features.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> real geometric components from five organizer bags, ray-consistent scenarios for audit only</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> Only training-fold real negatives define the normal distribution and threshold; held-out synthetic labels are evaluation-only.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> real geometric components from five organizer bags, ray-consistent scenarios for audit only</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> Only training-fold real negatives define the normal distribution and threshold; held-out synthetic labels are evaluation-only.</p>
           <dl><dt>mean positive recall</dt><dd>0.03889</dd><dt>worst positive recall</dt><dd>0</dd><dt>mean synthetic negative specificity</dt><dd>0.9368</dd><dt>mean real frame alarm rate</dt><dd>0.06429</dd><dt>worst real frame alarm rate</dt><dd>0.3214</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.compare_candidate_models lidar_geometry/artifacts/risk_training_cache_v2.npz</code>
         </details>
@@ -475,10 +475,10 @@
         <header><span>EXP-031</span><strong>Classical convolution features on rail-relative patches</strong></header>
         <p>The patch descriptor learns tunnel-specific infrastructure texture rather than transferable obstacle evidence. Spatial-only recall collapses to 17.0% and reaches zero in one held-out tunnel; adding it to component features lowers recall from 57.1% to 44.0% without reducing real-frame alarms.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 2336 components regenerated from five organizer bags, ray-consistent scenarios</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> Patches use the current frozen geometry. All scaling, model weights, and thresholds are fitted inside each training-bag fold; intensity and generator identity are excluded.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 2336 components regenerated from five organizer bags, ray-consistent scenarios</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> Patches use the current frozen geometry. All scaling, model weights, and thresholds are fitted inside each training-bag fold; intensity and generator identity are excluded.</p>
           <dl><dt>samples</dt><dd>2336</dd><dt>component features</dt><dd>13</dd><dt>spatial features</dt><dd>102</dd><dt>component mean recall</dt><dd>0.571</dd><dt>component worst recall</dt><dd>0.4444</dd><dt>component mean real alarm rate</dt><dd>0.007143</dd><dt>spatial only mean recall</dt><dd>0.1699</dd><dt>spatial only worst recall</dt><dd>0</dd><dt>spatial only specificity</dt><dd>0.9667</dd><dt>combined mean recall</dt><dd>0.4404</dd><dt>combined worst recall</dt><dd>0.3209</dd><dt>combined mean real alarm rate</dt><dd>0.007143</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.spatial_patch_experiment external_data/hackathon/for_hackathon</code>
         </details>
@@ -487,10 +487,10 @@
         <header><span>EXP-032</span><strong>Tiny neural ranker on convolution patch features</strong></header>
         <p>Nonlinearity does not repair the domain shortcut. The spatial MLP reaches only 36.3% mean recall and 9.0% worst-fold recall while increasing mean real-frame alarms from 0.71% to 4.68%. A deployable neural branch requires substantially broader labelled tunnel diversity, not a larger classifier on current patches.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen EXP-031 spatial patch cache</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> The patch cache, folds, preprocessing, seed, and threshold protocol are fixed before evaluation; no held-out or OSDaR result selects hyperparameters.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen EXP-031 spatial patch cache</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> The patch cache, folds, preprocessing, seed, and threshold protocol are fixed before evaluation; no held-out or OSDaR result selects hyperparameters.</p>
           <dl><dt>features</dt><dd>102</dd><dt>hidden units</dt><dd>8</dd><dt>mean positive recall</dt><dd>0.363</dd><dt>worst positive recall</dt><dd>0.08955</dd><dt>mean synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.04683</dd><dt>worst real frame alarm rate</dt><dd>0.1786</dd><dt>component baseline mean recall</dt><dd>0.571</dd><dt>component baseline mean real alarm rate</dt><dd>0.007143</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.spatial_patch_experiment external_data/hackathon/for_hackathon</code>
         </details>
@@ -499,10 +499,10 @@
         <header><span>EXP-033</span><strong>Tunnel-familiarity gated geometry/CV fusion</strong></header>
         <p>The familiarity gate behaves coherently and preserves more recall than the same static mixture, but cannot make a dominated expert useful. At 25% maximum CV weight, gated recall is 49.4% versus 44.4% for static fusion and 57.1% for geometry, with no alarm-rate improvement over geometry. CV beats geometry in zero of five folds on recall and zero of five on real-frame alarms. Keep domain familiarity for abstention/UNKNOWN, not runtime score fusion.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen EXP-031 spatial patch cache, real tunnel context from training folds only</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> The held-out bag, synthetic labels, patch center, and obstacle intensity are excluded from domain fitting; fusion weights are a fixed sweep and are not selected on held-out results.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen EXP-031 spatial patch cache, real tunnel context from training folds only</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> The held-out bag, synthetic labels, patch center, and obstacle intensity are excluded from domain fitting; fusion weights are a fixed sweep and are not selected on held-out results.</p>
           <dl><dt>geometry mean recall</dt><dd>0.571</dd><dt>geometry mean real alarm rate</dt><dd>0.007143</dd><dt>gated 25 mean recall</dt><dd>0.494</dd><dt>gated 25 worst recall</dt><dd>0.3778</dd><dt>gated 25 mean real alarm rate</dt><dd>0.007143</dd><dt>static 25 mean recall</dt><dd>0.4442</dd><dt>static 25 mean real alarm rate</dt><dd>0</dd><dt>mean domain confidence</dt><dd>0.7056</dd><dt>folds where cv recall beats geometry</dt><dd>0</dd><dt>folds where cv alarm rate beats geometry</dt><dd>0</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.domain_gated_fusion</code>
         </details>
@@ -511,10 +511,10 @@
         <header><span>EXP-034</span><strong>OOD abstention with strong-geometry bypass</strong></header>
         <p>The conservative guard removes all held-out real-frame alarms while retaining 56.3% mean recall versus 57.1% for geometry. Strong-evidence bypass preserves the baseline worst-fold recall. On the official bag it downgrades three late alarms whose reconstructed world positions are outside the ten announced object locations. Reusing detector context reduces conditional p95 from 198.2 to 72.4 ms.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer bags, frozen spatial patch cache, official synthetic bag runtime audit</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> Only training-fold real outer-patch context fits familiarity; obstacle centers, synthetic labels, and held-out bags are excluded. Abstention and bypass thresholds were fixed before the official runtime audit.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer bags, frozen spatial patch cache, official synthetic bag runtime audit</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> Only training-fold real outer-patch context fits familiarity; obstacle centers, synthetic labels, and held-out bags are excluded. Abstention and bypass thresholds were fixed before the official runtime audit.</p>
           <dl><dt>baseline mean recall</dt><dd>0.571</dd><dt>guarded mean recall</dt><dd>0.5628</dd><dt>guarded worst recall</dt><dd>0.4444</dd><dt>baseline mean real alarm rate</dt><dd>0.007143</dd><dt>guarded mean real alarm rate</dt><dd>0</dd><dt>guarded synthetic negative specificity</dt><dd>0.8205</dd><dt>official plain obstacle frames audited</dt><dd>32</dd><dt>official guarded obstacle frames</dt><dd>29</dd><dt>official late frames downgraded</dt><dd>3</dd><dt>conditional guarded p95 ms</dt><dd>72.42</dd><dt>domain model kib</dt><dd>137</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.domain_gated_fusion &amp;&amp; .venv-lidar/bin/python -m lidar_geometry.train_domain_guard</code>
         </details>
@@ -523,10 +523,10 @@
         <header><span>EXP-035</span><strong>Domain-invariant and random-convolution CV</strong></header>
         <p>After matching the training patch support to runtime, the stronger spatial representation reaches 17.8% CV-only recall with zero real-frame alarms, still far below geometry at 57.1%. With current data, the missing ingredient is diverse real obstacle supervision across tunnels, not another compact architecture.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen EXP-031 spatial patch cache</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> The convolution bank is deterministic and label-independent; scaling, head weights, and alarm thresholds are fitted within each training fold. Intensity remains excluded.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen EXP-031 spatial patch cache</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> The convolution bank is deterministic and label-independent; scaling, head weights, and alarm thresholds are fitted within each training fold. Intensity remains excluded.</p>
           <dl><dt>original spatial mean recall</dt><dd>0.1699</dd><dt>invariant mean recall</dt><dd>0.1711</dd><dt>random conv mean recall</dt><dd>0.1784</dd><dt>random conv worst recall</dt><dd>0.03731</dd><dt>random conv real alarm rate</dt><dd>0</dd><dt>component plus random conv recall</dt><dd>0.3715</dd><dt>geometry mean recall</dt><dd>0.571</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment</code>
         </details>
@@ -535,10 +535,10 @@
         <header><span>EXP-036</span><strong>Single-pass geometry and OOD context</strong></header>
         <p>Sharing geometry context eliminates the OOD guard&#x27;s duplicate rail search: conditional p95 falls from the previous 198.2 ms to 72.4 ms, below the 100 ms gate on this deliberately difficult alarm-frame slice. The same three late alarms are downgraded; no additional state changes appear.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 59 potentially alarming frames from the official synthetic bag</p>
-          <p><b>Split:</b> frame_runtime_pair</p>
-          <p><b>Leakage check:</b> This is decision-equivalent runtime profiling; no labels, thresholds, or model parameters are fitted from timing results.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 59 potentially alarming frames from the official synthetic bag</p>
+          <p><b>Единица разбиения:</b> frame_runtime_pair</p>
+          <p><b>Проверка утечки:</b> This is decision-equivalent runtime profiling; no labels, thresholds, or model parameters are fitted from timing results.</p>
           <dl><dt>frames</dt><dd>59</dd><dt>plain p50 ms</dt><dd>60.85</dd><dt>guarded p50 ms</dt><dd>59.72</dd><dt>plain p95 ms</dt><dd>77.2</dd><dt>guarded p95 ms</dt><dd>72.42</dd><dt>guarded obstacle frames</dt><dd>29</dd><dt>downgraded frames</dt><dd>3</dd><dt>docker build</dt><dd>pass</dd><dt>container guard references</dt><dd>1960</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.smoke_test --xyzi-bag external_data/hackathon/synthetic_official/data/cloud_with_fake_obj/cloud_with_fake_obj_0.db3 --xyzirt-bag external_data/hackathon/for_hackathon/doubleT_platform/doubleT_platform_0.db3</code>
         </details>
@@ -547,10 +547,10 @@
         <header><span>EXP-037</span><strong>CV domain randomization and external OSDaR supervision</strong></header>
         <p>Strong domain randomization improves CV recall by 4.4 points, from 17.8% to 22.3%, but restores a 0.71% real-frame alarm rate and remains far below geometry. Mild perturbations fall to 12.6%. Naively adding 69 OSDaR positives causes negative transfer and falls to 12.3%, confirming that external data needs sensor-aware adaptation rather than pooling. No CV branch is enabled in runtime.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer bags, 69 localized OSDaR-AR obstacles from two stations</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Augmentations are generated only for training rows; organizer test bags remain untouched. OSDaR is train-only, and thresholds use only real frames from organizer training bags.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer bags, 69 localized OSDaR-AR obstacles from two stations</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Augmentations are generated only for training rows; organizer test bags remain untouched. OSDaR is train-only, and thresholds use only real frames from organizer training bags.</p>
           <dl><dt>base random conv recall</dt><dd>0.1784</dd><dt>strong randomization recall</dt><dd>0.2227</dd><dt>strong randomization worst recall</dt><dd>0.08209</dd><dt>strong randomization real alarm rate</dt><dd>0.007143</dd><dt>mild randomization recall</dt><dd>0.1257</dd><dt>osdar training obstacles</dt><dd>69</dd><dt>osdar augmented recall</dt><dd>0.1228</dd><dt>geometry recall</dt><dd>0.571</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.build_osdar_spatial_cache external_data/osdar_ar/5_station_bergedorf_5.2_osdar_ar.zip external_data/osdar_ar/6_station_klein_flottbek_6.1_osdar_ar.zip --samples-per-class 10 &amp;&amp; .venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment</code>
         </details>
@@ -559,10 +559,10 @@
         <header><span>EXP-038</span><strong>Weakly supervised corridor-memory mining</strong></header>
         <p>Corridor memory finds two strong, persistent novelty zones near 76.6 m and 94.0 m, consistent with but not proving the organizer statement about people and a separate object. Treating all selected components as positives lowers mean CV recall from 17.8% to 14.3%, so the pseudo-labels are too noisy for automatic training. The method survives as active-learning triage: two short zones should be manually labelled instead of 201 full frames.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> doubleT_obstacle positive bag, normal double-track organizer memory</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Obstacle-bag instance labels are never assumed known; mined candidates are external train-only pseudo-labels and evaluation remains on untouched held-out organizer bags.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> doubleT_obstacle positive bag, normal double-track organizer memory</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Obstacle-bag instance labels are never assumed known; mined candidates are external train-only pseudo-labels and evaluation remains on untouched held-out organizer bags.</p>
           <dl><dt>bag candidates</dt><dd>3112</dd><dt>persistent tracks</dt><dd>219</dd><dt>hotspot 1 m</dt><dd>76.63</dd><dt>hotspot 2 m</dt><dd>94.04</dd><dt>selected tracks</dt><dd>23</dd><dt>weak positive candidates</dt><dd>485</dd><dt>base cv recall</dt><dd>0.1784</dd><dt>weak trained cv recall</dt><dd>0.1428</dd><dt>weak trained worst recall</dt><dd>0.0857</dd><dt>weak trained real alarm rate</dt><dd>0.0049</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.mine_weak_obstacle_bag external_data/hackathon/for_hackathon/doubleT_obstacle/doubleT_obstacle_0.db3 &amp;&amp; .venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment</code>
         </details>
@@ -571,10 +571,10 @@
         <header><span>EXP-039</span><strong>OOD strong-evidence bypass sweep</strong></header>
         <p>Margin 0.5 gains only 0.15 recall points while preserving zero alarms on the five exploratory folds, but it restores the late official alarm at frame 741. The gain is not worth weakening the conservative claim; margin 1.0 remains frozen in the runtime model.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five whole-bag organizer folds, official synthetic late-alarm audit</p>
-          <p><b>Split:</b> whole_bag</p>
-          <p><b>Leakage check:</b> The sweep is reported as exploratory; the official bag is used only as a rejection challenge, and the previously frozen margin remains runtime default.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five whole-bag organizer folds, official synthetic late-alarm audit</p>
+          <p><b>Единица разбиения:</b> whole_bag</p>
+          <p><b>Проверка утечки:</b> The sweep is reported as exploratory; the official bag is used only as a rejection challenge, and the previously frozen margin remains runtime default.</p>
           <dl><dt>runtime margin</dt><dd>1</dd><dt>runtime recall</dt><dd>0.5628</dd><dt>runtime real alarm rate</dt><dd>0</dd><dt>candidate margin</dt><dd>0.5</dd><dt>candidate recall</dt><dd>0.5643</dd><dt>candidate real alarm rate</dt><dd>0</dd><dt>official late alarm returned</dt><dd>1</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.domain_gated_fusion</code>
         </details>
@@ -583,10 +583,10 @@
         <header><span>EXP-040</span><strong>High-precision weak real-object supervision</strong></header>
         <p>Even the narrow central track lowers CV recall from 17.8% to 13.7%. Twenty-eight correlated views teach one silhouette rather than transferable obstacle evidence. Direct weak-label training is rejected; the track may only serve as a donor or manual-review target.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 28 high-precision weak patches from doubleT_obstacle, five organizer whole-bag folds</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> The weak track is external train-only data; adjacent derivatives remain together and no held-out organizer background is used to select it.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 28 high-precision weak patches from doubleT_obstacle, five organizer whole-bag folds</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> The weak track is external train-only data; adjacent derivatives remain together and no held-out organizer background is used to select it.</p>
           <dl><dt>weak real samples</dt><dd>28</dd><dt>base cv recall</dt><dd>0.1784</dd><dt>weak real recall</dt><dd>0.1369</dd><dt>weak real worst recall</dt><dd>0.0597</dd><dt>weak real specificity</dt><dd>1</dd><dt>weak real alarm rate</dt><dd>0</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment</code>
         </details>
@@ -595,10 +595,10 @@
         <header><span>EXP-041</span><strong>Real-object patch transplantation</strong></header>
         <p>Real-object transplantation improves mean CV recall from 17.8% to 21.2%, more than doubles worst-fold recall from 3.7% to 9.0%, and keeps real-frame alarms at zero. The data mechanism is valid, although CV remains too weak to replace geometry.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> central real-object donor, real organizer backgrounds from each training fold</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Every fold builds transplants only from its own real backgrounds; donor derivatives are external and never split between validation and test.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> central real-object donor, real organizer backgrounds from each training fold</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Every fold builds transplants only from its own real backgrounds; donor derivatives are external and never split between validation and test.</p>
           <dl><dt>base cv recall</dt><dd>0.1784</dd><dt>transplant recall</dt><dd>0.2122</dd><dt>transplant worst recall</dt><dd>0.08955</dd><dt>transplant specificity</dt><dd>0.9205</dd><dt>transplant real alarm rate</dt><dd>0</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment</code>
         </details>
@@ -607,10 +607,10 @@
         <header><span>EXP-042</span><strong>Real transplantation plus sensor randomization</strong></header>
         <p>The composition gives the best compact-CV recall, 23.4%, and a 9.7% worst fold, but restores 0.71% real alarms and lowers synthetic-negative specificity to 88.1%. It fails the safety gate and remains far below geometry.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> training-fold organizer patches, real-object transplants</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> All backgrounds and perturbations are generated within the training fold; held-out patches remain original and untouched.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> training-fold organizer patches, real-object transplants</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> All backgrounds and perturbations are generated within the training fold; held-out patches remain original and untouched.</p>
           <dl><dt>combined recall</dt><dd>0.2341</dd><dt>combined worst recall</dt><dd>0.09701</dd><dt>combined specificity</dt><dd>0.8805</dd><dt>combined real alarm rate</dt><dd>0.007143</dd><dt>geometry recall</dt><dd>0.571</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.invariant_spatial_experiment</code>
         </details>
@@ -619,10 +619,10 @@
         <header><span>EXP-043</span><strong>Unaligned familiar-route change detection</strong></header>
         <p>Direct subtraction is dominated by one-cell registration error: recall is only 37.3%, mean clean alarms are 1.6%, and one tunnel reaches 8%. Route memory requires explicit local alignment.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 376 same-location clean and ray-injected organizer pairs</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Reference/current derivatives stay in one bag fold; thresholds see only clean training changes.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 376 same-location clean and ray-injected organizer pairs</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Reference/current derivatives stay in one bag fold; thresholds see only clean training changes.</p>
           <dl><dt>mean recall</dt><dd>0.3728</dd><dt>worst recall</dt><dd>0.2985</dd><dt>negative specificity</dt><dd>0.3662</dd><dt>mean clean alarm rate</dt><dd>0.016</dd><dt>worst clean alarm rate</dt><dd>0.08</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.route_memory_experiment external_data/hackathon/for_hackathon</code>
         </details>
@@ -631,10 +631,10 @@
         <header><span>EXP-044</span><strong>Aligned clearance-aware familiar-route memory</strong></header>
         <p>The mapped-corridor expert reaches 87.7% mean recall, 80.0% worst-fold recall, 100% negative specificity, and 0.32% mean clean alarms. It retains 53/54 hanging cables. The limitation is explicit: evaluation uses controlled same-location references because no second real traversal is available; this is an optional seen-route expert, not the universal submission default.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 376 same-location clean and ray-injected organizer pairs</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> All registration is local and label-free; thresholds use clean training changes only, and complete organizer recordings are held out.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 376 same-location clean and ray-injected organizer pairs</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> All registration is local and label-free; thresholds use clean training changes only, and complete organizer recordings are held out.</p>
           <dl><dt>mean recall</dt><dd>0.8771</dd><dt>worst recall</dt><dd>0.8</dd><dt>negative specificity</dt><dd>1</dd><dt>mean clean alarm rate</dt><dd>0.003226</dd><dt>worst clean alarm rate</dt><dd>0.01613</dd><dt>hanging cable recall</dt><dd>0.9815</dd><dt>minimum edge recall</dt><dd>0.3871</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.route_memory_experiment external_data/hackathon/for_hackathon</code>
         </details>
@@ -643,10 +643,10 @@
         <header><span>EXP-045</span><strong>Random Forest candidate ranker</strong></header>
         <p>Random Forest improves mean recall by 10.6 points and reaches 100% synthetic-negative specificity, but raises real-frame alarms from 0.71% to 5.37%; one held-out tunnel reaches 26.8%. It is rejected because background transfer is unsafe.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer spatial-patch cache with exact synthetic labels</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> All adjacent frames and synthetic derivatives of a background stay in one bag fold; thresholds use only real frames from the training bags.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer spatial-patch cache with exact synthetic labels</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> All adjacent frames and synthetic derivatives of a background stay in one bag fold; thresholds use only real frames from the training bags.</p>
           <dl><dt>baseline recall</dt><dd>0.571</dd><dt>mean positive recall</dt><dd>0.6766</dd><dt>worst positive recall</dt><dd>0.6143</dd><dt>synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.05366</dd><dt>worst real frame alarm rate</dt><dd>0.2683</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.tree_ensemble_experiment</code>
         </details>
@@ -655,10 +655,10 @@
         <header><span>EXP-046</span><strong>Extremely randomized tree candidate ranker</strong></header>
         <p>Extra Trees raises mean recall from 57.1% to 64.6% and worst-fold recall from 44.4% to 51.1%, reaches 100% synthetic-negative specificity, and exactly matches the linear model&#x27;s 0.71% mean and 3.57% worst-fold real alarm rates. It is the first nonlinear summary-feature model to pass the comparison gate.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer spatial-patch cache with exact synthetic labels</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> All adjacent frames and synthetic derivatives of a background stay in one bag fold; thresholds use only real frames from the training bags.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer spatial-patch cache with exact synthetic labels</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> All adjacent frames and synthetic derivatives of a background stay in one bag fold; thresholds use only real frames from the training bags.</p>
           <dl><dt>baseline recall</dt><dd>0.571</dd><dt>mean positive recall</dt><dd>0.6461</dd><dt>worst positive recall</dt><dd>0.5111</dd><dt>synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.007143</dd><dt>worst real frame alarm rate</dt><dd>0.03571</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.tree_ensemble_experiment</code>
         </details>
@@ -667,10 +667,10 @@
         <header><span>EXP-047</span><strong>Histogram gradient boosting candidate ranker</strong></header>
         <p>Boosting reaches 86.6% mean and 80.0% worst-fold recall, but produces alarms on 14.4% of real frames on average and 39.0% in the worst tunnel. It optimizes sensitivity by learning tunnel-specific false-positive regions and is rejected.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer spatial-patch cache with exact synthetic labels</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> All adjacent frames and synthetic derivatives of a background stay in one bag fold; thresholds use only real frames from the training bags.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer spatial-patch cache with exact synthetic labels</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> All adjacent frames and synthetic derivatives of a background stay in one bag fold; thresholds use only real frames from the training bags.</p>
           <dl><dt>baseline recall</dt><dd>0.571</dd><dt>mean positive recall</dt><dd>0.8658</dd><dt>worst positive recall</dt><dd>0.8</dd><dt>synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.1439</dd><dt>worst real frame alarm rate</dt><dd>0.3902</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.tree_ensemble_experiment</code>
         </details>
@@ -679,10 +679,10 @@
         <header><span>EXP-048</span><strong>RBF SVM candidate ranker</strong></header>
         <p>RBF SVM collapses to 2.5% recall and still alarms on 6.34% of real frames because its training-domain margin does not transfer to the held-out tunnel.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer candidate cache</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Complete bags and their derivatives remain in one fold.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer candidate cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Complete bags and their derivatives remain in one fold.</p>
           <dl><dt>mean positive recall</dt><dd>0.02495</dd><dt>worst positive recall</dt><dd>0</dd><dt>synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.06341</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment</code>
         </details>
@@ -691,10 +691,10 @@
         <header><span>EXP-049</span><strong>Distance-weighted kNN candidate ranker</strong></header>
         <p>kNN reaches 91.3% recall but alarms on 50.6% of real frames, including every frame of one unseen tunnel. Feature proximity is dominated by tunnel identity.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer candidate cache</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Complete bags and their derivatives remain in one fold.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer candidate cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Complete bags and their derivatives remain in one fold.</p>
           <dl><dt>mean positive recall</dt><dd>0.913</dd><dt>worst positive recall</dt><dd>0.8</dd><dt>synthetic negative specificity</dt><dd>0.8</dd><dt>mean real frame alarm rate</dt><dd>0.5063</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment</code>
         </details>
@@ -703,10 +703,10 @@
         <header><span>EXP-050</span><strong>Gaussian Naive Bayes candidate ranker</strong></header>
         <p>Naive Bayes retains only 15.1% recall and raises alarms to 6.43%; independent Gaussian feature assumptions are badly mismatched.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer candidate cache</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Complete bags and their derivatives remain in one fold.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer candidate cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Complete bags and their derivatives remain in one fold.</p>
           <dl><dt>mean positive recall</dt><dd>0.1508</dd><dt>worst positive recall</dt><dd>0.02632</dd><dt>synthetic negative specificity</dt><dd>0.88</dd><dt>mean real frame alarm rate</dt><dd>0.06429</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment</code>
         </details>
@@ -715,10 +715,10 @@
         <header><span>EXP-051</span><strong>AdaBoost stump candidate ranker</strong></header>
         <p>AdaBoost is below the linear baseline at 49.0% recall and more than doubles alarms to 1.69%.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer candidate cache</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Complete bags and their derivatives remain in one fold.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer candidate cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Complete bags and their derivatives remain in one fold.</p>
           <dl><dt>mean positive recall</dt><dd>0.4901</dd><dt>worst positive recall</dt><dd>0.3556</dd><dt>synthetic negative specificity</dt><dd>0.9538</dd><dt>mean real frame alarm rate</dt><dd>0.0169</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment</code>
         </details>
@@ -727,10 +727,10 @@
         <header><span>EXP-052</span><strong>Equal linear and Extra Trees averaging</strong></header>
         <p>Equal averaging improves recall to 64.3% but raises real-frame alarms to 1.20%, so it misses the safety gate.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer candidate cache</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Both base learners and the threshold use training bags only.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer candidate cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Both base learners and the threshold use training bags only.</p>
           <dl><dt>mean positive recall</dt><dd>0.6428</dd><dt>worst positive recall</dt><dd>0.5111</dd><dt>synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.01202</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment</code>
         </details>
@@ -739,10 +739,10 @@
         <header><span>EXP-053</span><strong>Geometry-weighted Extra Trees averaging</strong></header>
         <p>The fixed mixture reaches 66.75% recall and 100% synthetic-negative specificity at the baseline 0.71% real-frame alarm rate. It is the best 300-tree box-benchmark hybrid, subject to the later shape-transfer audit.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer candidate cache</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Both base learners and the threshold use training bags only; weight was fixed before evaluation.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer candidate cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Both base learners and the threshold use training bags only; weight was fixed before evaluation.</p>
           <dl><dt>mean positive recall</dt><dd>0.6675</dd><dt>worst positive recall</dt><dd>0.5111</dd><dt>synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.007143</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment</code>
         </details>
@@ -751,10 +751,10 @@
         <header><span>EXP-054</span><strong>Linear and tree max voting</strong></header>
         <p>Max voting gains only 0.19 recall points over weighted averaging but drops negative specificity from 100% to 78.1%; it is dominated by the weighted hybrid.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer candidate cache</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Both base learners and the threshold use training bags only.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer candidate cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Both base learners and the threshold use training bags only.</p>
           <dl><dt>mean positive recall</dt><dd>0.6694</dd><dt>worst positive recall</dt><dd>0.5778</dd><dt>synthetic negative specificity</dt><dd>0.7805</dd><dt>mean real frame alarm rate</dt><dd>0.007143</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment</code>
         </details>
@@ -763,10 +763,10 @@
         <header><span>EXP-055</span><strong>Nested bag-level linear/tree stacking</strong></header>
         <p>Stacking reaches 65.1% recall but raises alarms to 1.20%; four inner bags are insufficient to learn a more transferable combiner than the fixed weight.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer candidate cache</p>
-          <p><b>Split:</b> nested_whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Meta training uses out-of-fold base predictions; the outer test bag remains untouched.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer candidate cache</p>
+          <p><b>Единица разбиения:</b> nested_whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Meta training uses out-of-fold base predictions; the outer test bag remains untouched.</p>
           <dl><dt>mean positive recall</dt><dd>0.6505</dd><dt>worst positive recall</dt><dd>0.5333</dd><dt>synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.01202</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.classical_hybrid_experiment</code>
         </details>
@@ -775,10 +775,10 @@
         <header><span>EXP-056</span><strong>Compact Extra Trees count sweep</strong></header>
         <p>The 100-tree 25/75 hybrid improves recall to 68.13%, preserves 100% negative specificity and 0.71% alarms, and is better than the 300-tree version. More trees are not monotonically better.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer candidate cache</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Tree-count alternatives share identical whole-bag folds; no other hyperparameter changes.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer candidate cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Tree-count alternatives share identical whole-bag folds; no other hyperparameter changes.</p>
           <dl><dt>selected trees</dt><dd>100</dd><dt>mean positive recall</dt><dd>0.6813</dd><dt>worst positive recall</dt><dd>0.5111</dd><dt>synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.007143</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.compact_tree_experiment</code>
         </details>
@@ -787,10 +787,10 @@
         <header><span>EXP-057</span><strong>Zero-shot composite-shape generalization</strong></header>
         <p>The shape hypothesis is falsified. Geometry proposes 90.6% of complex positives, but linear retains 16.4%, Extra Trees 5.1%, and the hybrid 6.5%. The learned ranker recognizes generator shapes and cannot own the universal safety decision.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 337 ray-consistent composite cases on organizer backgrounds, box-only training cache</p>
-          <p><b>Split:</b> whole_organizer_bag_and_unseen_shape_family</p>
-          <p><b>Leakage check:</b> Composite shapes never enter training; the background bag is also held out.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 337 ray-consistent composite cases on organizer backgrounds, box-only training cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag_and_unseen_shape_family</p>
+          <p><b>Проверка утечки:</b> Composite shapes never enter training; the background bag is also held out.</p>
           <dl><dt>geometry proposal recall</dt><dd>0.906</dd><dt>linear ranked recall</dt><dd>0.1638</dd><dt>extra trees ranked recall</dt><dd>0.05092</dd><dt>hybrid ranked recall</dt><dd>0.06535</dd><dt>negative specificity</dt><dd>1</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.shape_generalization_experiment external_data/hackathon/for_hackathon</code>
         </details>
@@ -799,10 +799,10 @@
         <header><span>EXP-058</span><strong>Composite-shape augmentation and joint shape holdout</strong></header>
         <p>Augmentation raises recall to 46.2% when the same silhouettes are seen elsewhere, but joint shape-and-bag holdout falls to 14.0% with a zero-recall fold. It learns the augmentation catalog rather than a transferable obstacle concept.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> box cache, 337 composite cases</p>
-          <p><b>Split:</b> whole_bag_and_shape</p>
-          <p><b>Leakage check:</b> The strict audit excludes both the target bag and target positive shape from augmentation.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> box cache, 337 composite cases</p>
+          <p><b>Единица разбиения:</b> whole_bag_and_shape</p>
+          <p><b>Проверка утечки:</b> The strict audit excludes both the target bag and target positive shape from augmentation.</p>
           <dl><dt>seen shape heldout bag recall</dt><dd>0.4618</dd><dt>joint unseen shape bag recall</dt><dd>0.1403</dd><dt>joint unseen worst recall</dt><dd>0</dd><dt>geometry proposal recall</dt><dd>0.903</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.shape_generalization_experiment external_data/hackathon/for_hackathon</code>
         </details>
@@ -811,10 +811,10 @@
         <header><span>EXP-059</span><strong>Same-pair universal versus mapped-route comparison</strong></header>
         <p>On exactly the same obstacle pairs, aligned route memory reaches 87.7% recall versus 68.1% for the universal hybrid at 100% negative specificity. The gain is real but conditional on a clean same-location reference; false-alarm rates remain regime-specific and are not compared.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> 376 identical clean/current organizer pairs, box candidate training cache</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> All methods see the same outer test pairs; universal models train on other bags and route thresholds use other-bag clean changes.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> 376 identical clean/current organizer pairs, box candidate training cache</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> All methods see the same outer test pairs; universal models train on other bags and route thresholds use other-bag clean changes.</p>
           <dl><dt>linear recall</dt><dd>0.571</dd><dt>hybrid recall</dt><dd>0.6813</dd><dt>route memory recall</dt><dd>0.8771</dd><dt>hybrid negative specificity</dt><dd>1</dd><dt>route memory negative specificity</dt><dd>1</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.route_comparable_experiment</code>
         </details>
@@ -823,10 +823,10 @@
         <header><span>EXP-060</span><strong>Portable 100-tree hybrid runtime</strong></header>
         <p>The self-contained portable hybrid is 74.7 KB, loads in 2.7 ms, matches sklearn exactly as a hybrid (tree branch within 4.9e-15), and runs end-to-end at 79.9 ms p95 and 83.1 ms p99 locally. It removes the sklearn runtime dependency, but remains an optional ranker because shape transfer failed.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> roundT_doubleT real organizer bag, full frozen candidate cache</p>
-          <p><b>Split:</b> runtime_frames</p>
-          <p><b>Leakage check:</b> Timing uses no labels; score equivalence is asserted against sklearn to 1e-12.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> roundT_doubleT real organizer bag, full frozen candidate cache</p>
+          <p><b>Единица разбиения:</b> runtime_frames</p>
+          <p><b>Проверка утечки:</b> Timing uses no labels; score equivalence is asserted against sklearn to 1e-12.</p>
           <dl><dt>portable model bytes</dt><dd>74744</dd><dt>portable load ms</dt><dd>2.703</dd><dt>portable max abs error</dt><dd>4.885e-15</dd><dt>portable hybrid max abs error</dt><dd>0</dd><dt>geometry p95 ms</dt><dd>69.75</dd><dt>hybrid p95 ms</dt><dd>79.88</dd><dt>hybrid p99 ms</dt><dd>83.08</dd><dt>unit tests</dt><dd>44</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.benchmark_tree_runtime external_data/hackathon/for_hackathon/roundT_doubleT/roundT_doubleT_0.db3 --trees 100</code>
         </details>
@@ -835,10 +835,10 @@
         <header><span>EXP-061</span><strong>Physics-routed ground and hanging candidate experts</strong></header>
         <p>The fixed vertical router preserves 100% synthetic-negative specificity and the 0.71% mean real-frame alarm rate, but lowers mean recall from 68.13% to 64.84%. Hanging recall improves or stays flat in four folds, while ground-object recall falls in four folds; splitting the limited training set costs more than specialization gains. The runtime default remains unchanged.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> frozen organizer spatial-patch cache with exact synthetic labels</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Both experts and the threshold use training bags only; every adjacent frame and synthetic derivative of a held-out background remains in its held-out bag.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> frozen organizer spatial-patch cache with exact synthetic labels</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Both experts and the threshold use training bags only; every adjacent frame and synthetic derivative of a held-out background remains in its held-out bag.</p>
           <dl><dt>baseline mean positive recall</dt><dd>0.6813</dd><dt>vertical experts mean positive recall</dt><dd>0.6484</dd><dt>baseline worst positive recall</dt><dd>0.5111</dd><dt>vertical experts worst positive recall</dt><dd>0.5333</dd><dt>synthetic negative specificity</dt><dd>1</dd><dt>mean real frame alarm rate</dt><dd>0.007143</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.vertical_expert_experiment</code>
         </details>
@@ -847,10 +847,10 @@
         <header><span>EXP-062</span><strong>Official synthetic generator-signature audit</strong></header>
         <p>The synthetic bag has an unmistakable dataset-level signature (16-byte XYZI versus 26-byte XYZIRT), but that cannot localize inserted points. Intensity 1 occurs in every normal bag, so it is not a label. A combined long-run and compactness heuristic yields sparse proposals in 11/64 official frames and none in 384 sampled normal frames, including a coherent approach trajectory for the first large object. Because the threshold is post hoc, coverage is sparse, and no independent point mask exists, this is admissible only for offline weak-label proposals followed by geometry and human review. It must not be a runtime feature or automatic ground truth.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> official synthetic organizer bag, all six organizer bags</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> No learned detector is evaluated; 64 deterministic frames are sampled independently from every bag. The run threshold is selected post hoc from the sampled normal maximum and is not claimed as validated.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> official synthetic organizer bag, all six organizer bags</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> No learned detector is evaluated; 64 deterministic frames are sampled independently from every bag. The run threshold is selected post hoc from the sampled normal maximum and is not claimed as validated.</p>
           <dl><dt>normal bags</dt><dd>6</dd><dt>normal sampled frames</dt><dd>384</dd><dt>official sampled frames</dt><dd>64</dd><dt>normal point step</dt><dd>26</dd><dt>official point step</dt><dd>16</dd><dt>normal max intensity one run</dt><dd>35</dd><dt>official frames above normal run max</dt><dd>21</dd><dt>official compact long run proposals</dt><dd>11</dd><dt>normal compact long run proposals</dt><dd>0</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.audit_synthetic_provenance external_data/hackathon --sample-frames 64</code>
         </details>
@@ -859,10 +859,10 @@
         <header><span>EXP-063</span><strong>Uncertainty-aware clearance boundary</strong></header>
         <p>The uncertainty interval behaves correctly on all four boundary invariants and never removes confidently in-gauge recall, but it changes no accepted decision: recall remains 39.9%, negative specificity 95.3%, and the weak-normal alarm rate 3.42%. The existing ranker already rejects lateral boundary components, so this extra gate is redundant and stays outside the runtime default.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five organizer whole-bag backgrounds, ray-consistent exact positive and negative clearance scenarios, analytic clearance-boundary cases</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> Thresholds are fixed from the 5 cm rail-grid resolution and official 1.05 m half-clearance before evaluation; complete bags remain intact and injected derivatives stay with their source bag.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five organizer whole-bag backgrounds, ray-consistent exact positive and negative clearance scenarios, analytic clearance-boundary cases</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> Thresholds are fixed from the 5 cm rail-grid resolution and official 1.05 m half-clearance before evaluation; complete bags remain intact and injected derivatives stay with their source bag.</p>
           <dl><dt>baseline positive recall</dt><dd>0.3988</dd><dt>gated positive recall</dt><dd>0.3988</dd><dt>baseline negative specificity</dt><dd>0.9529</dd><dt>gated negative specificity</dt><dd>0.9529</dd><dt>baseline normal alarm rate</dt><dd>0.03419</dd><dt>gated normal alarm rate</dt><dd>0.03419</dd><dt>normal alarm frames removed</dt><dd>0</dd><dt>boundary cases correct</dt><dd>4</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.uncertainty_clearance_experiment external_data/hackathon/for_hackathon</code>
         </details>
@@ -871,10 +871,10 @@
         <header><span>EXP-064</span><strong>Angular-density point support</strong></header>
         <p>Inverse-square support improves exact-mask recall at 60-100 m by only 3.62 points, below the planned 10-point gate, and adds 81 raw OBSTACLE frames across 2,287 normal frames. It also lowers synthetic-negative specificity from 89.81% to 88.89%. The official pseudo-label audit gains four positive proposal frames, all net gain coming from the large edge-inside object, while minimum-edge support loses one frame and the hanging cable remains undetected. Keep the frozen support curve as the runtime default.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five whole organizer normal bags, ray-consistent exact-mask obstacle insertions, official synthetic bag forensic pseudo-label audit</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> No fitting or threshold selection is performed; results are reported per whole bag and distance bin, and every derivative stays with its source bag.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five whole organizer normal bags, ray-consistent exact-mask obstacle insertions, official synthetic bag forensic pseudo-label audit</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> No fitting or threshold selection is performed; results are reported per whole bag and distance bin, and every derivative stays with its source bag.</p>
           <dl><dt>frozen distant recall</dt><dd>0.5913</dd><dt>inverse square distant recall</dt><dd>0.6275</dd><dt>distant recall gain</dt><dd>0.03623</dd><dt>frozen near recall</dt><dd>0.7784</dd><dt>inverse square near recall</dt><dd>0.7819</dd><dt>frozen negative specificity</dt><dd>0.8981</dd><dt>inverse square negative specificity</dt><dd>0.8889</dd><dt>frozen normal obstacle frames</dt><dd>1842</dd><dt>inverse square normal obstacle frames</dt><dd>1923</dd><dt>official positive proposal gain frames</dt><dd>4</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.range_support_experiment external_data/hackathon/for_hackathon</code>
         </details>
@@ -883,10 +883,10 @@
         <header><span>EXP-065</span><strong>Three-of-five temporal confirmation</strong></header>
         <p>Strict three-of-five confirmation passes the declared gate. On all 2,287 frames from five complete normal bags, range association reduces alarms from 38 frames/21 episodes to 22/14 (42.1%/33.3%), while world association reduces 29/19 to 15/9 (48.3%/52.6%). Every variant detects the same 12 of 21 exact-attribution synthetic events, and three-of-five adds a median one-frame delay. World three-of-five is the strongest tested temporal variant at 15 alarm frames and 9 episodes, but the unchanged 12/21 event recall shows that temporal voting suppresses false alarms rather than recovering missed proposals.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five whole organizer normal bags, ray-consistent exact-mask obstacle sequences on fixed organizer backgrounds</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> The ranker and threshold are frozen before this run; identical deterministic synthetic sequences are replayed through every temporal variant, and no adjacent frames or derivatives cross bags. Metrics are reported per complete bag and per sequence.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five whole organizer normal bags, ray-consistent exact-mask obstacle sequences on fixed organizer backgrounds</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> The ranker and threshold are frozen before this run; identical deterministic synthetic sequences are replayed through every temporal variant, and no adjacent frames or derivatives cross bags. Metrics are reported per complete bag and per sequence.</p>
           <dl><dt>normal frames</dt><dd>2287</dd><dt>range 2of3 alarm frames</dt><dd>38</dd><dt>range 2of3 alarm episodes</dt><dd>21</dd><dt>range 3of5 alarm frames</dt><dd>22</dd><dt>range 3of5 alarm episodes</dt><dd>14</dd><dt>world 2of3 alarm frames</dt><dd>29</dd><dt>world 2of3 alarm episodes</dt><dd>19</dd><dt>world 3of5 alarm frames</dt><dd>15</dd><dt>world 3of5 alarm episodes</dt><dd>9</dd><dt>range 3of5 alarm frame reduction</dt><dd>0.4211</dd><dt>range 3of5 episode reduction</dt><dd>0.3333</dd><dt>world 3of5 alarm frame reduction</dt><dd>0.4828</dd><dt>world 3of5 episode reduction</dt><dd>0.5263</dd><dt>synthetic events</dt><dd>21</dd><dt>range 2of3 detected events</dt><dd>12</dd><dt>range 3of5 detected events</dt><dd>12</dd><dt>world 2of3 detected events</dt><dd>12</dd><dt>world 3of5 detected events</dt><dd>12</dd><dt>three of five median delay frames</dt><dd>1</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.temporal_window_experiment external_data/hackathon/for_hackathon lidar_geometry/models/risk_model_g4_cost_sensitive.json --threshold 0.9 --output lidar_geometry/artifacts/temporal_window_exp065.json</code>
         </details>
@@ -895,10 +895,10 @@
         <header><span>EXP-066</span><strong>Continuity-regularized rail centerline</strong></header>
         <p>Joint rail-pair path optimization chooses the same effective centerline as the frozen greedy predecessor constraint on the full comparison: exact positive recall remains 71.22%, negative specificity 89.81%, all five normal bags retain 1,842 raw OBSTACLE frames, and the full official pseudo-label audit retains 116 positive proposal frames. DP raises p95 latency from 81.0 ms to 117.0 ms and fails the 100 ms limit. The existing greedy estimator already supplies sufficient local continuity; keep it as the runtime default.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five whole organizer normal bags, ray-consistent exact-mask scenario benchmark, official synthetic bag forensic pseudo-label audit</p>
-          <p><b>Split:</b> whole_organizer_bag</p>
-          <p><b>Leakage check:</b> No fitting or threshold selection is performed; baseline and continuity variants use identical full bags, exact synthetic scenes, and official pseudo-label intervals.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five whole organizer normal bags, ray-consistent exact-mask scenario benchmark, official synthetic bag forensic pseudo-label audit</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag</p>
+          <p><b>Проверка утечки:</b> No fitting or threshold selection is performed; baseline and continuity variants use identical full bags, exact synthetic scenes, and official pseudo-label intervals.</p>
           <dl><dt>greedy exact positive recall</dt><dd>0.7122</dd><dt>continuity exact positive recall</dt><dd>0.7122</dd><dt>greedy exact negative specificity</dt><dd>0.8981</dd><dt>continuity exact negative specificity</dt><dd>0.8981</dd><dt>greedy normal raw obstacle frames</dt><dd>1842</dd><dt>continuity normal raw obstacle frames</dt><dd>1842</dd><dt>greedy official positive proposal frames</dt><dd>116</dd><dt>continuity official positive proposal frames</dt><dd>116</dd><dt>greedy latency p95 ms</dt><dd>81.03</dd><dt>continuity latency p95 ms</dt><dd>117</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.continuity_path_experiment external_data/hackathon/for_hackathon --output lidar_geometry/artifacts/continuity_path_exp066.json</code>
         </details>
@@ -907,10 +907,10 @@
         <header><span>EXP-067</span><strong>Competition-weighted final scorecard</strong></header>
         <p>The common-protocol scorecard selects the portable 100-tree 25/75 hybrid. It has the lowest complete held-out normal-bag alarm rate among standalone candidates: 33/2,287 frames (1.44%, 23 episodes), versus 75/2,287 for OOD-guarded G4, 81/2,287 for linear G4, and 1,842/2,287 for raw geometry. It preserves 100% exact-box negative specificity, reaches 40.40% exact-box recall, covers one of seven positive official pseudo-label scenarios, runs at 92.41 ms p95, and accepts both delivered point layouts. No standalone candidate achieves the desired zero/near-zero false-alarm tier. Accepted EXP-065 world three-of-five remains a separate temporal overlay: it reduces its tested G4 stream to 15 alarm frames and nine episodes without losing any of the 12 detected synthetic events, but its official, shape, and portable-hybrid effects are incomparable and were not invented. EXP-066 was rejected and is excluded. Set the demo default to the portable hybrid; keep geometry as the high-recall diagnostic alternative.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> whole-bag organizer folds and exact-mask box scenarios, held-out composite-shape benchmark, official organizer bag forensic pseudo-label scenarios, complete weak-normal organizer bags, frozen runtime latency and 16/26-byte smoke artifacts</p>
-          <p><b>Split:</b> whole_organizer_bag_and_unseen_shape_family</p>
-          <p><b>Leakage check:</b> No model, threshold, or runtime behavior is changed. Only metrics produced by frozen protocols are compared; adjacent frames and derivatives remain in one bag, official intervals remain explicitly non-ground-truth, and incompatible fields are not imputed.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> whole-bag organizer folds and exact-mask box scenarios, held-out composite-shape benchmark, official organizer bag forensic pseudo-label scenarios, complete weak-normal organizer bags, frozen runtime latency and 16/26-byte smoke artifacts</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag_and_unseen_shape_family</p>
+          <p><b>Проверка утечки:</b> No model, threshold, or runtime behavior is changed. Only metrics produced by frozen protocols are compared; adjacent frames and derivatives remain in one bag, official intervals remain explicitly non-ground-truth, and incompatible fields are not imputed.</p>
           <dl><dt>selected default</dt><dd>portable_tree_25_75</dd><dt>selected normal alarm frames</dt><dd>33</dd><dt>selected normal frames</dt><dd>2287</dd><dt>selected normal alarm rate</dt><dd>0.01443</dd><dt>selected normal alarm episodes</dt><dd>23</dd><dt>selected exact box recall</dt><dd>0.404</dd><dt>selected exact box negative specificity</dt><dd>1</dd><dt>selected official pseudo positive coverage</dt><dd>0.1429</dd><dt>selected shape recall</dt><dd>0.06535</dd><dt>selected latency p95 ms</dt><dd>92.41</dd><dt>input layouts verified</dt><dd>2</dd><dt>accepted temporal overlay normal alarm frames</dt><dd>15</dd><dt>accepted temporal overlay normal alarm episodes</dt><dd>9</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.competition_scorecard --output lidar_geometry/artifacts/competition_scorecard_exp067.json</code>
         </details>
@@ -919,15 +919,15 @@
         <header><span>EXP-068</span><strong>Portable hybrid with three-of-five temporal confirmation</strong></header>
         <p>Three-of-five is not the submission default. Both temporal variants reduce complete-normal-bag alarms from 33 frames/23 episodes to 9/7 (72.7%/69.6%), but each loses two of the 17 exact-mask events detected by the per-frame portable hybrid. World confirmation also raises full-sequence p95 from 109.40 ms to 118.25 ms on this run, above the declared 100 ms gate. The directional official pseudo-label audit remains unchanged at one of seven positive scenarios and three of three negative scenarios. Keep the per-frame portable hybrid as best; expose temporal confirmation only as rejected experimental evidence, not a safety decision path.</p>
         <details>
-          <summary>Protocol and metrics</summary>
-          <p><b>Sources:</b> five complete organizer normal bags, ray-consistent exact-mask event sequences on organizer backgrounds, official organizer synthetic bag forensic pseudo-label scenarios</p>
-          <p><b>Split:</b> whole_organizer_bag_and_complete_event_sequence</p>
-          <p><b>Leakage check:</b> The portable model and threshold are frozen before the run; the same frame streams and exact-mask sequences are replayed through per-frame, range three-of-five, and world three-of-five decisions without splitting adjacent frames or derivatives.</p>
+          <summary>Протокол и метрики</summary>
+          <p><b>Источники:</b> five complete organizer normal bags, ray-consistent exact-mask event sequences on organizer backgrounds, official organizer synthetic bag forensic pseudo-label scenarios</p>
+          <p><b>Единица разбиения:</b> whole_organizer_bag_and_complete_event_sequence</p>
+          <p><b>Проверка утечки:</b> The portable model and threshold are frozen before the run; the same frame streams and exact-mask sequences are replayed through per-frame, range three-of-five, and world three-of-five decisions without splitting adjacent frames or derivatives.</p>
           <dl><dt>normal frames</dt><dd>2287</dd><dt>per frame alarm frames</dt><dd>33</dd><dt>per frame alarm episodes</dt><dd>23</dd><dt>range 3of5 alarm frames</dt><dd>9</dd><dt>range 3of5 alarm episodes</dt><dd>7</dd><dt>world 3of5 alarm frames</dt><dd>9</dd><dt>world 3of5 alarm episodes</dt><dd>7</dd><dt>world alarm frame reduction</dt><dd>0.7273</dd><dt>world alarm episode reduction</dt><dd>0.6957</dd><dt>synthetic events</dt><dd>21</dd><dt>per frame detected events</dt><dd>17</dd><dt>range 3of5 detected events</dt><dd>15</dd><dt>world 3of5 detected events</dt><dd>15</dd><dt>world events lost</dt><dd>2</dd><dt>per frame latency p95 ms</dt><dd>109.4</dd><dt>range 3of5 latency p95 ms</dt><dd>109.4</dd><dt>world 3of5 latency p95 ms</dt><dd>118.2</dd><dt>official per frame positive coverage</dt><dd>0.1429</dd><dt>official world positive coverage</dt><dd>0.1429</dd><dt>official world negative specificity</dt><dd>1</dd></dl>
           <code>.venv-lidar/bin/python -m lidar_geometry.portable_temporal_experiment external_data/hackathon/for_hackathon --output lidar_geometry/artifacts/portable_temporal_exp068.json</code>
         </details>
       </article></section>
-  <p class="hash">registry sha256: 02c6b87fc054ed321485b22f4e214397aac9bc78d28cd2f55cff02d1319f1a5a</p>
+  <p class="hash">SHA-256 реестра: 02c6b87fc054ed321485b22f4e214397aac9bc78d28cd2f55cff02d1319f1a5a</p>
 </main>
 <script>
   const buttons = [...document.querySelectorAll('button[data-filter]')];
