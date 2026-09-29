@@ -13,18 +13,26 @@
       <a href="/metrics" target="_blank">Сравнение алгоритмов ↗</a>
     </header>
     <section class="hero">
-      <p>Загрузите rosbag2 SQLite-файл. Анализ выполняется офлайн: содержимое файла не запускается.</p>
+      <p>Выберите готовую запись или загрузите rosbag2 SQLite-файл. Анализ выполняется офлайн: содержимое файла не запускается.</p>
+      <div class="preset-block">
+        <div class="section-head"><div><h2>Посмотреть без загрузки</h2><p>Пресеты — сохранённые результаты текущих алгоритмов на наборах организаторов.</p></div></div>
+        <div id="presets" class="presets"><span class="muted">Загружаем пресеты…</span></div>
+      </div>
+      <div class="or"><span>или загрузить свой набор</span></div>
       <form id="upload-form">
         <label class="drop"><input id="bag" name="bag" type="file" accept=".db3" required><span>Выбрать .db3</span><small id="filename">Файл не выбран</small></label>
-        <label>Алгоритм<select id="algorithm" name="algorithm"><option value="best">Лучший по метрикам</option><option value="geometry">Геометрия</option><option value="linear_hybrid">Геометрия + linear</option><option value="tree_hybrid">Геометрия + trees</option></select></label>
+        <label>Алгоритм<select id="algorithm" name="algorithm"><option value="best">Лучший по метрикам</option><option value="geometry">Только геометрия</option><option value="linear_hybrid">Геометрия и линейная модель</option><option value="tree_hybrid">Геометрия и ансамбль деревьев</option></select></label>
         <button type="submit">Запустить анализ</button>
       </form>
       <div id="message"></div>
     </section>
     <section id="progress-card" class="card hidden"><div class="row"><strong id="status">В очереди</strong><span id="progress-label">0%</span></div><div class="progress"><i id="progress"></i></div></section>
     <section id="results" class="hidden">
+      <div id="result-context" class="result-context"></div>
       <div id="summary" class="summary"></div>
-      <div class="card"><h2>Временная шкала</h2><div class="legend"><span class="clear">CLEAR</span><span class="unknown">UNKNOWN</span><span class="obstacle">OBSTACLE</span></div><div id="timeline" class="timeline"></div><div id="details" class="details">Нажмите на кадр, чтобы увидеть детали.</div></div>
+      <div id="media-card" class="card media-card hidden"><div><h2>Облако точек</h2><p>Три синхронных ракурса: сверху, сбоку и в перспективе.</p></div><video id="preset-video" controls muted loop playsinline></video></div>
+      <div class="card decision-card"><div class="section-head"><div><h2>Что увидел алгоритм</h2><p>Габарит поезда показан зелёным, найденные компоненты — красным.</p></div><strong id="frame-state" class="state-pill">—</strong></div><canvas id="scene" width="1000" height="330"></canvas></div>
+      <div class="card"><h2>Решения по кадрам</h2><div class="legend"><span class="clear">ПУТЬ СВОБОДЕН</span><span class="unknown">НЕДОСТАТОЧНО ДАННЫХ</span><span class="obstacle">ПРЕПЯТСТВИЕ</span></div><div id="timeline" class="timeline"></div><div id="details" class="details">Нажмите на кадр, чтобы увидеть объяснение.</div></div>
     </section>
   </main>
   <script src="/static/app.js"></script>

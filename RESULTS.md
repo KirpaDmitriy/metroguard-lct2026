@@ -1,59 +1,62 @@
-# Algorithm comparison
+# Сравнение алгоритмов
 
-The runtime starts with the portable tree hybrid. The choice follows the safety
-priority stated by the organizers: minimize false alarms first, then compare
-coverage, shape transfer, and latency.
+По умолчанию запускается комбинация линейной модели и ансамбля деревьев. Выбор
+следует приоритету организаторов: сначала уменьшить число ложных тревог, затем
+сравнивать полноту, перенос на новые формы препятствий и задержку.
 
-| Algorithm | Normal alarms | Exact boxes: recall / specificity | Official positive coverage* | Unseen shapes | p95 |
+| Алгоритм | Тревоги на чистых данных | Точные параллелепипеды: полнота / специфичность | Покрытие официальных объектов* | Новые формы | 95-й процентиль задержки |
 |---|---:|---:|---:|---:|---:|
-| Portable 25/75 hybrid | 33 / 2,287 (1.44%) | 40.40% / 100% | 1 / 7 | 6.53% | 92.41 ms |
-| OOD-guarded G4 | 75 / 2,287 (3.28%) | 38.14% / 98.0% | 1 / 7 | incomparable | 76.46 ms |
-| Linear G4 | 81 / 2,287 (3.54%) | 40.49% / 97.09% | 1 / 7 | 16.38% | 74.53 ms |
-| Geometry | 1,842 / 2,287 (80.54%) | 67.98% / 89.46% | 6 / 7 | 90.60% | 79.65 ms |
+| Линейная модель + ансамбль деревьев, 25/75 | 33 / 2 287 (1,44%) | 40,40% / 100% | 1 / 7 | 6,53% | 92,41 мс |
+| Линейная модель G4 с защитой от нового окружения | 75 / 2 287 (3,28%) | 38,14% / 98,0% | 1 / 7 | несопоставимо | 76,46 мс |
+| Линейная модель G4 | 81 / 2 287 (3,54%) | 40,49% / 97,09% | 1 / 7 | 16,38% | 74,53 мс |
+| Геометрия | 1 842 / 2 287 (80,54%) | 67,98% / 89,46% | 6 / 7 | 90,60% | 79,65 мс |
 
-\* The official bag has no point masks or time intervals. Its figures use the
-published object order, approximate 100 m spacing, LiDAR odometry, and spatial
-matching. They are diagnostic pseudo-labels, not ground truth.
+\* В официальной записи нет масок точек и временных интервалов объектов.
+Показатели используют опубликованный порядок объектов, примерный шаг 100 м,
+одометрию лидара и пространственное сопоставление. Это диагностическая
+псевдоразметка, а не эталонная разметка.
 
-## What each method contributes
+## Что даёт каждый метод
 
-**Geometry** estimates the rail-relative corridor and proposes components that
-enter the 2.1 × 3.0 m clearance. It transfers best to unseen silhouettes and
-finds six of seven positive official-style scenarios, but tunnel hardware also
-enters the corridor, producing too many false alarms for deployment. It remains
-the diagnostic high-recall mode.
+**Геометрия** находит рельсы, строит относительно них габарит 2,1 × 3,0 м и
+объединяет попавшие внутрь точки в компоненты. Она лучше всех переносится на
+неизвестные силуэты и находит шесть из семи положительных сценариев официального
+типа. Но в габарит попадает и оборудование тоннеля, поэтому ложных тревог
+слишком много. Этот режим полезен как чувствительный диагностический слой.
 
-**Linear G4** scores geometric components from size, density, height, residual,
-range support, and lateral clearance. It removes most infrastructure alarms and
-transfers better to unseen shapes than the tree model. Its complete-bag false
-alarm rate is still 3.54%.
+**Линейная модель G4** оценивает геометрические компоненты по размеру,
+плотности, высоте, отклонению от поверхности пути, поддержке по дальности и
+зазору до границ габарита. Она отбрасывает большую часть инфраструктуры и лучше
+ансамбля переносится на неизвестные формы, но тревожится на 3,54% кадров чистых
+записей.
 
-**Portable 25/75 hybrid** blends 25% linear score with 75% from 100 shallow
-Extra Trees. It produces the fewest false alarms, perfectly rejects the paired
-outside/above exact-box negatives, stays below 100 ms p95, and has no sklearn
-runtime dependency. Its weakness is shape transfer: a ranker trained on boxes
-rejects many unseen silhouettes. This is the default because the hidden test is
-described as synthetic and similar to the organizer sample, while false alarms
-have explicit priority.
+**Комбинация 25/75** складывает 25% оценки линейной модели и 75% оценки ста
+неглубоких деревьев. Она даёт меньше всего ложных тревог, полностью отвергает
+парные отрицательные примеры за габаритом и над ним и укладывается в 100 мс по
+95-му процентилю. Модель исполняется собственным компактным кодом без
+зависимости от scikit-learn. Ограничение метода — перенос на новые формы:
+ансамбль, обученный на параллелепипедах, отвергает многие непривычные силуэты.
+Он выбран по умолчанию, потому что скрытая проверка описана как синтетика,
+близкая к примеру организаторов, а ложные тревоги имеют явный приоритет.
 
-**OOD-guarded G4** vetoes detections in unfamiliar tunnel context unless the G4
-margin is strong. The earlier sparse-candidate audit showed zero alarms, but the
-new every-frame, whole-bag audit found 75 alarm frames. That full audit replaces
-the optimistic sparse result for runtime selection. The composite cache lacks
-the context patches needed for a fair shape comparison, so that field remains
-incomparable.
+**G4 с защитой от нового окружения** запрещает срабатывание в незнакомом
+тоннеле, если уверенность G4 недостаточно высока. Ранняя проверка на редких
+кадрах дала ноль тревог, но последующая проверка каждого кадра всех записей
+нашла 75 тревог. Полная проверка заменяет ранний оптимистичный результат.
+Составной кэш не содержит признаков окружения, необходимых для честного
+сравнения переноса на новые формы, поэтому показатель не приводится.
 
-**Three-of-five confirmation** works on the G4 stream but fails when attached
-to the selected portable hybrid. In the direct EXP-068 comparison, both range
-and world tracking reduce 33 alarm frames and 23 episodes to 9 and 7. They also
-lose two of the 17 exact-mask events found by the per-frame hybrid. World
-tracking reaches 118.25 ms p95 on the full 2,287-frame run. The submission
-therefore keeps the per-frame portable hybrid and does not hide its detections
-behind temporal voting.
+**Подтверждение в трёх из пяти кадров** помогает потоку G4, но ухудшает выбранную
+комбинацию с деревьями. В прямом сравнении EXP-068 сопровождение по дальности и
+в мировых координатах уменьшает 33 тревожных кадра и 23 эпизода до 9 и 7, но
+теряет два из 17 событий с точной маской, найденных покадровым методом.
+Сопровождение в мировых координатах также достигает 118,25 мс по 95-му
+процентилю на полном прогоне из 2 287 кадров. Поэтому итоговый вариант принимает
+решение на каждом кадре и не скрывает обнаружения временным голосованием.
 
-All four standalone paths were exercised on both delivered formats: 16-byte
-XYZI and 26-byte XYZIRT. Full machine-readable folds, per-bag counts, pseudo-label
-scenarios, timings, and layout checks are in
-`lidar_geometry/artifacts/competition_scorecard_exp067.json`. The paired
-temporal comparison is in
+Все четыре самостоятельных пути проверены на обеих выданных раскладках:
+16-байтной XYZI и 26-байтной XYZIRT. Полные результаты разбиений, показатели по
+записям, сценарии псевдоразметки, замеры времени и проверки раскладок находятся
+в `lidar_geometry/artifacts/competition_scorecard_exp067.json`. Сравнение
+временных методов находится в
 `lidar_geometry/artifacts/portable_temporal_exp068.json`.

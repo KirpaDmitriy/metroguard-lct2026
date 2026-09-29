@@ -37,6 +37,21 @@ class AppTest(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["best_algorithm"], "geometry")
 
+    def test_presets_can_be_listed_and_loaded(self):
+        listing = self.client.get("/api/presets")
+        self.assertEqual(listing.status_code, 200)
+        self.assertGreaterEqual(len(listing.json()), 3)
+        result = self.client.get("/api/presets/obstacle?algorithm=geometry")
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.json()["result"]["algorithm"], "geometry")
+
+    def test_preset_rejects_unknown_names(self):
+        self.assertEqual(self.client.get("/api/presets/missing").status_code, 404)
+        self.assertEqual(
+            self.client.get("/api/presets/obstacle?algorithm=missing").status_code,
+            422,
+        )
+
     def test_upload_creates_job_with_resolved_algorithm(self):
         with patch("demo_app.app.run_job", no_worker):
             response = self.client.post(

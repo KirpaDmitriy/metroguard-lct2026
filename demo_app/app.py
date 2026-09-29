@@ -17,6 +17,8 @@ from demo_app.storage import UploadRejected, save_upload
 
 
 STATIC = Path(__file__).with_name("static")
+PRESETS = Path(__file__).with_name("presets")
+DEMO = ROOT / "demo"
 METRICS = ROOT / "experiments/dashboard.html"
 
 
@@ -46,6 +48,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.pending_jobs = 0
     app.state.pending_lock = asyncio.Lock()
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
+    if DEMO.is_dir():
+        app.mount("/demo", StaticFiles(directory=DEMO), name="demo")
 
     @app.middleware("http")
     async def reject_upload_when_busy(request: Request, call_next):
@@ -77,6 +81,24 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "max_upload_bytes": config.max_upload_bytes,
             "max_pending_jobs": config.max_pending_jobs,
         }
+
+    @app.get("/api/presets")
+    async def api_presets():
+        return read_json(PRESETS / "manifest.json")["presets"]
+
+    @app.get("/api/presets/{preset_id}")
+    async def api_preset(preset_id: str, algorithm: str = "best"):
+        selected = config.best_algorithm if algorithm == "best" else algorithm
+        if selected not in ALGORITHMS:
+            raise HTTPException(422, "Unknown algorithm")
+        manifest = read_json(PRESETS / "manifest.json")["presets"]
+        item = next((entry for entry in manifest if entry["id"] == preset_id), None)
+        if item is None:
+            raise HTTPException(404, "Preset not found")
+        path = PRESETS / preset_id / f"{selected}.json"
+        if not path.is_file():
+            raise HTTPException(404, "Preset result not found")
+        return {"preset": item, "result": read_json(path)}
 
     @app.post("/api/jobs", status_code=202)
     async def create_job(

@@ -26,3 +26,5 @@ lidar_geometry/artifacts/**
 !experiments/
 experiments/**
 !experiments/dashboard.html
+!demo/
+!demo/**

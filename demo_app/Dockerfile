@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 COPY demo_app /app/demo_app
 COPY lidar_geometry /app/lidar_geometry
 COPY experiments/dashboard.html /app/experiments/dashboard.html
+COPY demo /app/demo
 
 RUN useradd --create-home --uid 10001 app && mkdir -p /data/jobs && chown -R app:app /data
 USER app
