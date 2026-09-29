@@ -1,0 +1,12 @@
+{
+  "experiment": "EXP-076",
+  "bag": "roundT_doubleT_0.db3",
+  "frames": 252,
+  "obstacle_frames": 4,
+  "baseline_obstacle_frames": 4,
+  "latency_p50_ms": 92.5321630002145,
+  "latency_p95_ms": 111.67897599989374,
+  "tunnel_reference_bank": "lidar_geometry/models/domain_guard.npz",
+  "reference_descriptors": 1960,
+  "descriptor_features": 24
+}

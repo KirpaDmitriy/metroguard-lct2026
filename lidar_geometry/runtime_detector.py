@@ -6,7 +6,10 @@ from pathlib import Path
 import numpy as np
 
 from lidar_geometry.detect_obstacles import DetectorConfig
-from lidar_geometry.domain_guard import DomainGuard
+from lidar_geometry.domain_guard import (
+    DomainGuard,
+    component_patch,
+)
 from lidar_geometry.evidence_memory import RangeEvidenceMemory
 from lidar_geometry.fast_detector import SafetyDetection, detect_fast
 from lidar_geometry.hybrid_detector import detect_hybrid
@@ -82,6 +85,8 @@ class RuntimeDetector:
         self.tree: PortableLinearTreeHybrid | None = None
         self.memory: RangeEvidenceMemory | None = None
         self.domain_guard: DomainGuard | None = None
+        self.tunnel_familiarity: float | None = None
+        self.tunnel_memory_frame = 0
 
         if algorithm == "linear_hybrid":
             if risk_model_path is None:
@@ -97,6 +102,8 @@ class RuntimeDetector:
             self.tree = PortableLinearTreeHybrid.load(portable_model_path)
             if algorithm == "memory_hybrid":
                 self.memory = RangeEvidenceMemory(self.tree.threshold)
+                if domain_guard_path is not None and domain_guard_path.is_file():
+                    self.domain_guard = DomainGuard.load(domain_guard_path)
 
     @classmethod
     def from_root(
@@ -113,18 +120,51 @@ class RuntimeDetector:
             portable_model_path=(
                 root / "lidar_geometry/artifacts/linear_extra_trees_hybrid.npz"
             ),
+            domain_guard_path=root / "lidar_geometry/models/domain_guard.npz",
         )
 
     def __call__(self, cloud: PointCloud2) -> SafetyDetection:
         if self.linear is not None:
             return detect_hybrid(cloud, self.linear, self.config, self.domain_guard)
-        geometric = detect_fast(cloud, self.config)
-        return self.apply_geometric(geometric)
+        context = [] if self.memory is not None else None
+        geometric = detect_fast(cloud, self.config, context_out=context)
+        return self.apply_geometric(
+            geometric,
+            context[0] if context else None,
+        )
 
-    def apply_geometric(self, geometric: SafetyDetection) -> SafetyDetection:
+    def apply_geometric(
+        self,
+        geometric: SafetyDetection,
+        context: tuple[np.ndarray, ...] | None = None,
+    ) -> SafetyDetection:
         if self.tree is None:
             return geometric
         scores = portable_tree_scores(geometric, self.tree)
         if self.memory is not None:
+            scores = self.adapt_scores_to_tunnel_memory(context, geometric, scores)
             return self.memory.update(geometric, scores)
         return filter_portable_tree_detection(geometric, self.tree, scores)
+
+    def adapt_scores_to_tunnel_memory(
+        self,
+        context: tuple[np.ndarray, ...] | None,
+        geometric: SafetyDetection,
+        scores: np.ndarray,
+    ) -> np.ndarray:
+        if context is None or self.domain_guard is None or not len(scores):
+            return scores
+        self.tunnel_memory_frame += 1
+        if self.tunnel_familiarity is None or self.tunnel_memory_frame % 50 == 0:
+            anchor = min(
+                geometric.obstacles,
+                key=lambda item: item.distance_min_m,
+            )
+            patch = component_patch(context, anchor)[None, ...]
+            self.tunnel_familiarity = float(self.domain_guard.confidence(patch)[0])
+        familiarity = self.tunnel_familiarity
+        return np.where(
+            familiarity >= self.domain_guard.confidence_threshold,
+            scores,
+            np.maximum(scores, self.tree.threshold),
+        )

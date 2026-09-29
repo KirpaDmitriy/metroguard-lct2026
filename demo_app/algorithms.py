@@ -24,5 +24,8 @@ class Detector(RuntimeDetector):
         if self.linear is not None:
             detection = filter_geometric_detection(geometric, self.linear)
         else:
-            detection = self.apply_geometric(geometric)
+            detection = self.apply_geometric(
+                geometric,
+                context[0] if context else None,
+            )
         return detection, context[0] if context else None

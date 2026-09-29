@@ -83,6 +83,24 @@ class RuntimeDetectorTest(unittest.TestCase):
         self.assertEqual(second.state, "OBSTACLE")
         self.assertEqual(second.reason, "online_evidence_memory")
 
+    def test_tunnel_memory_routes_unfamiliar_context_to_geometry(self):
+        detector = RuntimeDetector.from_root("memory_hybrid", ROOT)
+        scores = np.asarray([detector.tree.threshold * 0.8])
+        with (
+            patch(
+                "lidar_geometry.runtime_detector.component_patch",
+                return_value=np.zeros((3, 16, 16)),
+            ),
+            patch(
+                "lidar_geometry.runtime_detector.DomainGuard.confidence",
+                return_value=np.asarray([0.1]),
+            ),
+        ):
+            adapted = detector.adapt_scores_to_tunnel_memory(
+                (np.zeros(1),) * 4, geometric_detection(), scores
+            )
+        self.assertEqual(adapted[0], detector.tree.threshold)
+
     def test_geometry_does_not_require_model_files(self):
         with tempfile.TemporaryDirectory() as directory:
             detector = RuntimeDetector.from_root("geometry", Path(directory))

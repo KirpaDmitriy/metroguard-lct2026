@@ -2253,5 +2253,37 @@
       "lidar_geometry/test_evidence_memory.py",
       "lidar_geometry/test_portable_trees.py"
     ]
+  },
+  {
+    "id": "EXP-076",
+    "title": "Packaged tunnel-feature memory selector",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A packaged bank of normal tunnel-context descriptors can select the learned ranker on familiar geometry and persistent geometry on unfamiliar context without changing decisions on a known clean bag.",
+    "change": "Add one cached nearest-neighbour familiarity lookup every 50 candidate frames; familiar context keeps tree scores, unfamiliar context routes candidates to two-frame geometric confirmation.",
+    "expected_effect": "The complete known-tunnel bag keeps the same four alarm frames as EXP-075 and runs below 120 ms p95.",
+    "failure_condition": "Reject if decisions change on the known bag or p95 reaches 120 ms.",
+    "data": {
+      "sources": ["packaged normal-context bank", "complete roundT_doubleT organizer bag"],
+      "split_unit": "full_runtime_sequence",
+      "leakage_check": "The check is only a deployment-regression test on a known bag; no claim about hidden-tunnel quality is made.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m demo_app.worker --input external_data/hackathon/for_hackathon/roundT_doubleT/roundT_doubleT_0.db3 --algorithm memory_hybrid --output lidar_geometry/artifacts/tunnel_memory_smoke_exp076.json --progress /tmp/tunnel-memory-progress.json --without-visualization",
+    "metrics": {
+      "frames": 252,
+      "obstacle_frames": 4,
+      "baseline_obstacle_frames": 4,
+      "latency_p50_ms": 92.5321630002145,
+      "latency_p95_ms": 111.67897599989374
+    },
+    "decision": "accept",
+    "conclusion": "The packaged selector preserves the known-bag decisions and stays below its 120 ms integration gate. It makes the requested familiar-versus-unfamiliar routing real, but hidden-tunnel quality remains unmeasured and is not claimed.",
+    "artifacts": [
+      "lidar_geometry/artifacts/tunnel_memory_smoke_exp076.json",
+      "lidar_geometry/models/domain_guard.npz",
+      "lidar_geometry/runtime_detector.py",
+      "lidar_geometry/test_runtime_detector.py"
+    ]
   }
 ]
