@@ -644,7 +644,7 @@
       "leakage_check": "This is a semantics-preserving runtime experiment. State, reason, counts, and component coordinates rounded to 1e-5 were compared on the same first 30 frames.",
       "blind": false
     },
-    "command": "End-to-end timing after 10 warmup frames on roundT_doubleT_0.db3; detector and full world-mode measured around the same callback operations.",
+    "command": "Замер полного времени после 10 прогревочных кадров на roundT_doubleT_0.db3; детектор и режим сопровождения измерены вокруг одинаковых операций обработки кадра.",
     "metrics": {
       "frames": 242,
       "detector_median_ms": 65.887,
