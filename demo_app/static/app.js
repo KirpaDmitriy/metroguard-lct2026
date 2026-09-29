@@ -17,12 +17,17 @@ const stateLabels = {
 };
 
 const algorithmLabels = {
+  memory_hybrid: "Геометрия, ансамбль деревьев и память",
   geometry: "Только геометрия",
   linear_hybrid: "Геометрия и линейная модель",
   tree_hybrid: "Геометрия и ансамбль деревьев",
 };
 
 const reasonLabels = {
+  online_evidence_memory:
+    "Компонент подтверждён похожим наблюдением из недавней истории",
+  awaiting_online_memory_confirmation:
+    "Кандидат сохранён в памяти и ожидает повторного наблюдения",
   geometry_plus_portable_tree_ranker:
     "Геометрический кандидат подтверждён ансамблем деревьев",
   geometric_components_rejected_by_portable_tree_ranker:

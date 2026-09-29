@@ -5,6 +5,7 @@ lidar_geometry/**
 !lidar_geometry/detect_obstacles.py
 !lidar_geometry/domain_guard.py
 !lidar_geometry/ego_motion.py
+!lidar_geometry/evidence_memory.py
 !lidar_geometry/fast_detector.py
 !lidar_geometry/hybrid_detector.py
 !lidar_geometry/pointcloud2.py

@@ -2,16 +2,20 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict
 import json
-from pathlib import Path
 import time
+from dataclasses import asdict
+from pathlib import Path
 
 from lidar_geometry.detect_obstacles import DetectorConfig
-from lidar_geometry.ego_motion import EgoMotionEstimator
+from lidar_geometry.ego_motion import EgoMotionEstimator, MotionEstimate
 from lidar_geometry.pointcloud2 import PointCloud2, PointField
 from lidar_geometry.runtime_detector import ALGORITHMS, RuntimeDetector
-from lidar_geometry.temporal import ComponentTracker, WorldComponentTracker
+from lidar_geometry.temporal import (
+    ComponentTracker,
+    TemporalDecision,
+    WorldComponentTracker,
+)
 
 
 def main() -> None:
@@ -30,9 +34,10 @@ def main() -> None:
             self.declare_parameter("min_range_m", 3.0)
             self.declare_parameter("max_range_m", 150.0)
             self.declare_parameter("min_height_m", 0.06)
-            self.declare_parameter("algorithm", "tree_hybrid")
+            self.declare_parameter("algorithm", "memory_hybrid")
             self.declare_parameter(
-                "risk_model_path", "/opt/metro-guard/lidar_geometry/models/risk_model.json"
+                "risk_model_path",
+                "/opt/metro-guard/lidar_geometry/models/risk_model.json",
             )
             self.declare_parameter(
                 "portable_model_path",
@@ -40,13 +45,16 @@ def main() -> None:
             )
             self.declare_parameter("risk_threshold", -1.0)
             self.declare_parameter(
-                "domain_guard_path", "/opt/metro-guard/lidar_geometry/models/domain_guard.npz"
+                "domain_guard_path",
+                "/opt/metro-guard/lidar_geometry/models/domain_guard.npz",
             )
             self.declare_parameter("use_ego_motion", True)
             self.declare_parameter("input_reliability", "reliable")
             self.config = DetectorConfig(
                 half_width_m=float(self.get_parameter("half_width_m").value),
-                clearance_height_m=float(self.get_parameter("clearance_height_m").value),
+                clearance_height_m=float(
+                    self.get_parameter("clearance_height_m").value
+                ),
                 min_range_m=float(self.get_parameter("min_range_m").value),
                 max_range_m=float(self.get_parameter("max_range_m").value),
                 min_height_above_rail_m=float(self.get_parameter("min_height_m").value),
@@ -57,13 +65,9 @@ def main() -> None:
             self.use_ego_motion = bool(self.get_parameter("use_ego_motion").value)
             algorithm = str(self.get_parameter("algorithm").value)
             if algorithm not in ALGORITHMS:
-                raise ValueError(
-                    f"algorithm must be one of {', '.join(ALGORITHMS)}"
-                )
+                raise ValueError(f"algorithm must be one of {', '.join(ALGORITHMS)}")
             model_path = Path(str(self.get_parameter("risk_model_path").value))
-            portable_path = Path(
-                str(self.get_parameter("portable_model_path").value)
-            )
+            portable_path = Path(str(self.get_parameter("portable_model_path").value))
             domain_path = Path(str(self.get_parameter("domain_guard_path").value))
             threshold = float(self.get_parameter("risk_threshold").value)
             self.detector = RuntimeDetector(
@@ -74,6 +78,7 @@ def main() -> None:
                 domain_guard_path=domain_path,
                 risk_threshold=threshold,
             )
+            self.algorithm = algorithm
             self.publisher = self.create_publisher(String, "/metro_guard/detection", 10)
             topic = str(self.get_parameter("input_topic").value)
             reliability = str(self.get_parameter("input_reliability").value)
@@ -115,14 +120,25 @@ def main() -> None:
                 is_dense=message.is_dense,
             )
             raw = self.detector(cloud)
-            range_decision = self.range_tracker.update(raw)
-            motion = self.motion.update(cloud)
-            world_decision = self.world_tracker.update(raw, motion.cumulative_m)
-            decision = (
-                world_decision
-                if self.use_ego_motion and motion.reliable
-                else range_decision
-            )
+            if self.algorithm == "memory_hybrid":
+                motion = MotionEstimate(0.0, 0.0, 0.0, False)
+                decision = TemporalDecision(
+                    raw.state,
+                    raw.obstacle,
+                    raw.nearest_distance_m,
+                    raw.confidence,
+                    2 if raw.obstacle else 0,
+                    raw.reason,
+                )
+            else:
+                range_decision = self.range_tracker.update(raw)
+                motion = self.motion.update(cloud)
+                world_decision = self.world_tracker.update(raw, motion.cumulative_m)
+                decision = (
+                    world_decision
+                    if self.use_ego_motion and motion.reliable
+                    else range_decision
+                )
             payload = {
                 "stamp": {
                     "sec": message.header.stamp.sec,

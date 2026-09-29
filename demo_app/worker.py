@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter
-from dataclasses import asdict
-from pathlib import Path
 import sqlite3
 import statistics
 import time
+from collections import Counter
+from dataclasses import asdict
+from pathlib import Path
 
 from demo_app.algorithms import Detector
 from demo_app.config import ROOT
@@ -20,7 +20,8 @@ def inspect_bag(path: Path) -> int:
     with sqlite3.connect(uri, uri=True) as connection:
         connection.execute("PRAGMA query_only=ON")
         tables = {
-            row[0] for row in connection.execute(
+            row[0]
+            for row in connection.execute(
                 "SELECT name FROM sqlite_master WHERE type='table'"
             )
         }
@@ -32,14 +33,16 @@ def inspect_bag(path: Path) -> int:
         ).fetchone()[0]
         if not pointcloud_topics:
             raise ValueError("Bag has no sensor_msgs/msg/PointCloud2 topic")
-        return int(connection.execute(
-            """
+        return int(
+            connection.execute(
+                """
             SELECT COUNT(*) FROM messages
             JOIN topics ON topics.id = messages.topic_id
             WHERE topics.type = ?
             """,
-            ("sensor_msgs/msg/PointCloud2",),
-        ).fetchone()[0])
+                ("sensor_msgs/msg/PointCloud2",),
+            ).fetchone()[0]
+        )
 
 
 def analyze_bag(
@@ -47,6 +50,7 @@ def analyze_bag(
     algorithm: str,
     progress_path: Path,
     max_frames: int | None = None,
+    include_visualization: bool = True,
 ) -> dict:
     total = inspect_bag(input_path)
     if max_frames is not None:
@@ -75,18 +79,22 @@ def analyze_bag(
             "reason": detection.reason,
             "obstacles": [asdict(item) for item in detection.obstacles[:3]],
         }
-        visualization = compact_cloud(context, detection.obstacles)
-        if visualization is not None:
-            item["visualization"] = visualization
+        if include_visualization:
+            visualization = compact_cloud(context, detection.obstacles)
+            if visualization is not None:
+                item["visualization"] = visualization
         timeline.append(item)
         if frame % 5 == 0 or frame + 1 == total:
-            write_json(progress_path, {
-                "status": "running",
-                "processed_frames": frame + 1,
-                "total_frames": total,
-                "progress": (frame + 1) / max(1, total),
-                "elapsed_seconds": time.monotonic() - started,
-            })
+            write_json(
+                progress_path,
+                {
+                    "status": "running",
+                    "processed_frames": frame + 1,
+                    "total_frames": total,
+                    "progress": (frame + 1) / max(1, total),
+                    "elapsed_seconds": time.monotonic() - started,
+                },
+            )
     elapsed = time.monotonic() - started
     return {
         "algorithm": algorithm,
@@ -95,7 +103,11 @@ def analyze_bag(
             "states": dict(states),
             "obstacle_frames": states["OBSTACLE"],
             "nearest_obstacle_m": min(
-                (item["distance_m"] for item in timeline if item["state"] == "OBSTACLE"),
+                (
+                    item["distance_m"]
+                    for item in timeline
+                    if item["state"] == "OBSTACLE"
+                ),
                 default=None,
             ),
             "elapsed_seconds": elapsed,
@@ -103,7 +115,8 @@ def analyze_bag(
             "latency_p50_ms": statistics.median(latencies) if latencies else None,
             "latency_p95_ms": (
                 sorted(latencies)[round(0.95 * (len(latencies) - 1))]
-                if latencies else None
+                if latencies
+                else None
             ),
         },
         "timeline": timeline,
@@ -117,9 +130,14 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--progress", type=Path, required=True)
     parser.add_argument("--max-frames", type=int)
+    parser.add_argument("--without-visualization", action="store_true")
     args = parser.parse_args()
     result = analyze_bag(
-        args.input, args.algorithm, args.progress, args.max_frames
+        args.input,
+        args.algorithm,
+        args.progress,
+        args.max_frames,
+        include_visualization=not args.without_visualization,
     )
     write_json(args.output, result)
 

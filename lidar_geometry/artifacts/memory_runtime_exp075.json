@@ -1,0 +1,32 @@
+{
+  "experiment": "EXP-075",
+  "protocol": {
+    "bag": "roundT_doubleT_0.db3",
+    "comparison": "portable per-frame hybrid versus portable range-evidence memory",
+    "training": false,
+    "network": false
+  },
+  "tree_hybrid": {
+    "frames": 252,
+    "obstacle_frames": 6,
+    "unknown_frames": 235,
+    "median_ms": 76.6051650002737,
+    "p95_ms": 112.70714400052384,
+    "max_ms": 179.25455599925044
+  },
+  "memory_hybrid": {
+    "frames": 252,
+    "obstacle_frames": 4,
+    "unknown_frames": 237,
+    "median_ms": 74.98142399981589,
+    "p95_ms": 101.50033599984454,
+    "max_ms": 160.8905130005951
+  },
+  "incremental_memory_update": {
+    "frames": 252,
+    "median_ms": 0.047893499868223444,
+    "p95_ms": 0.10155599920835812,
+    "max_ms": 0.2002040000661509,
+    "maximum_score_error": 5.551115123125783e-16
+  }
+}

@@ -7,33 +7,43 @@ import numpy as np
 
 from lidar_geometry.detect_obstacles import DetectorConfig
 from lidar_geometry.domain_guard import DomainGuard
+from lidar_geometry.evidence_memory import RangeEvidenceMemory
 from lidar_geometry.fast_detector import SafetyDetection, detect_fast
 from lidar_geometry.hybrid_detector import detect_hybrid
 from lidar_geometry.pointcloud2 import PointCloud2
 from lidar_geometry.portable_trees import PortableLinearTreeHybrid
 from lidar_geometry.risk_model import RiskModel, component_features
 
+ALGORITHMS = ("geometry", "linear_hybrid", "tree_hybrid", "memory_hybrid")
 
-ALGORITHMS = ("geometry", "linear_hybrid", "tree_hybrid")
+
+def portable_tree_scores(
+    geometric: SafetyDetection,
+    model: PortableLinearTreeHybrid,
+) -> np.ndarray:
+    if not geometric.obstacles:
+        return np.empty(0)
+    features = np.vstack([component_features(item) for item in geometric.obstacles])
+    return model.score(features)
 
 
 def filter_portable_tree_detection(
     geometric: SafetyDetection,
     model: PortableLinearTreeHybrid,
+    scores: np.ndarray | None = None,
 ) -> SafetyDetection:
     if not geometric.obstacles:
         return geometric
-    features = np.vstack([component_features(item) for item in geometric.obstacles])
-    scores = model.score(features)
+    if scores is None:
+        scores = portable_tree_scores(geometric, model)
     accepted = [
-        item for item, score in zip(geometric.obstacles, scores)
+        item
+        for item, score in zip(geometric.obstacles, scores)
         if score >= model.threshold
     ]
     if accepted:
         nearest = min(accepted, key=lambda item: item.distance_min_m)
-        confidence = max(
-            float(score) for score in scores if score >= model.threshold
-        )
+        confidence = max(float(score) for score in scores if score >= model.threshold)
         return replace(
             geometric,
             state="OBSTACLE",
@@ -70,6 +80,7 @@ class RuntimeDetector:
         self.config = config
         self.linear: RiskModel | None = None
         self.tree: PortableLinearTreeHybrid | None = None
+        self.memory: RangeEvidenceMemory | None = None
         self.domain_guard: DomainGuard | None = None
 
         if algorithm == "linear_hybrid":
@@ -80,10 +91,12 @@ class RuntimeDetector:
                 self.linear = replace(self.linear, threshold=risk_threshold)
             if domain_guard_path is not None:
                 self.domain_guard = DomainGuard.load(domain_guard_path)
-        elif algorithm == "tree_hybrid":
+        elif algorithm in {"tree_hybrid", "memory_hybrid"}:
             if portable_model_path is None:
                 raise ValueError("tree_hybrid requires portable_model_path")
             self.tree = PortableLinearTreeHybrid.load(portable_model_path)
+            if algorithm == "memory_hybrid":
+                self.memory = RangeEvidenceMemory(self.tree.threshold)
 
     @classmethod
     def from_root(
@@ -104,10 +117,14 @@ class RuntimeDetector:
 
     def __call__(self, cloud: PointCloud2) -> SafetyDetection:
         if self.linear is not None:
-            return detect_hybrid(
-                cloud, self.linear, self.config, self.domain_guard
-            )
+            return detect_hybrid(cloud, self.linear, self.config, self.domain_guard)
         geometric = detect_fast(cloud, self.config)
+        return self.apply_geometric(geometric)
+
+    def apply_geometric(self, geometric: SafetyDetection) -> SafetyDetection:
         if self.tree is None:
             return geometric
-        return filter_portable_tree_detection(geometric, self.tree)
+        scores = portable_tree_scores(geometric, self.tree)
+        if self.memory is not None:
+            return self.memory.update(geometric, scores)
+        return filter_portable_tree_detection(geometric, self.tree, scores)

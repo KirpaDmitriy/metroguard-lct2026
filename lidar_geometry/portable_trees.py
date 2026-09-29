@@ -56,26 +56,24 @@ class PortableExtraTrees:
 
     def score(self, values: np.ndarray) -> np.ndarray:
         values = np.asarray(values, dtype=np.float64)
-        scores = np.zeros(len(values), dtype=np.float64)
-        rows = np.arange(len(values))
-        for start in self.offsets[:-1]:
-            nodes = np.full(len(values), start, dtype=np.int32)
-            while True:
-                node_features = self.feature[nodes]
-                active = node_features >= 0
-                if not active.any():
-                    break
-                active_rows = rows[active]
-                active_nodes = nodes[active]
-                go_left = (
-                    values[active_rows, node_features[active]]
-                    <= self.threshold[active_nodes]
-                )
-                nodes[active] = np.where(
-                    go_left, self.left[active_nodes], self.right[active_nodes]
-                )
-            scores += self.positive_probability[nodes]
-        return scores / (len(self.offsets) - 1)
+        if not len(values):
+            return np.empty(0, dtype=np.float64)
+        roots = self.offsets[:-1]
+        nodes = np.broadcast_to(roots, (len(values), len(roots))).copy()
+        while True:
+            node_features = self.feature[nodes]
+            active_rows, active_trees = np.nonzero(node_features >= 0)
+            if not len(active_rows):
+                break
+            active_nodes = nodes[active_rows, active_trees]
+            features = self.feature[active_nodes]
+            go_left = values[active_rows, features] <= self.threshold[active_nodes]
+            nodes[active_rows, active_trees] = np.where(
+                go_left,
+                self.left[active_nodes],
+                self.right[active_nodes],
+            )
+        return self.positive_probability[nodes].mean(axis=1)
 
     def save(self, path: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)

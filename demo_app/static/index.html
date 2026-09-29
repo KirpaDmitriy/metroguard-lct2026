@@ -21,7 +21,7 @@
       <div class="or"><span>или загрузить свой набор</span></div>
       <form id="upload-form">
         <label class="drop"><input id="bag" name="bag" type="file" accept=".db3" required><span>Выбрать .db3</span><small id="filename">Файл не выбран</small></label>
-        <label>Алгоритм<select id="algorithm" name="algorithm"><option value="best">Лучший по метрикам</option><option value="geometry">Только геометрия</option><option value="linear_hybrid">Геометрия и линейная модель</option><option value="tree_hybrid">Геометрия и ансамбль деревьев</option></select></label>
+        <label>Алгоритм<select id="algorithm" name="algorithm"><option value="best">Лучший по метрикам</option><option value="memory_hybrid">Ансамбль с памятью</option><option value="geometry">Только геометрия</option><option value="linear_hybrid">Геометрия и линейная модель</option><option value="tree_hybrid">Геометрия и ансамбль деревьев</option></select></label>
         <button type="submit">Запустить анализ</button>
       </form>
       <div id="message"></div>

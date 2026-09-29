@@ -1,0 +1,271 @@
+{
+  "experiment": "EXP-073",
+  "protocol": {
+    "change": "two matching candidate observations in three frames, including scores down to 75% of the frozen threshold",
+    "confirmation": "at least one observation crosses the original threshold",
+    "reference_map": false,
+    "same_route_required": false,
+    "memory_scope": "current bag only",
+    "normal_split": {
+      "split": "leave-one-organizer-recording-out",
+      "training_cache": "spatial_patch_cache_v1.npz",
+      "threshold": "99th percentile of training real-frame maximum scores",
+      "tree": "100 Extra Trees, depth 6, minimum leaf 5, 25/75 linear/tree blend",
+      "domain_reference": "training-fold real candidates only"
+    },
+    "normal_frames": "all frames from five complete organizer bags",
+    "event_sequences": "21 exact-mask sequences on held-out bag models"
+  },
+  "normal": {
+    "frames": 2287,
+    "per_frame_alarm_frames": 33,
+    "memory_alarm_frames": 22,
+    "alarm_frame_reduction": 0.33333333333333337,
+    "per_frame_alarm_episodes": 23,
+    "memory_alarm_episodes": 15,
+    "alarm_episode_reduction": 0.34782608695652173,
+    "by_bag": [
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "frames": 268,
+        "per_frame_alarm_frames": 3,
+        "per_frame_alarm_episodes": 1,
+        "memory_alarm_frames": 4,
+        "memory_alarm_episodes": 1
+      },
+      {
+        "bag": "roundT_doubleT",
+        "frames": 252,
+        "per_frame_alarm_frames": 1,
+        "per_frame_alarm_episodes": 1,
+        "memory_alarm_frames": 0,
+        "memory_alarm_episodes": 0
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "frames": 545,
+        "per_frame_alarm_frames": 19,
+        "per_frame_alarm_episodes": 13,
+        "memory_alarm_frames": 13,
+        "memory_alarm_episodes": 9
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frames": 877,
+        "per_frame_alarm_frames": 5,
+        "per_frame_alarm_episodes": 5,
+        "memory_alarm_frames": 2,
+        "memory_alarm_episodes": 2
+      },
+      {
+        "bag": "doubleT_platform",
+        "frames": 345,
+        "per_frame_alarm_frames": 5,
+        "per_frame_alarm_episodes": 3,
+        "memory_alarm_frames": 3,
+        "memory_alarm_episodes": 3
+      }
+    ]
+  },
+  "events": {
+    "count": 21,
+    "per_frame_detected": 17,
+    "memory_detected": 17,
+    "events_lost": 0,
+    "rows": [
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "scenario": "large_center",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 10,
+        "memory_confirmed_frames": 9
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "scenario": "minimum_center",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 3,
+        "memory_confirmed_frames": 2
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "scenario": "minimum_on_rail",
+        "evaluable_frames": 11,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 1,
+        "memory_confirmed_frames": 2
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "scenario": "minimum_edge_inside",
+        "evaluable_frames": 11,
+        "per_frame_detected": false,
+        "memory_detected": false,
+        "per_frame_confirmed_frames": 0,
+        "memory_confirmed_frames": 0
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "scenario": "large_edge_inside",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 9,
+        "memory_confirmed_frames": 8
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "scenario": "long_low_on_rails",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 10,
+        "memory_confirmed_frames": 9
+      },
+      {
+        "bag": "roundT_pressureGate_roundT",
+        "scenario": "hanging_cable",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 10,
+        "memory_confirmed_frames": 9
+      },
+      {
+        "bag": "roundT_doubleT",
+        "scenario": "large_center",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 12,
+        "memory_confirmed_frames": 11
+      },
+      {
+        "bag": "roundT_doubleT",
+        "scenario": "minimum_center",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 5,
+        "memory_confirmed_frames": 5
+      },
+      {
+        "bag": "roundT_doubleT",
+        "scenario": "minimum_on_rail",
+        "evaluable_frames": 12,
+        "per_frame_detected": false,
+        "memory_detected": false,
+        "per_frame_confirmed_frames": 0,
+        "memory_confirmed_frames": 0
+      },
+      {
+        "bag": "roundT_doubleT",
+        "scenario": "minimum_edge_inside",
+        "evaluable_frames": 12,
+        "per_frame_detected": false,
+        "memory_detected": false,
+        "per_frame_confirmed_frames": 0,
+        "memory_confirmed_frames": 0
+      },
+      {
+        "bag": "roundT_doubleT",
+        "scenario": "large_edge_inside",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 12,
+        "memory_confirmed_frames": 11
+      },
+      {
+        "bag": "roundT_doubleT",
+        "scenario": "long_low_on_rails",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 10,
+        "memory_confirmed_frames": 10
+      },
+      {
+        "bag": "roundT_doubleT",
+        "scenario": "hanging_cable",
+        "evaluable_frames": 11,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 10,
+        "memory_confirmed_frames": 10
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "scenario": "large_center",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 12,
+        "memory_confirmed_frames": 10
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "scenario": "minimum_center",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 7,
+        "memory_confirmed_frames": 5
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "scenario": "minimum_on_rail",
+        "evaluable_frames": 12,
+        "per_frame_detected": false,
+        "memory_detected": false,
+        "per_frame_confirmed_frames": 0,
+        "memory_confirmed_frames": 0
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "scenario": "minimum_edge_inside",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 2,
+        "memory_confirmed_frames": 2
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "scenario": "large_edge_inside",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 12,
+        "memory_confirmed_frames": 10
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "scenario": "long_low_on_rails",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 10,
+        "memory_confirmed_frames": 8
+      },
+      {
+        "bag": "roundT_squareT_pressureGate_squareT",
+        "scenario": "hanging_cable",
+        "evaluable_frames": 12,
+        "per_frame_detected": true,
+        "memory_detected": true,
+        "per_frame_confirmed_frames": 10,
+        "memory_confirmed_frames": 9
+      }
+    ]
+  },
+  "runtime": {
+    "median_ms": 86.37785400060238,
+    "p95_ms": 135.48752899987448
+  }
+}

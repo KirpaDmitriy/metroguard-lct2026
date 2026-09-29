@@ -45,6 +45,11 @@ class AppTest(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertEqual(result.json()["result"]["algorithm"], "geometry")
 
+    def test_memory_preset_can_be_loaded(self):
+        result = self.client.get("/api/presets/clean?algorithm=memory_hybrid")
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.json()["result"]["algorithm"], "memory_hybrid")
+
     def test_preset_rejects_unknown_names(self):
         self.assertEqual(self.client.get("/api/presets/missing").status_code, 404)
         self.assertEqual(

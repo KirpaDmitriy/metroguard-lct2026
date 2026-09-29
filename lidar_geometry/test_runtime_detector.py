@@ -5,6 +5,8 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+import numpy as np
+
 from demo_app.algorithms import Detector as DemoDetector
 from lidar_geometry.detect_obstacles import Obstacle
 from lidar_geometry.fast_detector import SafetyDetection
@@ -58,6 +60,28 @@ class RuntimeDetectorTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             with self.assertRaises(FileNotFoundError):
                 RuntimeDetector.from_root("tree_hybrid", Path(directory))
+
+    def test_memory_hybrid_uses_recent_candidate_evidence(self):
+        detector = RuntimeDetector.from_root("memory_hybrid", ROOT)
+        geometric = geometric_detection()
+        with (
+            patch(
+                "lidar_geometry.runtime_detector.detect_fast",
+                return_value=geometric,
+            ),
+            patch(
+                "lidar_geometry.runtime_detector.portable_tree_scores",
+                side_effect=(
+                    np.asarray([detector.tree.threshold + 0.01]),
+                    np.asarray([detector.tree.threshold * 0.8]),
+                ),
+            ),
+        ):
+            first = detector(None)
+            second = detector(None)
+        self.assertEqual(first.state, "UNKNOWN")
+        self.assertEqual(second.state, "OBSTACLE")
+        self.assertEqual(second.reason, "online_evidence_memory")
 
     def test_geometry_does_not_require_model_files(self):
         with tempfile.TemporaryDirectory() as directory:
