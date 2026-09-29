@@ -44,7 +44,3 @@ class InvariantSpatialTest(unittest.TestCase):
         self.assertEqual(result.shape, (1, 3, 16, 16))
         self.assertGreater(float(result.max()), 0)
         self.assertEqual(float(result[:, :, :3, :3].max()), 0)
-
-
-if __name__ == "__main__":
-    unittest.main()

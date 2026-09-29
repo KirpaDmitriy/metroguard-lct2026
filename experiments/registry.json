@@ -1999,5 +1999,117 @@
       "lidar_geometry/portable_temporal_experiment.py",
       "lidar_geometry/test_portable_temporal_experiment.py"
     ]
+  },
+  {
+    "id": "EXP-069",
+    "title": "Range ceiling sweep",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "Raising only max_range_m from 150 m to 200 or 300 m will recover targets beyond 150 m without changing near-range specificity or exceeding the runtime budget.",
+    "change": "Keep path estimation, proposal generation, learned weights and thresholds frozen; vary max_range_m only.",
+    "expected_effect": "At least one algorithm gains non-zero exact-attribution recall beyond 150 m with no loss of negative specificity and p95 below 100 ms.",
+    "failure_condition": "Reject if decisions are unchanged, recall beyond 150 m remains zero, specificity drops, or p95 reaches 100 ms.",
+    "data": {
+      "sources": [
+        "five organizer bags without obstacle in the filename",
+        "ray-consistent exact-mask insertions at 80, 100, 120, 150 and 180 m"
+      ],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "All models and thresholds were frozen; no fitting was performed and every ceiling saw the same complete source frames and derived insertions.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.range_ceiling_experiment external_data/hackathon/for_hackathon --frames-per-bag 6 --sample-every 20 --output lidar_geometry/artifacts/range_ceiling_exp069.json",
+    "metrics": {
+      "frames": 30,
+      "reliable_track_range_median_m": 89.0,
+      "reliable_track_range_maximum_m": 184.0,
+      "geometry_recall_120m": 0.2857142857142857,
+      "geometry_recall_150m": 0.0,
+      "geometry_recall_180m": 0.0,
+      "tree_recall_120m": 0.0,
+      "all_decisions_identical_across_ceilings": true
+    },
+    "decision": "reject",
+    "conclusion": "A higher numeric ceiling alone does nothing. All three algorithms produced identical decisions at 150, 200 and 300 m because the usable corridor ends at the last reliable rail pair. The median reliable range was 89 m and even the best frame reached only 184 m. Keep the production ceiling unchanged and test an explicit path-extension method separately.",
+    "artifacts": [
+      "lidar_geometry/artifacts/range_ceiling_exp069.json",
+      "lidar_geometry/range_ceiling_experiment.py"
+    ]
+  },
+  {
+    "id": "EXP-070",
+    "title": "Bounded path extrapolation",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A 60 m median-tangent continuation after the last reliable rail pair will create useful 120–150 m proposals while preserving the sampled normal-background alarm rate.",
+    "change": "Add only bounded median-tangent extrapolation of track center and rail height; keep component rules and learned rankers frozen.",
+    "expected_effect": "Exact-attribution recall becomes non-zero at 150 m for at least one algorithm with no increase in background alarm rate.",
+    "failure_condition": "Reject if 150 m recall remains zero or any algorithm gains background alarms on the same source frames.",
+    "data": {
+      "sources": [
+        "five organizer bags without obstacle in the filename",
+        "ray-consistent exact-mask insertions at 120, 150 and 180 m"
+      ],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "No fitting was performed; zero and 60 m extrapolation used identical frames and insertions with frozen downstream rankers.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.path_extrapolation_experiment external_data/hackathon/for_hackathon --frames-per-bag 3 --sample-every 20 --output lidar_geometry/artifacts/path_extrapolation_exp070.json",
+    "metrics": {
+      "geometry_recall_120m_without_extrapolation": 0.1935483870967742,
+      "geometry_recall_120m_with_extrapolation": 0.6451612903225806,
+      "geometry_recall_150m_without_extrapolation": 0.0,
+      "geometry_recall_150m_with_extrapolation": 0.8333333333333334,
+      "geometry_background_alarm_rate_without_extrapolation": 0.5333333333333333,
+      "geometry_background_alarm_rate_with_extrapolation": 0.7333333333333333,
+      "tree_recall_150m_with_extrapolation": 0.0,
+      "linear_recall_150m_with_extrapolation": 0.0
+    },
+    "decision": "reject",
+    "conclusion": "Extrapolation proves that long-range geometry is possible: recall rises to 64.5% at 120 m and 83.3% at 150 m on evaluable insertions. It is not safe as a default because raw geometry alarms rise by 20 percentage points, while both existing learned rankers reject every far candidate. Keep the implementation disabled by default and evaluate a separately trained far-range ranker.",
+    "artifacts": [
+      "lidar_geometry/artifacts/path_extrapolation_exp070.json",
+      "lidar_geometry/path_extrapolation_experiment.py",
+      "lidar_geometry/test_fast_detector.py"
+    ]
+  },
+  {
+    "id": "EXP-071",
+    "title": "Held-out-tunnel far-range ranker",
+    "status": "complete",
+    "created": "2026-09-29",
+    "hypothesis": "A compact Extra Trees ranker trained only on extrapolated far candidates from three organizer tunnels will retain useful 120–150 m recall on two unseen tunnels with no new normal-frame alarms.",
+    "change": "Keep the accepted near-range hybrid frozen; train only a separate 100-tree ranker for candidates beyond the last reliable rail bin.",
+    "expected_effect": "On two held-out whole bags, far-event recall exceeds 30%, target specificity is 100%, and the incremental normal-frame alarm rate is 0%.",
+    "failure_condition": "Reject if recall is at most 30%, target specificity is below 100%, or any held-out normal frame receives a far-range alarm.",
+    "data": {
+      "sources": [
+        "development: roundT_pressureGate_roundT, roundT_doubleT, roundT_squareT_pressureGate_squareT",
+        "test: squareT_platform_squareT_switch, doubleT_platform",
+        "ray-consistent 120 and 150 m insertions"
+      ],
+      "split_unit": "whole_organizer_bag",
+      "leakage_check": "Model fitting and threshold selection use only three complete development bags; both platform bags remain untouched until the final evaluation.",
+      "blind": false
+    },
+    "command": ".venv-lidar/bin/python -m lidar_geometry.far_range_ranker_experiment external_data/hackathon/for_hackathon --model lidar_geometry/artifacts/far_range_extra_trees.npz --output lidar_geometry/artifacts/far_range_ranker_exp071.json",
+    "metrics": {
+      "training_candidates": 501,
+      "training_positives": 60,
+      "model_bytes": 70675,
+      "held_out_normal_frames": 31,
+      "held_out_normal_alarm_frames": 7,
+      "held_out_normal_alarm_rate": 0.22580645161290322,
+      "held_out_positive_events": 82,
+      "held_out_positive_recall": 0.45121951219512196,
+      "held_out_negative_specificity": 1.0
+    },
+    "decision": "reject",
+    "conclusion": "The ranker transfers enough signal to recover 45.1% of evaluable far events and keeps exact target specificity at 100%, but it creates alarms on 7 of 31 held-out normal frames. The domain shift from round tunnels to platform and switch scenes is too large. Do not ship the extrapolated branch or its weights; retain the current near-range hybrid and the negative result as evidence.",
+    "artifacts": [
+      "lidar_geometry/artifacts/far_range_ranker_exp071.json",
+      "lidar_geometry/artifacts/far_range_extra_trees.npz",
+      "lidar_geometry/far_range_ranker_experiment.py"
+    ]
   }
 ]

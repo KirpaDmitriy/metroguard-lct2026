@@ -9,12 +9,12 @@ not classify obstacle type: the task is intrusion into the swept train volume.
 from __future__ import annotations
 
 import argparse
-from dataclasses import asdict, dataclass, replace
 import json
 import math
-from pathlib import Path
 import statistics
 import time
+from dataclasses import asdict, dataclass, replace
+from pathlib import Path
 from typing import Literal
 
 import numpy as np
@@ -28,16 +28,15 @@ from lidar_geometry.detect_obstacles import (
 )
 from lidar_geometry.pointcloud2 import PointCloud2, iter_bag_messages
 
-
 _NUMPY_FORMATS = {
-    1: "i1",   # INT8
-    2: "u1",   # UINT8
-    3: "i2",   # INT16
-    4: "u2",   # UINT16
-    5: "i4",   # INT32
-    6: "u4",   # UINT32
-    7: "f4",   # FLOAT32
-    8: "f8",   # FLOAT64
+    1: "i1",
+    2: "u1",
+    3: "i2",
+    4: "u2",
+    5: "i4",
+    6: "u4",
+    7: "f4",
+    8: "f8",
 }
 
 
@@ -76,16 +75,21 @@ def cloud_arrays(cloud: PointCloud2) -> dict[str, np.ndarray]:
         raise ValueError(f"PointCloud2 fields missing: {sorted(missing)}")
     selected = required + (("ring",) if "ring" in fields else ())
     endian = ">" if cloud.is_bigendian else "<"
-    dtype = np.dtype({
-        "names": list(selected),
-        "formats": [endian + _NUMPY_FORMATS[fields[name].datatype] for name in selected],
-        "offsets": [fields[name].offset for name in selected],
-        "itemsize": cloud.point_step,
-    })
+    dtype = np.dtype(
+        {
+            "names": list(selected),
+            "formats": [
+                endian + _NUMPY_FORMATS[fields[name].datatype] for name in selected
+            ],
+            "offsets": [fields[name].offset for name in selected],
+            "itemsize": cloud.point_step,
+        }
+    )
     view = np.frombuffer(cloud.data, dtype=dtype, count=cloud.point_count)
     arrays = {name: view[name] for name in required}
     arrays["ring"] = (
-        view["ring"] if "ring" in fields
+        view["ring"]
+        if "ring" in fields
         else np.full(cloud.point_count, -1, dtype=np.int32)
     )
     return arrays
@@ -137,8 +141,6 @@ def _greedy_track_profile(
     cell = config.path_cell_m
     x_min = -config.path_search_half_width_m
     x_count = int(round(2 * config.path_search_half_width_m / cell)) + 1
-    # All supplied recordings place the track far above -5 m in sensor frame.
-    # The lower clamp rejects rare invalid/multipath returns without affecting rails.
     z_min = -5.0
     z_count = int(round((config.floor_sample_max_z_m - z_min) / cell)) + 1
 
@@ -155,7 +157,9 @@ def _greedy_track_profile(
         if np.count_nonzero(valid) < config.floor_min_points_per_bin:
             continue
         flat = ix[valid] * z_count + iz[valid]
-        histogram = np.bincount(flat, minlength=x_count * z_count).reshape(x_count, z_count)
+        histogram = np.bincount(flat, minlength=x_count * z_count).reshape(
+            x_count, z_count
+        )
         neighbourhood = _neighbourhood_3x3(histogram)
         flat_scores = neighbourhood.ravel()
         eligible = np.flatnonzero(flat_scores >= config.path_min_cell_neighbourhood)
@@ -183,7 +187,8 @@ def _greedy_track_profile(
         z_difference = np.abs(candidate_z[None, :] - candidate_z[:, None])
         center = (candidate_x[None, :] + candidate_x[:, None]) / 2
         pair_score = (
-            scores[None, :] + scores[:, None]
+            scores[None, :]
+            + scores[:, None]
             - 10 * np.abs(gauge - config.rail_gauge_m)
             - 8 * z_difference
             - 10 * np.abs(center - predicted_center)
@@ -281,14 +286,12 @@ def _continuity_track_profile(
         if np.count_nonzero(valid) < config.floor_min_points_per_bin:
             continue
         flat = ix[valid] * z_count + iz[valid]
-        histogram = np.bincount(
-            flat, minlength=x_count * z_count
-        ).reshape(x_count, z_count)
+        histogram = np.bincount(flat, minlength=x_count * z_count).reshape(
+            x_count, z_count
+        )
         neighbourhood = _neighbourhood_3x3(histogram)
         flat_scores = neighbourhood.ravel()
-        eligible = np.flatnonzero(
-            flat_scores >= config.path_min_cell_neighbourhood
-        )
+        eligible = np.flatnonzero(flat_scores >= config.path_min_cell_neighbourhood)
         if not len(eligible):
             continue
         keep = min(config.path_max_cells_per_bin, len(eligible))
@@ -305,7 +308,8 @@ def _continuity_track_profile(
         z_difference = np.abs(candidate_z[None, :] - candidate_z[:, None])
         center = (candidate_x[None, :] + candidate_x[:, None]) / 2
         emission = (
-            scores[None, :] + scores[:, None]
+            scores[None, :]
+            + scores[:, None]
             - 10 * np.abs(gauge - config.rail_gauge_m)
             - 8 * z_difference
         )
@@ -339,7 +343,9 @@ def _continuity_track_profile(
     first_candidates = observations[0][1]
     first_centers = np.array([item.center for item in first_candidates])
     allowed_first = np.abs(first_centers) <= config.path_initial_center_tolerance_m
-    scores = np.array([item.score for item in first_candidates]) - 10 * np.abs(first_centers)
+    scores = np.array([item.score for item in first_candidates]) - 10 * np.abs(
+        first_centers
+    )
     scores[~allowed_first] = -np.inf
     if not np.any(np.isfinite(scores)):
         return None
@@ -358,11 +364,7 @@ def _continuity_track_profile(
             config.path_center_step_m
             + config.path_center_step_per_missing_bin_m * (index - previous_index)
         )
-        transitions = (
-            score_layers[-1][:, None]
-            - 10 * center_step
-            - 8 * z_step
-        )
+        transitions = score_layers[-1][:, None] - 10 * center_step - 8 * z_step
         transitions[center_step > allowed_shift] = -np.inf
         parent = np.argmax(transitions, axis=0)
         best = transitions[parent, np.arange(len(current))]
@@ -448,12 +450,25 @@ def _interpolate_track(
     centers = np.array([profile[int(i)].center for i in indexes])
     rail_z = np.array([profile[int(i)].rail_z for i in indexes])
     position = distance / config.floor_bin_m
-    valid = (position >= indexes[0]) & (position <= indexes[-1] + 1)
-    return (
-        np.interp(position, indexes, centers),
-        np.interp(position, indexes, rail_z),
-        valid,
-    )
+    maximum = indexes[-1] + 1 + config.path_extrapolation_m / config.floor_bin_m
+    valid = (position >= indexes[0]) & (position <= maximum)
+    center = np.interp(position, indexes, centers)
+    height = np.interp(position, indexes, rail_z)
+    beyond = position > indexes[-1]
+    if np.any(beyond) and len(indexes) >= 2:
+        tail = min(5, len(indexes))
+        index_steps = np.diff(indexes[-tail:])
+        center_steps = np.diff(centers[-tail:]) / index_steps
+        height_steps = np.diff(rail_z[-tail:]) / index_steps
+        center_step = np.clip(
+            np.median(center_steps),
+            -config.path_center_step_m,
+            config.path_center_step_m,
+        )
+        delta = position[beyond] - indexes[-1]
+        center[beyond] = centers[-1] + center_step * delta
+        height[beyond] = rail_z[-1] + np.median(height_steps) * delta
+    return center, height, valid
 
 
 def _surface_reference(
@@ -477,20 +492,21 @@ def _surface_reference(
         & (height >= -0.50)
         & (height <= config.surface_max_height_above_rail_m)
     )
-    # Median height per (distance, lateral) cell using a compact histogram.
-    # A 2 cm vertical bin is below the sensor's long-range accuracy and avoids
-    # thousands of tiny Python median calls per frame.
     h_min = -0.50
     h_step = 0.02
     n_h = int(math.ceil((config.surface_max_height_above_rail_m - h_min) / h_step)) + 1
     raw = np.full((n_d, n_x), np.nan, dtype=np.float64)
     if np.any(valid):
-        hi = np.clip(np.rint((height[valid] - h_min) / h_step), 0, n_h - 1).astype(np.int32)
+        hi = np.clip(np.rint((height[valid] - h_min) / h_step), 0, n_h - 1).astype(
+            np.int32
+        )
         key = (di[valid] * n_x + li[valid]) * n_h + hi
         histogram = np.bincount(key, minlength=n_d * n_x * n_h).reshape(n_d, n_x, n_h)
         totals = histogram.sum(axis=2)
         threshold = (totals + 1) // 2
-        median_index = (histogram.cumsum(axis=2) >= threshold[:, :, None]).argmax(axis=2)
+        median_index = (histogram.cumsum(axis=2) >= threshold[:, :, None]).argmax(
+            axis=2
+        )
         raw[totals > 0] = h_min + median_index[totals > 0] * h_step
 
     radius = config.surface_longitudinal_radius_cells
@@ -499,15 +515,11 @@ def _surface_reference(
     longitudinal_windows = np.lib.stride_tricks.sliding_window_view(
         longitudinal, 2 * radius + 1, axis=0
     )
-    # Leave the current cell out. Otherwise a sparse far-range obstacle can
-    # become its own "normal" surface when no adjacent return exists.
     neighbours_only = np.concatenate(
         (longitudinal_windows[..., :radius], longitudinal_windows[..., radius + 1 :]),
         axis=-1,
     )
     smooth = _nanmedian_last_axis(neighbours_only)
-    # Fill only a 3x3 neighbourhood; farther borrowing would let a platform
-    # or wall redefine the path surface.
     padded = np.pad(smooth, 1, constant_values=np.nan)
     windows = np.lib.stride_tricks.sliding_window_view(padded, (3, 3))
     local = _nanmedian_last_axis(windows.reshape(*windows.shape[:2], -1))
@@ -532,7 +544,8 @@ def _minimum_component_points(distance_m: float, model: SupportModel) -> int:
 
 
 def _keep_supported_components(
-    obstacles: tuple[Obstacle, ...], config: DetectorConfig,
+    obstacles: tuple[Obstacle, ...],
+    config: DetectorConfig,
     support_model: SupportModel = "frozen",
 ) -> tuple[Obstacle, ...]:
     """Reject line/single-scan artifacts while retaining a 30 cm box top."""
@@ -542,16 +555,9 @@ def _keep_supported_components(
         lateral_span = item.lateral_max_m - item.lateral_min_m
         height_span = item.height_max_m - item.height_min_m
         distance = max(config.min_range_m, item.distance_min_m)
-        # A 30 cm box is represented by only 5-7 returns around 40 m in the
-        # real Pandar firing pattern. Range-aware support is therefore lower
-        # than the readable baseline's fixed 8-point threshold; temporal
-        # confirmation carries the false-alarm burden at runtime.
         adaptive_points = _minimum_component_points(distance, support_model)
         if item.points < adaptive_points:
             continue
-        # A very flat return must occupy area in both horizontal dimensions.
-        # This removes isolated scan-line fragments without assuming a visible
-        # vertical wall on a low obstacle.
         if height_span < 0.04 and max(forward_span, lateral_span) < 0.10:
             continue
         kept.append(item)
@@ -574,7 +580,9 @@ def detect_fast(
     ring = arrays["ring"]
     distance = -y
     valid = (
-        np.isfinite(x) & np.isfinite(y) & np.isfinite(z)
+        np.isfinite(x)
+        & np.isfinite(y)
+        & np.isfinite(z)
         & ((x != 0) | (y != 0) | (z != 0))
         & (distance >= config.min_range_m)
         & (distance <= config.max_range_m)
@@ -583,15 +591,23 @@ def detect_fast(
     distance, x, z, intensity, ring = (
         value[valid] for value in (distance, x, z, intensity, ring)
     )
-    profile, observed_bins = _fast_track_profile(
-        distance, x, z, config, track_model
-    )
+    profile, observed_bins = _fast_track_profile(distance, x, z, config, track_model)
     if track_profile_out is not None:
         track_profile_out.append(profile)
     if not profile:
         return SafetyDetection(
-            "UNKNOWN", False, None, 0.0, 0.0, 0, 0, 0,
-            None, None, (), "rail_pair_not_observed",
+            "UNKNOWN",
+            False,
+            None,
+            0.0,
+            0.0,
+            0,
+            0,
+            0,
+            None,
+            None,
+            (),
+            "rail_pair_not_observed",
         )
     center, rail_z, supported = _interpolate_track(distance, profile, config)
     lateral = x - center
@@ -619,16 +635,29 @@ def detect_fast(
             0,
             1,
         )
-        allowed = config.half_width_m * (1 - fraction) + config.roof_half_width_at_top_m * fraction
+        allowed = (
+            config.half_width_m * (1 - fraction)
+            + config.roof_half_width_at_top_m * fraction
+        )
         candidate &= np.abs(lateral) <= allowed
     points = [
         CandidatePoint(
-            float(d), float(x), float(z_value), float(h), float(surface_residual),
-            float(reflectivity), int(ring_id),
+            float(d),
+            float(x),
+            float(z_value),
+            float(h),
+            float(surface_residual),
+            float(reflectivity),
+            int(ring_id),
         )
         for d, x, z_value, h, surface_residual, reflectivity, ring_id in zip(
-            distance[candidate], lateral[candidate], z[candidate], height[candidate],
-            residual[candidate], intensity[candidate], ring[candidate],
+            distance[candidate],
+            lateral[candidate],
+            z[candidate],
+            height[candidate],
+            residual[candidate],
+            intensity[candidate],
+            ring[candidate],
         )
     ]
     proposal_config = replace(
@@ -642,7 +671,8 @@ def detect_fast(
         _cluster(points, proposal_config), config, support_model
     )
     obstacles = tuple(
-        item for item in obstacles
+        item
+        for item in obstacles
         if item.lateral_max_m >= -config.half_width_m
         and item.lateral_min_m <= config.half_width_m
     )
@@ -654,7 +684,8 @@ def detect_fast(
     observability = max(0.0, min(1.0, continuity * min(1.0, span / 60.0)))
 
     core_obstacles = tuple(
-        item for item in obstacles
+        item
+        for item in obstacles
         if abs((item.lateral_min_m + item.lateral_max_m) / 2) <= CORE_HALF_WIDTH_M
     )
     if core_obstacles:
@@ -666,15 +697,25 @@ def detect_fast(
             abs(strongest.lateral_min_m), abs(strongest.lateral_max_m)
         )
         support = min(1.0, strongest.points / 30.0)
-        geometry = min(1.0, max(
-            strongest.height_max_m,
-            strongest.lateral_max_m - strongest.lateral_min_m,
-            strongest.distance_max_m - strongest.distance_min_m,
-        ) / 0.5)
-        confidence = max(0.05, min(0.99,
-            0.30 * observability + 0.30 * support + 0.30 * geometry
-            + 0.10 * min(1.0, max(0.0, boundary_margin) / 0.3)
-        ))
+        geometry = min(
+            1.0,
+            max(
+                strongest.height_max_m,
+                strongest.lateral_max_m - strongest.lateral_min_m,
+                strongest.distance_max_m - strongest.distance_min_m,
+            )
+            / 0.5,
+        )
+        confidence = max(
+            0.05,
+            min(
+                0.99,
+                0.30 * observability
+                + 0.30 * support
+                + 0.30 * geometry
+                + 0.10 * min(1.0, max(0.0, boundary_margin) / 0.3),
+            ),
+        )
         state = "OBSTACLE"
         reason = "supported_component_inside_core_clearance"
     elif obstacles:
@@ -693,7 +734,10 @@ def detect_fast(
         state=state,
         obstacle=state == "OBSTACLE",
         nearest_distance_m=min(
-            (o.distance_min_m for o in (core_obstacles if core_obstacles else obstacles)),
+            (
+                o.distance_min_m
+                for o in (core_obstacles if core_obstacles else obstacles)
+            ),
             default=None,
         ),
         confidence=confidence,
@@ -727,18 +771,27 @@ def main() -> None:
         state_counts[result.state] = state_counts.get(result.state, 0) + 1
         payload = asdict(result)
         payload.update(frame=frame, bag_timestamp_ns=timestamp, latency_ms=latency_ms)
-        payload["obstacles"] = [asdict(item) for item in result.obstacles[: args.show_clusters]]
+        payload["obstacles"] = [
+            asdict(item) for item in result.obstacles[: args.show_clusters]
+        ]
         print(json.dumps(payload, ensure_ascii=False))
         processed += 1
         if args.max_frames is not None and processed >= args.max_frames:
             break
     elapsed = time.perf_counter() - started
-    print(json.dumps({"summary": {
-        "frames": processed,
-        "elapsed_s": elapsed,
-        "fps": processed / elapsed if elapsed else 0.0,
-        "states": state_counts,
-    }}, ensure_ascii=False))
+    print(
+        json.dumps(
+            {
+                "summary": {
+                    "frames": processed,
+                    "elapsed_s": elapsed,
+                    "fps": processed / elapsed if elapsed else 0.0,
+                    "states": state_counts,
+                }
+            },
+            ensure_ascii=False,
+        )
+    )
 
 
 if __name__ == "__main__":

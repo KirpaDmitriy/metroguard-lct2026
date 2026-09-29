@@ -1,0 +1,1235 @@
+{
+  "experiment": "EXP-071",
+  "protocol": {
+    "change": "far-range candidate ranker only",
+    "development_bags": [
+      "roundT_pressureGate_roundT",
+      "roundT_doubleT",
+      "roundT_squareT_pressureGate_squareT"
+    ],
+    "test_bags": [
+      "squareT_platform_squareT_switch",
+      "doubleT_platform"
+    ],
+    "split_unit": "whole organizer bag",
+    "distances_m": [
+      120.0,
+      150.0
+    ],
+    "path_extrapolation_m": 60.0,
+    "max_range_m": 200.0,
+    "threshold_selection": "maximum development event recall with zero development normal-frame alarms"
+  },
+  "training_candidates": 501,
+  "training_positives": 60,
+  "threshold": 0.3,
+  "model_bytes": 70675,
+  "test": {
+    "normal_frames": 31,
+    "normal_alarm_frames": 7,
+    "normal_alarm_rate": 0.22580645161290322,
+    "positive_events": 82,
+    "positive_recall": 0.45121951219512196,
+    "negative_events": 51,
+    "negative_specificity": 1.0,
+    "events": [
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 36,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 32,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 24,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 6,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 45,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 0,
+        "scenario": "large_above",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 3,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 40,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 8,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 40,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 40,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 8,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 40,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 40,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 16,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 40,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 5,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 40,
+        "scenario": "large_above",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 3,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 40,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 80,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 13,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 120,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 44,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 120,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 44,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 120,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 17,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 120,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 14,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 160,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 32,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 160,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 30,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 160,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 8,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 160,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 8,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 200,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 36,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 280,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 11,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 280,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 11,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 280,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 6,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 280,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 70,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 320,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 40,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 320,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 40,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 320,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 22,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 320,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 64,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 400,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 14,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 400,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 13,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 440,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 16,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 440,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 16,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 440,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 10,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 440,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 14,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 440,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 47,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 480,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 39,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 480,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 39,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 480,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 26,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 480,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 52,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 520,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 32,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 520,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 30,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 520,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 28,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 520,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 30,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 560,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 12,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 560,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 16,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 560,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 12,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 560,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 16,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 560,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 12,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 560,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 15,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 600,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 34,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 600,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 12,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 600,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 34,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 600,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 12,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 600,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 26,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 600,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 600,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 52,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 600,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 640,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 20,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 640,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 22,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 640,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 20,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 640,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 22,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 640,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 680,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 19,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 680,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 21,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 680,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 50,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 680,
+        "scenario": "large_above",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 24,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 680,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 3,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 720,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 44,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 720,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 29,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 720,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 40,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 720,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 29,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 720,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 720,
+        "scenario": "long_low_on_rails",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 12,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 760,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 90,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 760,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 32,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 760,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 90,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 760,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 30,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 760,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 8,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 760,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 760,
+        "scenario": "long_low_on_rails",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 6,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 760,
+        "scenario": "hanging_cable",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 3,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 47,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 20,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 47,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 20,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 5,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 8,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 79,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "large_above",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 24,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 3,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "long_low_on_rails",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 6,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 800,
+        "scenario": "hanging_cable",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 840,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 40,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 840,
+        "scenario": "minimum_on_rail",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 840,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 40,
+        "detected": true
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 840,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 42,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 840,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 16,
+        "detected": false
+      },
+      {
+        "bag": "squareT_platform_squareT_switch",
+        "frame": 840,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 10,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 8,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 10,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 15,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 0,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 38,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 40,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 35,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 40,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 30,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 40,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 35,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 40,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 30,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 40,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 18,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 40,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 12,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 40,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 104,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 40,
+        "scenario": "large_above",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 80,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 83,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "large_center",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 29,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 85,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "large_edge_inside",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 31,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 24,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 30,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 87,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "large_above",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 12,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 6,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 80,
+        "scenario": "long_low_on_rails",
+        "distance_m": 150.0,
+        "expected_alarm": true,
+        "visible_points": 6,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 120,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 58,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 120,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 60,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 120,
+        "scenario": "large_outside",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 73,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 120,
+        "scenario": "large_outside",
+        "distance_m": 150.0,
+        "expected_alarm": false,
+        "visible_points": 15,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 120,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 73,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 120,
+        "scenario": "long_low_on_rails",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 4,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 160,
+        "scenario": "large_center",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 71,
+        "detected": false
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 160,
+        "scenario": "large_edge_inside",
+        "distance_m": 120.0,
+        "expected_alarm": true,
+        "visible_points": 67,
+        "detected": true
+      },
+      {
+        "bag": "doubleT_platform",
+        "frame": 160,
+        "scenario": "large_above",
+        "distance_m": 120.0,
+        "expected_alarm": false,
+        "visible_points": 52,
+        "detected": false
+      }
+    ]
+  }
+}

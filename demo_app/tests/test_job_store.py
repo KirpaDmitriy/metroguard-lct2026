@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import os
-from pathlib import Path
 import tempfile
 import threading
 import unittest
+from pathlib import Path
 
 from demo_app.job_store import cleanup_jobs, read_json, write_json
 
@@ -63,7 +63,3 @@ class JobStoreTest(unittest.TestCase):
 
             self.assertEqual(cleanup_jobs(work_dir, 50, now=100), 0)
             self.assertTrue(unrelated.exists())
-
-
-if __name__ == "__main__":
-    unittest.main()

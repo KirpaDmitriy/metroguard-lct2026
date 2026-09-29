@@ -10,12 +10,14 @@
     "id": "clean",
     "title": "Проезд без размеченного препятствия",
     "description": "252 кадра из roundT_doubleT. На этом примере видно, сколько тревог создаёт инфраструктура тоннеля.",
-    "source": "Набор организаторов: roundT_doubleT"
+    "source": "Набор организаторов: roundT_doubleT",
+    "video_url": "/demo/clean_multiview.mp4"
   },
   {
     "id": "synthetic",
     "title": "Официальный синтетический набор",
     "description": "Первые 220 кадров официального набора с добавленными объектами.",
-    "source": "Набор организаторов: cloud_with_fake_obj"
+    "source": "Набор организаторов: cloud_with_fake_obj",
+    "video_url": "/demo/synthetic_multiview.mp4"
   }
 ]}

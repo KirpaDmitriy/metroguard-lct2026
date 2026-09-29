@@ -1,15 +1,14 @@
 from __future__ import annotations
 
-from pathlib import Path
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 from demo_app.algorithms import Detector as DemoDetector
 from lidar_geometry.detect_obstacles import Obstacle
 from lidar_geometry.fast_detector import SafetyDetection
 from lidar_geometry.runtime_detector import RuntimeDetector
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -69,7 +68,3 @@ class RuntimeDetectorTest(unittest.TestCase):
                 return_value=geometric,
             ):
                 self.assertIs(detector(None), geometric)
-
-
-if __name__ == "__main__":
-    unittest.main()

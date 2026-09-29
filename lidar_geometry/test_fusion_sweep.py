@@ -29,7 +29,3 @@ class FusionSweepTest(unittest.TestCase):
 
     def test_large_outside_component_does_not_bypass_ranker(self):
         self.assertFalse(obvious_intrusion(component(0.8, 2.0, 1.5), 1.0))
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -30,7 +30,7 @@ server {
     client_body_timeout 1h;
     send_timeout 1h;
 
-    limit_conn metroguard_per_ip 8;
+    limit_conn metroguard_per_ip 64;
     limit_req zone=metroguard_requests burst=20 nodelay;
 
     add_header Content-Security-Policy "default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'" always;

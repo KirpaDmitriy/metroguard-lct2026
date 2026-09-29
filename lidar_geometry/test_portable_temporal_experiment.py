@@ -4,7 +4,10 @@ import unittest
 
 from lidar_geometry.detect_obstacles import Obstacle
 from lidar_geometry.fast_detector import SafetyDetection
-from lidar_geometry.portable_temporal_experiment import count_episodes, selected_detection
+from lidar_geometry.portable_temporal_experiment import (
+    count_episodes,
+    selected_detection,
+)
 
 
 def obstacle(distance: float) -> Obstacle:
@@ -57,7 +60,3 @@ class PortableTemporalExperimentTest(unittest.TestCase):
 
     def test_episode_count_uses_boolean_transitions(self):
         self.assertEqual(count_episodes([False, True, True, False, True]), 2)
-
-
-if __name__ == "__main__":
-    unittest.main()

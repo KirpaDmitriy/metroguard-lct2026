@@ -15,14 +15,13 @@ baseline, not a claim that a single rectangular corridor solves curved track.
 from __future__ import annotations
 
 import argparse
-from collections import deque
-from collections import Counter
-from dataclasses import asdict, dataclass
 import json
 import math
-from pathlib import Path
 import statistics
 import time
+from collections import Counter, deque
+from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Iterable
 
 from lidar_geometry.pointcloud2 import PointCloud2, is_valid_xyz, iter_bag_messages
@@ -32,14 +31,10 @@ from lidar_geometry.pointcloud2 import PointCloud2, is_valid_xyz, iter_bag_messa
 class DetectorConfig:
     min_range_m: float = 3.0
     max_range_m: float = 150.0
-    # Q&A 00:24:44 and 00:41:29: 2.1 m wide, 3.0 m high, including protrusions.
     half_width_m: float = 1.05
     component_guard_band_m: float = 0.0
-    # Minimum protrusion above the locally estimated track surface.  This is
-    # deliberately below the 0.10 m baseline-object height from Q&A 00:23:56.
     min_height_above_rail_m: float = 0.06
     clearance_height_m: float = 3.0
-    # Disabled until an official clearance contour is supplied.
     roof_taper_start_m: float | None = None
     roof_half_width_at_top_m: float = 0.9
     rail_gauge_m: float = 1.52
@@ -52,12 +47,12 @@ class DetectorConfig:
     path_initial_center_tolerance_m: float = 0.55
     path_center_step_m: float = 0.30
     path_center_step_per_missing_bin_m: float = 0.12
+    path_extrapolation_m: float = 0.0
     rail_head_search_half_width_m: float = 0.14
     rail_head_search_z_m: float = 0.35
     rail_head_top_quantile: float = 0.98
     floor_bin_m: float = 2.0
     floor_quantile: float = 0.20
-    # q20 tends to describe ballast/trough; this lifts it to approximate rail top.
     rail_above_floor_quantile_m: float = 0.22
     floor_sample_max_z_m: float = 0.5
     floor_min_points_per_bin: int = 8
@@ -68,8 +63,6 @@ class DetectorConfig:
     voxel_m: float = 0.20
     min_cluster_points: int = 8
     min_cluster_voxels: int = 2
-    # A 10 cm box may expose only its horizontal top to a roof-mounted lidar;
-    # do not require a visible vertical face. Horizontal support is checked.
     min_cluster_vertical_extent_m: float = 0.0
     min_cluster_top_height_m: float = 0.08
     min_cluster_horizontal_extent_m: float = 0.12
@@ -149,15 +142,12 @@ def _estimate_rail_profile(
     if not raw:
         return {}
 
-    # A median filter rejects a bin raised by an object hiding part of the floor.
     smoothed: dict[int, float] = {}
     indexes = sorted(raw)
     for index in indexes:
         neighbours = [raw[j] for j in range(index - 2, index + 3) if j in raw]
         smoothed[index] = statistics.median(neighbours)
 
-    # Fill gaps by linear interpolation. Outside the observed interval, retain
-    # the closest estimate; sparse far-range detections are reported cautiously.
     first, last = indexes[0], indexes[-1]
     for index in range(first, last + 1):
         if index in smoothed:
@@ -172,7 +162,9 @@ def _estimate_rail_profile(
     return smoothed
 
 
-def _rail_z(distance: float, profile: dict[int, float], config: DetectorConfig) -> float | None:
+def _rail_z(
+    distance: float, profile: dict[int, float], config: DetectorConfig
+) -> float | None:
     if not profile:
         return None
     position = distance / config.floor_bin_m
@@ -257,10 +249,6 @@ def _estimate_track_profile(
                 if best is None or sample.score > best.score:
                     best = sample
         if best is not None:
-            # The dense cell pair locates the rail ridges, but its vertical
-            # center is usually below the actual head surface. Refine z from
-            # the upper returns near both heads. Taking the lower of the two
-            # estimates resists an object sitting on one rail.
             head_tops = []
             for expected_x in (
                 best.center - best.gauge / 2,
@@ -273,7 +261,9 @@ def _estimate_track_profile(
                     and abs(z - best.rail_z) <= config.rail_head_search_z_m
                 ]
                 if len(head_points) >= 3:
-                    head_tops.append(_quantile(head_points, config.rail_head_top_quantile))
+                    head_tops.append(
+                        _quantile(head_points, config.rail_head_top_quantile)
+                    )
             if head_tops:
                 best = TrackSample(
                     center=best.center,
@@ -288,8 +278,6 @@ def _estimate_track_profile(
     if not selected:
         return {}
 
-    # Median smoothing preserves a bend while rejecting a one-bin jump to a
-    # platform edge or tunnel fixture that happens to be gauge-separated.
     smoothed: dict[int, TrackSample] = {}
     indexes = sorted(selected)
     for index in indexes:
@@ -302,8 +290,6 @@ def _estimate_track_profile(
             score=current.score,
         )
 
-    # Interpolate unobserved bins. Beyond the last reliable rail pair we keep
-    # the last estimate instead of inventing a curve from sparse points.
     first, last = indexes[0], indexes[-1]
     for index in range(first, last + 1):
         if index in smoothed:
@@ -331,9 +317,6 @@ def _track_at(
     position = distance / config.floor_bin_m
     minimum = min(profile)
     maximum = max(profile)
-    # Rail returns disappear before walls and large obstacles do. Extrapolate
-    # the recent path trend instead of silently turning a curved track into a
-    # straight corridor at the last observed bin.
     if position > maximum and len(profile) >= 2:
         tail = [profile[index] for index in sorted(profile)[-5:]]
         center_steps = [b.center - a.center for a, b in zip(tail, tail[1:])]
@@ -387,14 +370,15 @@ def _estimate_track_surface(
         )
         raw_samples.setdefault(key, []).append(z)
 
-    # A median inside a cell rejects isolated multipath returns.
     raw = {key: statistics.median(values) for key, values in raw_samples.items()}
     surface: dict[tuple[int, int], float] = {}
     radius = config.surface_longitudinal_radius_cells
     for distance_index, lateral_index in raw:
         neighbours = [
             raw[(other_distance, lateral_index)]
-            for other_distance in range(distance_index - radius, distance_index + radius + 1)
+            for other_distance in range(
+                distance_index - radius, distance_index + radius + 1
+            )
             if (other_distance, lateral_index) in raw
         ]
         if neighbours:
@@ -414,8 +398,6 @@ def _surface_z(
     exact = surface.get((distance_index, lateral_index))
     if exact is not None:
         return exact
-    # Sparse long-range returns often miss an exact cell.  Only borrow from a
-    # very small neighbourhood so a wall/platform cannot define the track bed.
     nearby = [
         surface[(di, li)]
         for di in range(distance_index - 1, distance_index + 2)
@@ -438,8 +420,9 @@ def _candidate_points(cloud: PointCloud2, config: DetectorConfig):
         search_points.append((distance, x, z, intensity, ring))
 
     track_profile = _estimate_track_profile(search_points, config)
-    # Fallback keeps the detector usable when two rail ridges cannot be found.
-    fallback_points = [point for point in search_points if abs(point[1]) <= config.half_width_m]
+    fallback_points = [
+        point for point in search_points if abs(point[1]) <= config.half_width_m
+    ]
     fallback_rail_profile = _estimate_rail_profile(fallback_points, config)
     aligned_points: list[tuple[float, float, float, float, int, float]] = []
     reliable_min_distance = (
@@ -451,15 +434,14 @@ def _candidate_points(cloud: PointCloud2, config: DetectorConfig):
         else config.max_range_m
     )
     for distance, raw_lateral, z, intensity, ring in search_points:
-        # Before the first visible rail return this sensor sees parts of the
-        # train itself. Beyond the last rail-supported bin the swept corridor
-        # is unobservable and a wall on a bend is easily mistaken for cargo.
         if not (reliable_min_distance <= distance <= reliable_max_distance):
             continue
         track = _track_at(distance, track_profile, config)
         center = track.center if track is not None else 0.0
-        rail_z = track.rail_z if track is not None else _rail_z(
-            distance, fallback_rail_profile, config
+        rail_z = (
+            track.rail_z
+            if track is not None
+            else _rail_z(distance, fallback_rail_profile, config)
         )
         if rail_z is None:
             continue
@@ -469,7 +451,10 @@ def _candidate_points(cloud: PointCloud2, config: DetectorConfig):
         aligned_points.append((distance, lateral, z, intensity, ring, rail_z))
 
     surface = _estimate_track_surface(
-        ((distance, lateral, z, rail_z) for distance, lateral, z, _, _, rail_z in aligned_points),
+        (
+            (distance, lateral, z, rail_z)
+            for distance, lateral, z, _, _, rail_z in aligned_points
+        ),
         config,
     )
     candidates: list[CandidatePoint] = []
@@ -490,12 +475,16 @@ def _candidate_points(cloud: PointCloud2, config: DetectorConfig):
             if abs(lateral) > allowed_half_width:
                 continue
         candidates.append(
-            CandidatePoint(distance, lateral, z, height, surface_residual, intensity, ring)
+            CandidatePoint(
+                distance, lateral, z, height, surface_residual, intensity, ring
+            )
         )
     return candidates, track_profile, fallback_rail_profile
 
 
-def _cluster(points: list[CandidatePoint], config: DetectorConfig) -> tuple[Obstacle, ...]:
+def _cluster(
+    points: list[CandidatePoint], config: DetectorConfig
+) -> tuple[Obstacle, ...]:
     cells: dict[tuple[int, int, int], list[CandidatePoint]] = {}
     size = config.voxel_m
     for point in points:
@@ -543,9 +532,6 @@ def _cluster(points: list[CandidatePoint], config: DetectorConfig) -> tuple[Obst
         ):
             continue
         lateral_center = (lateral_min + lateral_max) / 2
-        # Rail returns form low, narrow components extending along the path.
-        # Do this at component level so a compact 0.30 x 0.30 x 0.10 m object
-        # placed on a rail is not erased together with the rail points.
         if (
             height_max <= config.rail_like_max_height_m
             and distance_max - distance_min >= config.rail_like_min_length_m
@@ -564,11 +550,14 @@ def _cluster(points: list[CandidatePoint], config: DetectorConfig) -> tuple[Obst
                 lateral_max_m=lateral_max,
                 height_min_m=height_min,
                 height_max_m=height_max,
-                surface_residual_max_m=max(point.surface_residual for point in component),
+                surface_residual_max_m=max(
+                    point.surface_residual for point in component
+                ),
                 surface_residual_mean_m=(
                     sum(point.surface_residual for point in component) / len(component)
                 ),
-                intensity_mean=sum(point.intensity for point in component) / len(component),
+                intensity_mean=sum(point.intensity for point in component)
+                / len(component),
             )
         )
     obstacles.sort(key=lambda item: item.distance_min_m)
@@ -602,9 +591,15 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--half-width", type=float, default=DetectorConfig.half_width_m)
     parser.add_argument("--min-range", type=float, default=DetectorConfig.min_range_m)
     parser.add_argument("--max-range", type=float, default=DetectorConfig.max_range_m)
-    parser.add_argument("--min-height", type=float, default=DetectorConfig.min_height_above_rail_m)
-    parser.add_argument("--clearance-height", type=float, default=DetectorConfig.clearance_height_m)
-    parser.add_argument("--min-points", type=int, default=DetectorConfig.min_cluster_points)
+    parser.add_argument(
+        "--min-height", type=float, default=DetectorConfig.min_height_above_rail_m
+    )
+    parser.add_argument(
+        "--clearance-height", type=float, default=DetectorConfig.clearance_height_m
+    )
+    parser.add_argument(
+        "--min-points", type=int, default=DetectorConfig.min_cluster_points
+    )
     parser.add_argument("--voxel", type=float, default=DetectorConfig.voxel_m)
     parser.add_argument("--show-clusters", type=int, default=3)
     return parser.parse_args()
@@ -638,7 +633,9 @@ def main() -> None:
                 result.reliable_range_min_m,
                 result.reliable_range_max_m,
             ],
-            "clusters": [asdict(item) for item in result.obstacles[: args.show_clusters]],
+            "clusters": [
+                asdict(item) for item in result.obstacles[: args.show_clusters]
+            ],
         }
         print(json.dumps(output, ensure_ascii=False))
         processed += 1

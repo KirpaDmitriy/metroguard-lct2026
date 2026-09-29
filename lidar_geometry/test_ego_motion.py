@@ -13,7 +13,3 @@ class EgoMotionTest(unittest.TestCase):
         distance, score = longitudinal_shift(previous, current, max_shift_bins=20)
         self.assertAlmostEqual(distance, 1.3)
         self.assertGreater(score, 0.99)
-
-
-if __name__ == "__main__":
-    unittest.main()

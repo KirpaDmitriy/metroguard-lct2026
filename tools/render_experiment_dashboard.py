@@ -1,20 +1,52 @@
 from __future__ import annotations
 
 import argparse
+import json
 from collections import Counter
 from hashlib import sha256
 from html import escape
-import json
 from pathlib import Path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "experiments" / "registry.json"
 OUTPUT = ROOT / "experiments" / "dashboard.html"
 
 LANES = {
-    "Данные и оценка": {0, 1, 8, 11, 15, 17, 38, 40, 57, 58, 62, 63, 64, 67},
-    "Ранжирование кандидатов": {2, 4, 5, 6, 12, 13, 28, 29, 30, 31, 32, 33, 34, 35, 37, 39, 41, 42, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 61},
+    "Данные и оценка": {0, 1, 8, 11, 15, 17, 38, 40, 57, 58, 62, 63, 64, 67, 69, 70},
+    "Ранжирование кандидатов": {
+        2,
+        4,
+        5,
+        6,
+        12,
+        13,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        37,
+        39,
+        41,
+        42,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        61,
+        71,
+    },
     "Временные признаки": {3, 7, 10, 14, 16, 18, 19, 20, 43, 44, 59, 65, 68},
     "Производительность и выпуск": {9, 21, 22, 24, 25, 27, 36, 60, 66},
     "Переносимость": {23, 26},
@@ -103,6 +135,9 @@ EXPERIMENT_TITLES_RU = {
     "EXP-066": "Регуляризация центральной линии рельсов по непрерывности",
     "EXP-067": "Итоговая оценка с приоритетами конкурса",
     "EXP-068": "Переносимый гибрид с подтверждением три из пяти",
+    "EXP-069": "Проверка верхней границы дальности",
+    "EXP-070": "Ограниченная экстраполяция пути",
+    "EXP-071": "Дальний ранжировщик на отложенных тоннелях",
 }
 
 DECISION_TEXT_RU = {
@@ -140,7 +175,9 @@ def metric_text(metrics: dict) -> str:
             rendered = f"{value:.4g}"
         else:
             rendered = str(value)
-        parts.append(f'<dt title="{escape(name)}">{label}</dt><dd>{escape(rendered)}</dd>')
+        parts.append(
+            f'<dt title="{escape(name)}">{label}</dt><dd>{escape(rendered)}</dd>'
+        )
     return "".join(parts)
 
 
@@ -193,37 +230,205 @@ def summary_table(runs: list[dict]) -> str:
         / world["range_tracker_real_alarm_frames"]
     )
     rows = [
-        ("Полнота на строгих сценариях", f'{g4["scenario_recall_strict"]:.1%}', "измерение", "EXP-005", "warn"),
-        ("Специфичность на отрицательных примерах", f'{g4["scenario_negative_specificity_strict"]:.1%}', ">= 95%", "EXP-005", "pass"),
-        ("Доля тревог на условно чистых данных", f'{g4["assumed_normal_alarm_rate_strict"]:.3%}', "<= 1%", "EXP-005", "pass"),
-        ("Снижение тревог мировым трекером", f'{world_reduction:.0%} (20 -> 15)', "> 0%", "EXP-014", "pass"),
-        ("Внешняя полнота геометрии", f'{transfer["geometric_clearance_target_frames"]}/{transfer["evaluable_clearance_targets"]} ({transfer["geometric_zero_shot_recall"]:.1%})', "аудит", "EXP-023", "pass"),
-        ("Внешняя полнота G4", f'{transfer["ranked_clearance_target_frames"]}/{transfer["evaluable_clearance_targets"]} ({transfer["ranked_zero_shot_recall"]:.1%})', "аудит", "EXP-023", "warn"),
-        ("Офлайн-обработка, p95", f'{runtime["end_to_end_worst_repeat_p95_ms"]:.2f} мс', "< 100 мс", "EXP-021", "pass"),
-        ("ROS, 10 кадров: худший p95", f'{max(ros_short["run_1_p95_ms"], ros_short["run_2_p95_ms"]):.2f} мс', "< 100 мс", "EXP-025", "pass"),
-        ("ROS, 100 кадров: воспроизводимость", "100/100 идентичных результатов", "точное совпадение", "EXP-027", "pass"),
-        ("ROS, 100 кадров: худший p95", f'{max(ros_long["run_1_p95_ms"], ros_long["run_2_p95_ms"]):.2f} мс', "< 100 мс", "EXP-027", "fail"),
-        ("Линейная модель против компактной MLP", f'{mlp["linear_mean_positive_recall"]:.1%} против {mlp["mean_positive_recall"]:.1%} полноты; {mlp["linear_mean_real_frame_alarm_rate"]:.2%} против {mlp["mean_real_frame_alarm_rate"]:.2%} тревог', "MLP должна победить", "EXP-029", "fail"),
-        ("Компоненты + пространственное CV: полнота", f'{spatial["component_mean_recall"]:.1%} -> {spatial["combined_mean_recall"]:.1%}', "рост", "EXP-031", "fail"),
-        ("Пространственная MLP: полнота / тревоги", f'{spatial_mlp["mean_positive_recall"]:.1%} / {spatial_mlp["mean_real_frame_alarm_rate"]:.2%}', "лучше базовых компонентов", "EXP-032", "fail"),
-        ("CV с учётом домена: полнота", f'{gated["geometry_mean_recall"]:.1%} -> {gated["gated_25_mean_recall"]:.1%}', "рост", "EXP-033", "fail"),
-        ("OOD-аудит: полнота / тревоги", f'{abstention["guarded_mean_recall"]:.1%} / {abstention["guarded_mean_real_alarm_rate"]:.2%}', "аудит кэша кандидатов", "EXP-034", "pass"),
-        ("CV со случайными свёртками: полнота", f'{stronger_cv["original_spatial_mean_recall"]:.1%} -> {stronger_cv["random_conv_mean_recall"]:.1%}', "лучше геометрии", "EXP-035", "fail"),
-        ("OOD-кадры с тревогой, p95", f'{shared_context["guarded_p95_ms"]:.2f} мс', "< 100 мс", "EXP-036", "pass"),
-        ("CV с рандомизацией: полнота", f'{randomized_cv["base_random_conv_recall"]:.1%} -> {randomized_cv["strong_randomization_recall"]:.1%}', "лучше геометрии", "EXP-037", "fail"),
-        ("CV с пересадкой реальных объектов: полнота", f'{transplant["base_cv_recall"]:.1%} -> {transplant["transplant_recall"]:.1%}', "рост без тревог", "EXP-041", "pass"),
-        ("Extra Trees: полнота / тревоги", f'{extra_trees["mean_positive_recall"]:.1%} / {extra_trees["mean_real_frame_alarm_rate"]:.2%}', ">57,1% / <=0,71%", "EXP-046", "pass"),
-        ("Гибрид из 100 деревьев: полнота / тревоги", f'{compact_hybrid["mean_positive_recall"]:.1%} / {compact_hybrid["mean_real_frame_alarm_rate"]:.2%}', ">57,1% / <=0,71%", "EXP-056", "pass"),
-        ("Гибрид на незнакомых формах: полнота", f'{shape_audit["hybrid_ranked_recall"]:.1%}', ">57,1%", "EXP-057", "fail"),
-        ("Переносимый гибрид: p95 / размер", f'{portable["hybrid_p95_ms"]:.1f} мс / {portable["portable_model_bytes"] / 1000:.1f} КБ', "<100 мс", "EXP-060", "pass"),
-        ("Регрессионные тесты", f'{portable["unit_tests"]}/44', "44/44", "EXP-060", "pass"),
-        ("Итоговая доля тревог на полных bag", f'{final["selected_normal_alarm_rate"]:.2%}', "минимум среди автономных вариантов", "EXP-067", "warn"),
-        ("Итоговая специфичность на точных боксах", f'{final["selected_exact_box_negative_specificity"]:.1%}', "100%", "EXP-067", "pass"),
-        ("Итоговое время обработки, p95", f'{final["selected_latency_p95_ms"]:.2f} мс', "< 100 мс", "EXP-067", "pass"),
-        ("Эпизоды тревог после временного фильтра", f'{portable_temporal["per_frame_alarm_episodes"]} -> {portable_temporal["world_3of5_alarm_episodes"]}', "без потери событий", "EXP-068", "fail"),
+        (
+            "Полнота на строгих сценариях",
+            f'{g4["scenario_recall_strict"]:.1%}',
+            "измерение",
+            "EXP-005",
+            "warn",
+        ),
+        (
+            "Специфичность на отрицательных примерах",
+            f'{g4["scenario_negative_specificity_strict"]:.1%}',
+            ">= 95%",
+            "EXP-005",
+            "pass",
+        ),
+        (
+            "Доля тревог на условно чистых данных",
+            f'{g4["assumed_normal_alarm_rate_strict"]:.3%}',
+            "<= 1%",
+            "EXP-005",
+            "pass",
+        ),
+        (
+            "Снижение тревог мировым трекером",
+            f"{world_reduction:.0%} (20 -> 15)",
+            "> 0%",
+            "EXP-014",
+            "pass",
+        ),
+        (
+            "Внешняя полнота геометрии",
+            f'{transfer["geometric_clearance_target_frames"]}/{transfer["evaluable_clearance_targets"]} ({transfer["geometric_zero_shot_recall"]:.1%})',
+            "аудит",
+            "EXP-023",
+            "pass",
+        ),
+        (
+            "Внешняя полнота G4",
+            f'{transfer["ranked_clearance_target_frames"]}/{transfer["evaluable_clearance_targets"]} ({transfer["ranked_zero_shot_recall"]:.1%})',
+            "аудит",
+            "EXP-023",
+            "warn",
+        ),
+        (
+            "Офлайн-обработка, p95",
+            f'{runtime["end_to_end_worst_repeat_p95_ms"]:.2f} мс',
+            "< 100 мс",
+            "EXP-021",
+            "pass",
+        ),
+        (
+            "ROS, 10 кадров: худший p95",
+            f'{max(ros_short["run_1_p95_ms"], ros_short["run_2_p95_ms"]):.2f} мс',
+            "< 100 мс",
+            "EXP-025",
+            "pass",
+        ),
+        (
+            "ROS, 100 кадров: воспроизводимость",
+            "100/100 идентичных результатов",
+            "точное совпадение",
+            "EXP-027",
+            "pass",
+        ),
+        (
+            "ROS, 100 кадров: худший p95",
+            f'{max(ros_long["run_1_p95_ms"], ros_long["run_2_p95_ms"]):.2f} мс',
+            "< 100 мс",
+            "EXP-027",
+            "fail",
+        ),
+        (
+            "Линейная модель против компактной MLP",
+            f'{mlp["linear_mean_positive_recall"]:.1%} против {mlp["mean_positive_recall"]:.1%} полноты; {mlp["linear_mean_real_frame_alarm_rate"]:.2%} против {mlp["mean_real_frame_alarm_rate"]:.2%} тревог',
+            "MLP должна победить",
+            "EXP-029",
+            "fail",
+        ),
+        (
+            "Компоненты + пространственное CV: полнота",
+            f'{spatial["component_mean_recall"]:.1%} -> {spatial["combined_mean_recall"]:.1%}',
+            "рост",
+            "EXP-031",
+            "fail",
+        ),
+        (
+            "Пространственная MLP: полнота / тревоги",
+            f'{spatial_mlp["mean_positive_recall"]:.1%} / {spatial_mlp["mean_real_frame_alarm_rate"]:.2%}',
+            "лучше базовых компонентов",
+            "EXP-032",
+            "fail",
+        ),
+        (
+            "CV с учётом домена: полнота",
+            f'{gated["geometry_mean_recall"]:.1%} -> {gated["gated_25_mean_recall"]:.1%}',
+            "рост",
+            "EXP-033",
+            "fail",
+        ),
+        (
+            "OOD-аудит: полнота / тревоги",
+            f'{abstention["guarded_mean_recall"]:.1%} / {abstention["guarded_mean_real_alarm_rate"]:.2%}',
+            "аудит кэша кандидатов",
+            "EXP-034",
+            "pass",
+        ),
+        (
+            "CV со случайными свёртками: полнота",
+            f'{stronger_cv["original_spatial_mean_recall"]:.1%} -> {stronger_cv["random_conv_mean_recall"]:.1%}',
+            "лучше геометрии",
+            "EXP-035",
+            "fail",
+        ),
+        (
+            "OOD-кадры с тревогой, p95",
+            f'{shared_context["guarded_p95_ms"]:.2f} мс',
+            "< 100 мс",
+            "EXP-036",
+            "pass",
+        ),
+        (
+            "CV с рандомизацией: полнота",
+            f'{randomized_cv["base_random_conv_recall"]:.1%} -> {randomized_cv["strong_randomization_recall"]:.1%}',
+            "лучше геометрии",
+            "EXP-037",
+            "fail",
+        ),
+        (
+            "CV с пересадкой реальных объектов: полнота",
+            f'{transplant["base_cv_recall"]:.1%} -> {transplant["transplant_recall"]:.1%}',
+            "рост без тревог",
+            "EXP-041",
+            "pass",
+        ),
+        (
+            "Extra Trees: полнота / тревоги",
+            f'{extra_trees["mean_positive_recall"]:.1%} / {extra_trees["mean_real_frame_alarm_rate"]:.2%}',
+            ">57,1% / <=0,71%",
+            "EXP-046",
+            "pass",
+        ),
+        (
+            "Гибрид из 100 деревьев: полнота / тревоги",
+            f'{compact_hybrid["mean_positive_recall"]:.1%} / {compact_hybrid["mean_real_frame_alarm_rate"]:.2%}',
+            ">57,1% / <=0,71%",
+            "EXP-056",
+            "pass",
+        ),
+        (
+            "Гибрид на незнакомых формах: полнота",
+            f'{shape_audit["hybrid_ranked_recall"]:.1%}',
+            ">57,1%",
+            "EXP-057",
+            "fail",
+        ),
+        (
+            "Переносимый гибрид: p95 / размер",
+            f'{portable["hybrid_p95_ms"]:.1f} мс / {portable["portable_model_bytes"] / 1000:.1f} КБ',
+            "<100 мс",
+            "EXP-060",
+            "pass",
+        ),
+        (
+            "Регрессионные тесты",
+            f'{portable["unit_tests"]}/44',
+            "44/44",
+            "EXP-060",
+            "pass",
+        ),
+        (
+            "Итоговая доля тревог на полных bag",
+            f'{final["selected_normal_alarm_rate"]:.2%}',
+            "минимум среди автономных вариантов",
+            "EXP-067",
+            "warn",
+        ),
+        (
+            "Итоговая специфичность на точных боксах",
+            f'{final["selected_exact_box_negative_specificity"]:.1%}',
+            "100%",
+            "EXP-067",
+            "pass",
+        ),
+        (
+            "Итоговое время обработки, p95",
+            f'{final["selected_latency_p95_ms"]:.2f} мс',
+            "< 100 мс",
+            "EXP-067",
+            "pass",
+        ),
+        (
+            "Эпизоды тревог после временного фильтра",
+            f'{portable_temporal["per_frame_alarm_episodes"]} -> {portable_temporal["world_3of5_alarm_episodes"]}',
+            "без потери событий",
+            "EXP-068",
+            "fail",
+        ),
     ]
     body = "".join(
-        f'<tr><td>{escape(metric)}</td><td>{escape(value)}</td>'
+        f"<tr><td>{escape(metric)}</td><td>{escape(value)}</td>"
         f'<td>{escape(gate)}</td><td><a href="#{evidence}">{evidence}</a></td>'
         f'<td><span class="metric-status {status}">{STATUS_LABELS[status]}</span></td></tr>'
         for metric, value, gate, evidence, status in rows
@@ -378,7 +583,9 @@ def expected() -> str:
     known = set().union(*LANES.values())
     actual = {experiment_number(item) for item in runs}
     if known != actual:
-        raise SystemExit(f"dashboard lanes mismatch: missing={actual-known}, stale={known-actual}")
+        raise SystemExit(
+            f"dashboard lanes mismatch: missing={actual-known}, stale={known-actual}"
+        )
     return render(runs, sha256(raw).hexdigest())
 
 

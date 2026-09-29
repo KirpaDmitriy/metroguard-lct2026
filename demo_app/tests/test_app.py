@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from pathlib import Path
 import asyncio
 import json
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 from fastapi.testclient import TestClient
@@ -67,7 +67,9 @@ class AppTest(unittest.TestCase):
         self.assertEqual(response.status_code, 202)
         payload = response.json()
         self.assertEqual(payload["algorithm"], "geometry")
-        self.assertTrue((Path(self.temporary.name) / payload["job_id"] / "input.db3").is_file())
+        self.assertTrue(
+            (Path(self.temporary.name) / payload["job_id"] / "input.db3").is_file()
+        )
 
     def test_upload_rejects_wrong_magic(self):
         response = self.client.post(
@@ -110,7 +112,3 @@ class AppTest(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["status"], "failed")
         self.assertIn("restart", response.json()["error"])
-
-
-if __name__ == "__main__":
-    unittest.main()

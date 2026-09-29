@@ -6,8 +6,14 @@ import warnings
 
 import numpy as np
 
-from lidar_geometry.detect_obstacles import CandidatePoint, DetectorConfig, _cluster
+from lidar_geometry.detect_obstacles import (
+    CandidatePoint,
+    DetectorConfig,
+    TrackSample,
+    _cluster,
+)
 from lidar_geometry.fast_detector import (
+    _interpolate_track,
     _minimum_component_points,
     _nanmedian_last_axis,
     _neighbourhood_3x3,
@@ -15,7 +21,6 @@ from lidar_geometry.fast_detector import (
     detect_fast,
 )
 from lidar_geometry.pointcloud2 import PointCloud2, PointField
-
 
 FIELDS = (
     PointField("x", 0, 7, 1),
@@ -32,14 +37,35 @@ XYZI_PACKER = struct.Struct("<ffff")
 
 def cloud(points):
     data = b"".join(PACKER.pack(*point) for point in points)
-    return PointCloud2(0, 0, "test", 1, len(points), FIELDS, False, 26, len(data), memoryview(data), False)
+    return PointCloud2(
+        0,
+        0,
+        "test",
+        1,
+        len(points),
+        FIELDS,
+        False,
+        26,
+        len(data),
+        memoryview(data),
+        False,
+    )
 
 
 def xyzi_cloud(points):
     data = b"".join(XYZI_PACKER.pack(*point) for point in points)
     return PointCloud2(
-        0, 0, "test", 1, len(points), XYZI_FIELDS, False, 16, len(data),
-        memoryview(data), False,
+        0,
+        0,
+        "test",
+        1,
+        len(points),
+        XYZI_FIELDS,
+        False,
+        16,
+        len(data),
+        memoryview(data),
+        False,
     )
 
 
@@ -51,40 +77,61 @@ def rail_scene(with_obstacle: bool):
         rail_z = -1.5
         for side in (-1, 1):
             for repeat in range(4):
-                points.append((
-                    center + side * 0.76 + (repeat - 1.5) * 0.015,
-                    -distance,
-                    rail_z + (repeat % 2) * 0.01,
-                    8.0,
-                    repeat,
-                    0.0,
-                ))
+                points.append(
+                    (
+                        center + side * 0.76 + (repeat - 1.5) * 0.015,
+                        -distance,
+                        rail_z + (repeat % 2) * 0.01,
+                        8.0,
+                        repeat,
+                        0.0,
+                    )
+                )
         for lateral_step in range(-10, 11):
-            points.append((
-                center + lateral_step * 0.1,
-                -distance,
-                rail_z - 0.18,
-                3.0,
-                lateral_step + 32,
-                0.0,
-            ))
+            points.append(
+                (
+                    center + lateral_step * 0.1,
+                    -distance,
+                    rail_z - 0.18,
+                    3.0,
+                    lateral_step + 32,
+                    0.0,
+                )
+            )
     if with_obstacle:
         distance = 30.0
         center = 0.003 * distance
         for ix in range(7):
             for iy in range(7):
-                points.append((
-                    center - 0.15 + ix * 0.05,
-                    -(distance - 0.15 + iy * 0.05),
-                    -1.4,
-                    35.0,
-                    ix,
-                    0.0,
-                ))
+                points.append(
+                    (
+                        center - 0.15 + ix * 0.05,
+                        -(distance - 0.15 + iy * 0.05),
+                        -1.4,
+                        35.0,
+                        ix,
+                        0.0,
+                    )
+                )
     return cloud(points)
 
 
 class FastDetectorTest(unittest.TestCase):
+    def test_track_extrapolation_stops_at_configured_limit(self):
+        profile = {
+            10: TrackSample(0.0, -1.5, 1.52, 1.0),
+            11: TrackSample(0.1, -1.48, 1.52, 1.0),
+        }
+        distance = np.array([22.0, 30.0, 33.0])
+        center, rail_z, supported = _interpolate_track(
+            distance,
+            profile,
+            DetectorConfig(floor_bin_m=2.0, path_extrapolation_m=8.0),
+        )
+        np.testing.assert_allclose(center[:2], [0.1, 0.5])
+        np.testing.assert_allclose(rail_z[:2], [-1.48, -1.4])
+        np.testing.assert_array_equal(supported, [True, True, False])
+
     def test_inverse_square_support_relaxes_only_distant_components(self):
         self.assertEqual(_minimum_component_points(30.0, "frozen"), 6)
         self.assertEqual(_minimum_component_points(30.0, "inverse_square"), 6)
@@ -100,18 +147,20 @@ class FastDetectorTest(unittest.TestCase):
         histogram = np.arange(35).reshape(5, 7)
         padded = np.pad(histogram, 1)
         expected = sum(
-            padded[1 + dx:1 + dx + 5, 1 + dz:1 + dz + 7]
+            padded[1 + dx : 1 + dx + 5, 1 + dz : 1 + dz + 7]
             for dx in (-1, 0, 1)
             for dz in (-1, 0, 1)
         )
         np.testing.assert_array_equal(_neighbourhood_3x3(histogram), expected)
 
     def test_nanmedian_window_matches_numpy(self):
-        values = np.array([
-            [np.nan, 1.0, 4.0, 2.0],
-            [np.nan, np.nan, np.nan, np.nan],
-            [3.0, 1.0, np.nan, 2.0],
-        ])
+        values = np.array(
+            [
+                [np.nan, 1.0, 4.0, 2.0],
+                [np.nan, np.nan, np.nan, np.nan],
+                [3.0, 1.0, np.nan, 2.0],
+            ]
+        )
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", category=RuntimeWarning)
             expected = np.nanmedian(values, axis=-1)
@@ -123,15 +172,17 @@ class FastDetectorTest(unittest.TestCase):
         points = []
         for lateral_step in range(-10, 11):
             for height_step in range(1, 11):
-                points.append(CandidatePoint(
-                    distance=20.0,
-                    lateral=lateral_step / 10,
-                    z=-1.5 + height_step / 10,
-                    height=height_step / 10,
-                    surface_residual=height_step / 10,
-                    intensity=30.0,
-                    ring=height_step,
-                ))
+                points.append(
+                    CandidatePoint(
+                        distance=20.0,
+                        lateral=lateral_step / 10,
+                        z=-1.5 + height_step / 10,
+                        height=height_step / 10,
+                        surface_residual=height_step / 10,
+                        intensity=30.0,
+                        ring=height_step,
+                    )
+                )
         result = _cluster(points, DetectorConfig())
         self.assertEqual(len(result), 1)
         self.assertGreater(result[0].lateral_max_m - result[0].lateral_min_m, 1.9)
@@ -198,7 +249,3 @@ class FastDetectorTest(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "intensity"):
             detect_fast(malformed)
-
-
-if __name__ == "__main__":
-    unittest.main()

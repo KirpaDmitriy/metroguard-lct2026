@@ -7,23 +7,22 @@ Python standard library so it can also be used for quick offline experiments.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import math
 import sqlite3
 import struct
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator
 
-
 _POINT_FIELD_FORMATS = {
-    1: "b",   # INT8
-    2: "B",   # UINT8
-    3: "h",   # INT16
-    4: "H",   # UINT16
-    5: "i",   # INT32
-    6: "I",   # UINT32
-    7: "f",   # FLOAT32
-    8: "d",   # FLOAT64
+    1: "b",
+    2: "B",
+    3: "h",
+    4: "H",
+    5: "i",
+    6: "I",
+    7: "f",
+    8: "d",
 }
 
 
@@ -31,7 +30,6 @@ class CdrReader:
     def __init__(self, payload: bytes):
         if len(payload) < 4:
             raise ValueError("CDR payload is too short")
-        # ROS 2 CDR encapsulation 0x0001 is little-endian, 0x0000 big-endian.
         encapsulation = int.from_bytes(payload[:2], "big")
         self.endian = "<" if encapsulation == 1 else ">"
         self.payload = payload
@@ -95,7 +93,9 @@ class PointCloud2:
         if missing:
             raise ValueError(f"PointCloud2 fields missing: {sorted(missing)}")
 
-        ordered = sorted((by_name[name] for name in names), key=lambda field: field.offset)
+        ordered = sorted(
+            (by_name[name] for name in names), key=lambda field: field.offset
+        )
         fmt = ">" if self.is_bigendian else "<"
         cursor = 0
         for field in ordered:
@@ -114,7 +114,10 @@ class PointCloud2:
         names = ("x", "y", "z", "intensity", "ring", "timestamp")
         by_name = {field.name: field for field in self.fields}
         physical_names = tuple(
-            field.name for field in sorted((by_name[name] for name in names), key=lambda f: f.offset)
+            field.name
+            for field in sorted(
+                (by_name[name] for name in names), key=lambda f: f.offset
+            )
         )
         unpacker = self._field_unpacker(names)
         indexes = [physical_names.index(name) for name in names]
@@ -185,4 +188,9 @@ def iter_bag_messages(db3_path: str | Path) -> Iterator[tuple[int, PointCloud2]]
 
 
 def is_valid_xyz(x: float, y: float, z: float) -> bool:
-    return math.isfinite(x) and math.isfinite(y) and math.isfinite(z) and (x != 0 or y != 0 or z != 0)
+    return (
+        math.isfinite(x)
+        and math.isfinite(y)
+        and math.isfinite(z)
+        and (x != 0 or y != 0 or z != 0)
+    )

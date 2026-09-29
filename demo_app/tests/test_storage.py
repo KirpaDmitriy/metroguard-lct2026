@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 import asyncio
-from pathlib import Path
 import tempfile
 import unittest
+from pathlib import Path
 
-from demo_app.storage import SQLITE_MAGIC, UploadRejected, save_upload, validate_filename
+from demo_app.storage import (
+    SQLITE_MAGIC,
+    UploadRejected,
+    save_upload,
+    validate_filename,
+)
 
 
 class MemoryUpload:
@@ -16,7 +21,7 @@ class MemoryUpload:
         self.closed = False
 
     async def read(self, size: int) -> bytes:
-        chunk = self.payload[self.position:self.position + size]
+        chunk = self.payload[self.position : self.position + size]
         self.position += len(chunk)
         return chunk
 
@@ -44,9 +49,9 @@ class StorageTest(unittest.TestCase):
                 with tempfile.TemporaryDirectory() as directory:
                     destination = Path(directory) / "job" / "input.db3"
                     with self.assertRaises(UploadRejected):
-                        asyncio.run(save_upload(MemoryUpload("bag.db3", payload), destination, limit))
+                        asyncio.run(
+                            save_upload(
+                                MemoryUpload("bag.db3", payload), destination, limit
+                            )
+                        )
                     self.assertFalse(destination.exists())
-
-
-if __name__ == "__main__":
-    unittest.main()

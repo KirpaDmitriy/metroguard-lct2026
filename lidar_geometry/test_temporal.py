@@ -103,7 +103,3 @@ class ComponentTrackerTest(unittest.TestCase):
         self.assertFalse(tracker.update(detection(component(38)), 2).obstacle)
         tracker.update(detection(), 3)
         self.assertTrue(tracker.update(detection(component(36)), 4).obstacle)
-
-
-if __name__ == "__main__":
-    unittest.main()

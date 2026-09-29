@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import replace
 import unittest
+from dataclasses import replace
 
 from lidar_geometry.detect_obstacles import Obstacle
 from lidar_geometry.evidence_fusion import (
@@ -59,7 +59,3 @@ class EvidenceFusionTest(unittest.TestCase):
         )
         with self.assertRaisesRegex(ValueError, "cumulative_m"):
             fusion.update(detection)
-
-
-if __name__ == "__main__":
-    unittest.main()

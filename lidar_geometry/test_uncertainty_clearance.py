@@ -47,8 +47,7 @@ def detection(item: Obstacle) -> SafetyDetection:
 class UncertaintyClearanceTest(unittest.TestCase):
     def test_linear_rail_fit_has_quantization_floor(self):
         profile = {
-            index: TrackSample(0.01 * index, 0.0, 1.52, 10.0)
-            for index in range(8, 14)
+            index: TrackSample(0.01 * index, 0.0, 1.52, 10.0) for index in range(8, 14)
         }
         self.assertAlmostEqual(center_uncertainty_m(profile, 20.0), 0.025)
 
@@ -76,7 +75,3 @@ class UncertaintyClearanceTest(unittest.TestCase):
     def test_bad_uncertainty_is_rejected(self):
         with self.assertRaises(ValueError):
             confidently_in_clearance(component(0.0, 0.1), float("nan"), 1.05)
-
-
-if __name__ == "__main__":
-    unittest.main()

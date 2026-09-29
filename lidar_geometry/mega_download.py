@@ -4,13 +4,13 @@ from __future__ import annotations
 
 import argparse
 import base64
-from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 import math
-from pathlib import Path
 import struct
 import subprocess
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 
 
 def decode_key(encoded: str) -> tuple[bytes, bytes]:
@@ -18,7 +18,9 @@ def decode_key(encoded: str) -> tuple[bytes, bytes]:
     if len(raw) != 32:
         raise ValueError("Expected an eight-word MEGA public-file key")
     words = struct.unpack(">8I", raw)
-    aes_key = struct.pack(">4I", *(words[index] ^ words[index + 4] for index in range(4)))
+    aes_key = struct.pack(
+        ">4I", *(words[index] ^ words[index + 4] for index in range(4))
+    )
     iv = struct.pack(">4I", words[4], words[5], 0, 0)
     return aes_key, iv
 
@@ -38,11 +40,12 @@ def download(public_link: str, output: Path, workers: int = 8) -> None:
     aes_key, iv = decode_key(encoded_key)
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix(output.suffix + ".part")
-    # MEGA can throttle one HTTP stream heavily. Download independent encrypted
-    # ranges in parallel; AES-CTR decryption still happens once, in byte order.
     total_size = metadata["s"]
     part_size = math.ceil(total_size / workers)
-    encrypted_parts = [output.with_suffix(output.suffix + f".enc.{index:02d}") for index in range(workers)]
+    encrypted_parts = [
+        output.with_suffix(output.suffix + f".enc.{index:02d}")
+        for index in range(workers)
+    ]
 
     def fetch(index: int) -> Path:
         start = index * part_size
@@ -51,14 +54,14 @@ def download(public_link: str, output: Path, workers: int = 8) -> None:
         target = encrypted_parts[index]
         if target.exists() and target.stat().st_size == expected:
             return target
-        # MEGA's storage endpoint uses a URL suffix for byte ranges. Several
-        # nodes ignore the standard HTTP Range header and return the full file.
         request = urllib.request.Request(f"{metadata['g']}/{start}-{end}")
         with urllib.request.urlopen(request) as source, target.open("wb") as stream:
             while chunk := source.read(1024 * 1024):
                 stream.write(chunk)
         if target.stat().st_size != expected:
-            raise RuntimeError(f"Range {index} has {target.stat().st_size} bytes, expected {expected}")
+            raise RuntimeError(
+                f"Range {index} has {target.stat().st_size} bytes, expected {expected}"
+            )
         print(json.dumps({"output": str(output), "range_complete": index}), flush=True)
         return target
 
@@ -70,8 +73,14 @@ def download(public_link: str, output: Path, workers: int = 8) -> None:
     with temporary.open("wb") as target:
         process = subprocess.Popen(
             [
-                "openssl", "enc", "-d", "-aes-128-ctr",
-                "-K", aes_key.hex(), "-iv", iv.hex(),
+                "openssl",
+                "enc",
+                "-d",
+                "-aes-128-ctr",
+                "-K",
+                aes_key.hex(),
+                "-iv",
+                iv.hex(),
             ],
             stdin=subprocess.PIPE,
             stdout=target,
@@ -86,7 +95,9 @@ def download(public_link: str, output: Path, workers: int = 8) -> None:
             raise RuntimeError("OpenSSL failed to decrypt the MEGA stream")
     temporary.replace(output)
     if output.stat().st_size != metadata["s"]:
-        raise RuntimeError(f"Unexpected output size {output.stat().st_size} != {metadata['s']}")
+        raise RuntimeError(
+            f"Unexpected output size {output.stat().st_size} != {metadata['s']}"
+        )
     for encrypted_part in encrypted_parts:
         encrypted_part.unlink()
 

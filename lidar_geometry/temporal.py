@@ -43,7 +43,9 @@ class TemporalConfirmer:
         self.immediate_distance_m = immediate_distance_m
 
     def update(self, detection: SafetyDetection) -> TemporalDecision:
-        current = detection.nearest_distance_m if detection.state == "OBSTACLE" else None
+        current = (
+            detection.nearest_distance_m if detection.state == "OBSTACLE" else None
+        )
         self.history.append((current, detection.confidence))
         if current is None:
             return TemporalDecision(
@@ -58,17 +60,11 @@ class TemporalConfirmer:
         for age, (distance, _confidence) in enumerate(reversed(self.history)):
             if distance is None:
                 continue
-            # Earlier observations of a stationary obstacle must be at least as
-            # far away, with slack for unknown speed and component jitter.
             expected_extra = age * self.max_distance_step_m
             if current - 1.0 <= distance <= current + expected_extra + 1.0:
                 compatible += 1
-        # Proximity alone is not evidence: sleepers and switches are also
-        # close.  Bypass confirmation only for a very strong proposal, or for
-        # a close proposal that is already reasonably confident.
-        immediate = (
-            detection.confidence >= self.immediate_confidence
-            or (current <= self.immediate_distance_m and detection.confidence >= 0.70)
+        immediate = detection.confidence >= self.immediate_confidence or (
+            current <= self.immediate_distance_m and detection.confidence >= 0.70
         )
         confirmed = compatible >= self.required or immediate
         if confirmed:
@@ -165,7 +161,9 @@ class ComponentTracker:
             distance, lateral, height = _centers(candidates[candidate_index])
             gap = self.frame - track.last_frame
             velocity = (distance - track.distance_m) / gap
-            track.velocity_m_per_frame = 0.5 * track.velocity_m_per_frame + 0.5 * velocity
+            track.velocity_m_per_frame = (
+                0.5 * track.velocity_m_per_frame + 0.5 * velocity
+            )
             track.distance_m = distance
             track.lateral_m = lateral
             track.height_m = height
@@ -180,30 +178,35 @@ class ComponentTracker:
             if index in used_candidates:
                 continue
             distance, lateral, height = _centers(candidate)
-            self.tracks.append(_ComponentTrack(
-                distance,
-                lateral,
-                height,
-                0.0,
-                1,
-                self.frame,
-                self.frame,
-                detection.confidence,
-                deque([self.frame]),
-            ))
+            self.tracks.append(
+                _ComponentTrack(
+                    distance,
+                    lateral,
+                    height,
+                    0.0,
+                    1,
+                    self.frame,
+                    self.frame,
+                    detection.confidence,
+                    deque([self.frame]),
+                )
+            )
 
         self.tracks = [
-            track for track in self.tracks
+            track
+            for track in self.tracks
             if self.frame - track.last_frame <= self.max_missed_frames
         ]
         confirmed = [
-            track for track in self.tracks
+            track
+            for track in self.tracks
             if (
                 track.last_frame == self.frame
                 and self._hits_in_window(track) >= self.required_hits
                 and (
                     self.max_confirmed_velocity_m_per_frame is None
-                    or track.velocity_m_per_frame <= self.max_confirmed_velocity_m_per_frame
+                    or track.velocity_m_per_frame
+                    <= self.max_confirmed_velocity_m_per_frame
                 )
             )
         ]
@@ -273,7 +276,9 @@ class WorldComponentTracker:
         self.frame = -1
         self.tracks: list[_WorldTrack] = []
 
-    def update(self, detection: SafetyDetection, cumulative_m: float) -> TemporalDecision:
+    def update(
+        self, detection: SafetyDetection, cumulative_m: float
+    ) -> TemporalDecision:
         self.frame += 1
         candidates = list(detection.obstacles) if detection.state == "OBSTACLE" else []
         centers = []
@@ -284,7 +289,9 @@ class WorldComponentTracker:
         pairs = []
         for track_index, track in enumerate(self.tracks):
             gap = self.frame - track.last_frame
-            for candidate_index, (world, lateral, height, _distance) in enumerate(centers):
+            for candidate_index, (world, lateral, height, _distance) in enumerate(
+                centers
+            ):
                 world_error = abs(world - track.world_m)
                 lateral_error = abs(lateral - track.lateral_m)
                 height_error = abs(height - track.height_m)
@@ -321,16 +328,26 @@ class WorldComponentTracker:
         for index, (world, lateral, height, distance) in enumerate(centers):
             if index in used_candidates:
                 continue
-            self.tracks.append(_WorldTrack(
-                world, lateral, height, distance, 1, self.frame,
-                detection.confidence, deque([self.frame]),
-            ))
+            self.tracks.append(
+                _WorldTrack(
+                    world,
+                    lateral,
+                    height,
+                    distance,
+                    1,
+                    self.frame,
+                    detection.confidence,
+                    deque([self.frame]),
+                )
+            )
         self.tracks = [
-            track for track in self.tracks
+            track
+            for track in self.tracks
             if self.frame - track.last_frame <= self.max_missed_frames
         ]
         confirmed = [
-            track for track in self.tracks
+            track
+            for track in self.tracks
             if (
                 track.last_frame == self.frame
                 and self._hits_in_window(track) >= self.required_hits
@@ -339,17 +356,29 @@ class WorldComponentTracker:
         if confirmed:
             nearest = min(confirmed, key=lambda track: track.distance_m)
             return TemporalDecision(
-                "OBSTACLE", True, nearest.distance_m, nearest.confidence,
-                self._hits_in_window(nearest), "ego_motion_consistent_world_track",
+                "OBSTACLE",
+                True,
+                nearest.distance_m,
+                nearest.confidence,
+                self._hits_in_window(nearest),
+                "ego_motion_consistent_world_track",
             )
         if candidates:
             return TemporalDecision(
-                "UNKNOWN", False, detection.nearest_distance_m,
-                detection.confidence, 1, "awaiting_world_track",
+                "UNKNOWN",
+                False,
+                detection.nearest_distance_m,
+                detection.confidence,
+                1,
+                "awaiting_world_track",
             )
         return TemporalDecision(
-            detection.state, False, detection.nearest_distance_m,
-            detection.confidence, 0, detection.reason,
+            detection.state,
+            False,
+            detection.nearest_distance_m,
+            detection.confidence,
+            0,
+            detection.reason,
         )
 
     def _hits_in_window(self, track: _WorldTrack) -> int:

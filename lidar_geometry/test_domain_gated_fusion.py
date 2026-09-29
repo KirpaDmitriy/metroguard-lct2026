@@ -1,6 +1,6 @@
+import tempfile
 import unittest
 from pathlib import Path
-import tempfile
 
 import numpy as np
 
@@ -41,7 +41,3 @@ class DomainGatedFusionTest(unittest.TestCase):
                 restored.confidence(patches[:2]),
                 rtol=1e-6,
             )
-
-
-if __name__ == "__main__":
-    unittest.main()

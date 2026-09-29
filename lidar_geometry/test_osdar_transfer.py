@@ -31,7 +31,3 @@ class OsdarTransferTest(unittest.TestCase):
         minimum, maximum = target_bounds(values)
         np.testing.assert_array_equal(minimum, [20.0, -0.5])
         np.testing.assert_array_equal(maximum, [22.0, 0.5])
-
-
-if __name__ == "__main__":
-    unittest.main()

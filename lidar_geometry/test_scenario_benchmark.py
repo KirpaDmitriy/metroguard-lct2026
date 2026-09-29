@@ -53,7 +53,3 @@ class ScenarioBenchmarkTest(unittest.TestCase):
         candidate = component(20, 0.9)
         self.assertTrue(matches_target(candidate, obstacle))
         self.assertFalse(target_alarm((candidate,), obstacle))
-
-
-if __name__ == "__main__":
-    unittest.main()

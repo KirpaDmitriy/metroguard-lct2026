@@ -1,19 +1,21 @@
 from __future__ import annotations
 
-from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
+from pathlib import Path
 
 from demo_app.worker import inspect_bag
 
 
 def create_bag(path: Path, topic_type: str = "sensor_msgs/msg/PointCloud2") -> None:
     with sqlite3.connect(path) as connection:
-        connection.executescript("""
+        connection.executescript(
+            """
             CREATE TABLE topics(id INTEGER PRIMARY KEY, name TEXT, type TEXT);
             CREATE TABLE messages(id INTEGER PRIMARY KEY, topic_id INTEGER, timestamp INTEGER, data BLOB);
-        """)
+        """
+        )
         connection.execute(
             "INSERT INTO topics(id, name, type) VALUES(1, '/lidar', ?)",
             (topic_type,),
@@ -36,7 +38,3 @@ class WorkerTest(unittest.TestCase):
             create_bag(path, "std_msgs/msg/String")
             with self.assertRaisesRegex(ValueError, "PointCloud2"):
                 inspect_bag(path)
-
-
-if __name__ == "__main__":
-    unittest.main()

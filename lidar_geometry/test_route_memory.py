@@ -5,8 +5,8 @@ import numpy as np
 from lidar_geometry.route_memory_experiment import (
     aligned_change_score,
     change_score,
-    coherent_aligned_change_score,
     clearance_coherent_change_score,
+    coherent_aligned_change_score,
 )
 
 
@@ -47,7 +47,3 @@ class RouteMemoryTest(unittest.TestCase):
         self.assertEqual(clearance_coherent_change_score(reference, current), 0)
         current[1, 8, 8] = 0.5
         self.assertGreater(clearance_coherent_change_score(reference, current), 0)
-
-
-if __name__ == "__main__":
-    unittest.main()

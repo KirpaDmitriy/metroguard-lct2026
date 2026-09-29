@@ -1,6 +1,6 @@
 import unittest
 
-from lidar_geometry.competition_scorecard import count_episodes, choose_default
+from lidar_geometry.competition_scorecard import choose_default, count_episodes
 
 
 class CompetitionScorecardTest(unittest.TestCase):
@@ -20,8 +20,12 @@ class CompetitionScorecardTest(unittest.TestCase):
                 "alarm_frames": 1,
                 "alarm_rate": 0.0005,
             }
-            report["official_pseudo_labels"]["models"][name] = {"positive_coverage": 1.0}
-            report["composite_unseen_shapes"]["models"][name] = {"mean_positive_recall": 1.0}
+            report["official_pseudo_labels"]["models"][name] = {
+                "positive_coverage": 1.0
+            }
+            report["composite_unseen_shapes"]["models"][name] = {
+                "mean_positive_recall": 1.0
+            }
             report["runtime_and_layouts"]["models"][name] = {"p95_ms": 1.0}
         report["normal_bags"]["models"]["ood_guarded_g4"] = {
             "alarm_frames": 0,
@@ -32,7 +36,3 @@ class CompetitionScorecardTest(unittest.TestCase):
         }
         selected, _ = choose_default(report)
         self.assertEqual(selected, "ood_guarded_g4")
-
-
-if __name__ == "__main__":
-    unittest.main()

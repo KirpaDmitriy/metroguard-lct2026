@@ -30,12 +30,20 @@ class PortableExtraTrees:
             normalizer = values.sum(axis=1)
             feature.extend(tree.feature.tolist())
             threshold.extend(tree.threshold.tolist())
-            left.extend(np.where(tree.children_left >= 0, tree.children_left + base, -1))
-            right.extend(np.where(tree.children_right >= 0, tree.children_right + base, -1))
-            probability.extend(np.divide(
-                values[:, 1], normalizer,
-                out=np.zeros(len(values)), where=normalizer > 0,
-            ))
+            left.extend(
+                np.where(tree.children_left >= 0, tree.children_left + base, -1)
+            )
+            right.extend(
+                np.where(tree.children_right >= 0, tree.children_right + base, -1)
+            )
+            probability.extend(
+                np.divide(
+                    values[:, 1],
+                    normalizer,
+                    out=np.zeros(len(values)),
+                    where=normalizer > 0,
+                )
+            )
             offsets.append(base + tree.node_count)
         return cls(
             np.asarray(offsets, dtype=np.int32),
@@ -84,12 +92,54 @@ class PortableExtraTrees:
     @classmethod
     def load(cls, path: Path) -> "PortableExtraTrees":
         data = np.load(path, allow_pickle=False)
-        return cls(*(
-            data[name] for name in (
-                "offsets", "feature", "threshold", "left", "right",
-                "positive_probability",
+        return cls(
+            *(
+                data[name]
+                for name in (
+                    "offsets",
+                    "feature",
+                    "threshold",
+                    "left",
+                    "right",
+                    "positive_probability",
+                )
             )
-        ))
+        )
+
+
+@dataclass(frozen=True)
+class PortableFarRangeRanker:
+    tree: PortableExtraTrees
+    threshold: float
+
+    def score(self, values: np.ndarray) -> np.ndarray:
+        return self.tree.score(values)
+
+    def save(self, path: Path) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(
+            path,
+            offsets=self.tree.offsets,
+            feature=self.tree.feature,
+            tree_threshold=self.tree.threshold,
+            left=self.tree.left,
+            right=self.tree.right,
+            positive_probability=self.tree.positive_probability,
+            score_threshold=np.asarray(self.threshold),
+        )
+
+    @classmethod
+    def load(cls, path: Path) -> "PortableFarRangeRanker":
+        data = np.load(path, allow_pickle=False)
+        tree = PortableExtraTrees(
+            data["offsets"],
+            data["feature"],
+            data["tree_threshold"],
+            data["left"],
+            data["right"],
+            data["positive_probability"],
+        )
+        return cls(tree, float(data["score_threshold"]))
 
 
 @dataclass(frozen=True)
@@ -106,9 +156,13 @@ class PortableLinearTreeHybrid:
 
     def score(self, values: np.ndarray) -> np.ndarray:
         base = (values - self.raw_mean) / self.raw_scale
-        logits = np.clip((base - self.mean) / self.scale @ self.weights + self.bias, -30, 30)
+        logits = np.clip(
+            (base - self.mean) / self.scale @ self.weights + self.bias, -30, 30
+        )
         linear_score = 1 / (1 + np.exp(-logits))
-        return (1 - self.tree_weight) * linear_score + self.tree_weight * self.tree.score(values)
+        return (
+            1 - self.tree_weight
+        ) * linear_score + self.tree_weight * self.tree.score(values)
 
     def save(self, path: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -134,11 +188,21 @@ class PortableLinearTreeHybrid:
     def load(cls, path: Path) -> "PortableLinearTreeHybrid":
         data = np.load(path, allow_pickle=False)
         tree = PortableExtraTrees(
-            data["offsets"], data["feature"], data["tree_threshold"],
-            data["left"], data["right"], data["positive_probability"],
+            data["offsets"],
+            data["feature"],
+            data["tree_threshold"],
+            data["left"],
+            data["right"],
+            data["positive_probability"],
         )
         return cls(
-            tree, data["raw_mean"], data["raw_scale"], data["linear_mean"],
-            data["linear_scale"], data["weights"], float(data["bias"]),
-            float(data["tree_weight"]), float(data["decision_threshold"]),
+            tree,
+            data["raw_mean"],
+            data["raw_scale"],
+            data["linear_mean"],
+            data["linear_scale"],
+            data["weights"],
+            float(data["bias"]),
+            float(data["tree_weight"]),
+            float(data["decision_threshold"]),
         )

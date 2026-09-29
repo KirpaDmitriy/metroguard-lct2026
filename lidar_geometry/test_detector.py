@@ -6,7 +6,6 @@ import unittest
 from lidar_geometry.detect_obstacles import DetectorConfig, detect
 from lidar_geometry.pointcloud2 import PointCloud2, PointField
 
-
 FIELDS = (
     PointField("x", 0, 7, 1),
     PointField("y", 4, 7, 1),
@@ -20,7 +19,19 @@ PACKER = struct.Struct("<ffffHd")
 
 def cloud(points):
     data = b"".join(PACKER.pack(*point) for point in points)
-    return PointCloud2(0, 0, "test", 1, len(points), FIELDS, False, 26, len(data), memoryview(data), False)
+    return PointCloud2(
+        0,
+        0,
+        "test",
+        1,
+        len(points),
+        FIELDS,
+        False,
+        26,
+        len(data),
+        memoryview(data),
+        False,
+    )
 
 
 class DetectorTest(unittest.TestCase):
@@ -30,18 +41,19 @@ class DetectorTest(unittest.TestCase):
             for lateral_step in range(-10, 11):
                 ground.append((lateral_step * 0.1, -float(distance), -1.5, 5.0, 0, 0.0))
 
-        # Exactly the stated baseline dimensions: 0.30 x 0.30 x 0.10 m.
         box_top = []
         for forward_step in range(7):
             for lateral_step in range(7):
-                box_top.append((
-                    -0.15 + lateral_step * 0.05,
-                    -(19.85 + forward_step * 0.05),
-                    -1.40,
-                    30.0,
-                    lateral_step,
-                    0.0,
-                ))
+                box_top.append(
+                    (
+                        -0.15 + lateral_step * 0.05,
+                        -(19.85 + forward_step * 0.05),
+                        -1.40,
+                        30.0,
+                        lateral_step,
+                        0.0,
+                    )
+                )
         config = DetectorConfig(max_range_m=50, floor_min_points_per_bin=4)
         result = detect(cloud(ground + box_top), config)
         self.assertTrue(result.obstacle)
@@ -65,14 +77,16 @@ class DetectorTest(unittest.TestCase):
         obstacle = []
         for ix in range(5):
             for iz in range(8):
-                obstacle.append((
-                    -0.4 + ix * 0.2,
-                    -(19.9 + (ix % 2) * 0.08),
-                    -0.8 + iz * 0.15,
-                    40.0,
-                    iz,
-                    0.0,
-                ))
+                obstacle.append(
+                    (
+                        -0.4 + ix * 0.2,
+                        -(19.9 + (ix % 2) * 0.08),
+                        -0.8 + iz * 0.15,
+                        40.0,
+                        iz,
+                        0.0,
+                    )
+                )
         result = detect(cloud(ground + obstacle), config)
         self.assertTrue(result.obstacle)
         self.assertAlmostEqual(result.nearest_distance_m or 0, 19.9, delta=0.2)
@@ -103,18 +117,16 @@ class DetectorTest(unittest.TestCase):
         rail_z = -1.5 - 30 * 0.002
         for ix in range(5):
             for iz in range(8):
-                obstacle.append((
-                    center - 0.4 + ix * 0.2,
-                    -(29.9 + (ix % 2) * 0.08),
-                    rail_z + 0.5 + iz * 0.15,
-                    40.0,
-                    iz,
-                    0.0,
-                ))
+                obstacle.append(
+                    (
+                        center - 0.4 + ix * 0.2,
+                        -(29.9 + (ix % 2) * 0.08),
+                        rail_z + 0.5 + iz * 0.15,
+                        40.0,
+                        iz,
+                        0.0,
+                    )
+                )
         result = detect(cloud(rails + obstacle), config)
         self.assertTrue(result.obstacle)
         self.assertAlmostEqual(result.nearest_distance_m or 0, 29.9, delta=0.2)
-
-
-if __name__ == "__main__":
-    unittest.main()

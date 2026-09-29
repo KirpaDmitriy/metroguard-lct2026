@@ -8,16 +8,15 @@ try to learn directly from hundreds of thousands of raw lidar points.
 from __future__ import annotations
 
 import argparse
-from dataclasses import asdict, replace
 import json
 import math
-from pathlib import Path
 import random
 import statistics
+from dataclasses import asdict, replace
+from pathlib import Path
 
 from lidar_geometry.detect_obstacles import DetectorConfig, detect
 from lidar_geometry.pointcloud2 import iter_bag_messages
-
 
 NORMAL_BAGS = (
     "roundT_pressureGate_roundT",
@@ -60,7 +59,9 @@ def proposal_config() -> DetectorConfig:
     )
 
 
-def component_record(bag: str, frame: int, detection, obstacle) -> dict[str, float | int | str]:
+def component_record(
+    bag: str, frame: int, detection, obstacle
+) -> dict[str, float | int | str]:
     record: dict[str, float | int | str] = {
         "bag": bag,
         "frame": frame,
@@ -85,16 +86,26 @@ def collect(dataset_root: Path, every: int, output: Path) -> list[dict]:
             if frame % every:
                 continue
             result = detect(cloud, config)
-            records.extend(component_record(bag, frame, result, item) for item in result.obstacles)
+            records.extend(
+                component_record(bag, frame, result, item) for item in result.obstacles
+            )
             sampled += 1
-        print(json.dumps({"collected": bag, "frames": sampled, "records": len(records)}))
+        print(
+            json.dumps({"collected": bag, "frames": sampled, "records": len(records)})
+        )
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text("\n".join(json.dumps(item) for item in records) + "\n", encoding="utf-8")
+    output.write_text(
+        "\n".join(json.dumps(item) for item in records) + "\n", encoding="utf-8"
+    )
     return records
 
 
 def load_records(path: Path) -> list[dict]:
-    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
+    return [
+        json.loads(line)
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line
+    ]
 
 
 def feature_map(record: dict) -> dict[str, float]:
@@ -104,7 +115,9 @@ def feature_map(record: dict) -> dict[str, float]:
     lateral_center = (record["lateral_min_m"] + record["lateral_max_m"]) / 2
     range_min = record["reliable_range_min_m"]
     range_max = record["reliable_range_max_m"]
-    range_fraction = (record["distance_min_m"] - range_min) / max(1.0, range_max - range_min)
+    range_fraction = (record["distance_min_m"] - range_min) / max(
+        1.0, range_max - range_min
+    )
     return {
         "log_points": math.log1p(record["points"]),
         "log_voxels": math.log1p(record["voxels"]),
@@ -139,11 +152,16 @@ class Standardizer:
             self.scale.append(max(1e-6, 1.4826 * mad))
 
     def transform(self, row: list[float]) -> list[float]:
-        return [(value - center) / scale for value, center, scale in zip(row, self.center, self.scale)]
+        return [
+            (value - center) / scale
+            for value, center, scale in zip(row, self.center, self.scale)
+        ]
 
 
 class LogisticClassifier:
-    def fit(self, rows: list[list[float]], labels: list[int], iterations: int = 350) -> None:
+    def fit(
+        self, rows: list[list[float]], labels: list[int], iterations: int = 350
+    ) -> None:
         self.standardizer = Standardizer()
         self.standardizer.fit(rows)
         x = [self.standardizer.transform(row) for row in rows]
@@ -151,7 +169,9 @@ class LogisticClassifier:
         for step in range(iterations):
             gradient = [0.0] * len(self.weights)
             for row, label in zip(x, labels):
-                score = self.weights[0] + sum(w * value for w, value in zip(self.weights[1:], row))
+                score = self.weights[0] + sum(
+                    w * value for w, value in zip(self.weights[1:], row)
+                )
                 score = max(-30.0, min(30.0, score))
                 error = 1.0 / (1.0 + math.exp(-score)) - label
                 gradient[0] += error
@@ -160,21 +180,25 @@ class LogisticClassifier:
             rate = 0.08 / math.sqrt(1 + step / 100)
             for index in range(len(self.weights)):
                 regularization = 0.002 * self.weights[index] if index else 0.0
-                self.weights[index] -= rate * (gradient[index] / len(x) + regularization)
+                self.weights[index] -= rate * (
+                    gradient[index] / len(x) + regularization
+                )
 
     def score(self, row: list[float]) -> float:
         row = self.standardizer.transform(row)
-        value = self.weights[0] + sum(w * item for w, item in zip(self.weights[1:], row))
+        value = self.weights[0] + sum(
+            w * item for w, item in zip(self.weights[1:], row)
+        )
         value = max(-30.0, min(30.0, value))
         return 1.0 / (1.0 + math.exp(-value))
 
 
 class KnnAnomalyDetector:
-    def fit(self, rows: list[list[float]], k: int = 5, max_prototypes: int = 600) -> None:
+    def fit(
+        self, rows: list[list[float]], k: int = 5, max_prototypes: int = 600
+    ) -> None:
         self.standardizer = Standardizer()
         self.standardizer.fit(rows)
-        # Exact all-pairs kNN is quadratic. A fixed-seed prototype subset keeps
-        # this dependency-free experiment fast and reproducible.
         if len(rows) > max_prototypes:
             rows = random.Random(41).sample(rows, max_prototypes)
         self.rows = [self.standardizer.transform(row) for row in rows]
@@ -189,7 +213,9 @@ class KnnAnomalyDetector:
         return sum(distances[: self.k]) / self.k
 
 
-def synthetic_positives(negatives: list[dict], count: int, seed: int = 17) -> list[dict]:
+def synthetic_positives(
+    negatives: list[dict], count: int, seed: int = 17
+) -> list[dict]:
     rng = random.Random(seed)
     generated = []
     for _ in range(count):
@@ -204,7 +230,9 @@ def synthetic_positives(negatives: list[dict], count: int, seed: int = 17) -> li
             max(6.0, base["reliable_range_max_m"] - length),
         )
         projected_area = max(width * height, width * length)
-        points = max(8, round(rng.uniform(80, 500) * projected_area / (1 + distance / 60)))
+        points = max(
+            8, round(rng.uniform(80, 500) * projected_area / (1 + distance / 60))
+        )
         base.update(
             points=points,
             voxels=max(2, round(points / rng.uniform(2.0, 7.0))),
@@ -264,36 +292,58 @@ def evaluate(records: list[dict], output: Path) -> dict:
         supervised_test_scores = [supervised.score(vector(item)) for item in test]
         anomaly_test_scores = [anomaly.score(vector(item)) for item in test]
         candidate_frames = sorted({item["frame"] for item in test})
-        folds.append({
-            "held_out": held_out,
-            "normal_components": len(test),
-            "supervised_false_positive_rate": (
-                sum(score > supervised_threshold for score in supervised_test_scores) / len(test)
-            ),
-            "anomaly_false_positive_rate": (
-                sum(score > anomaly_threshold for score in anomaly_test_scores) / len(test)
-            ),
-            "candidate_bearing_frame_fpr": {
-                "supervised": len({
-                    item["frame"] for item, score in zip(test, supervised_test_scores)
-                    if score > supervised_threshold
-                }) / len(candidate_frames),
-                "anomaly": len({
-                    item["frame"] for item, score in zip(test, anomaly_test_scores)
-                    if score > anomaly_threshold
-                }) / len(candidate_frames),
-            },
-            "frame_fpr_at_p95_threshold": {
-                "supervised": len({
-                    item["frame"] for item, score in zip(test, supervised_test_scores)
-                    if score > percentile(supervised_train_frame_scores, 0.95)
-                }) / len(candidate_frames),
-                "anomaly": len({
-                    item["frame"] for item, score in zip(test, anomaly_test_scores)
-                    if score > percentile(anomaly_train_frame_scores, 0.95)
-                }) / len(candidate_frames),
-            },
-        })
+        folds.append(
+            {
+                "held_out": held_out,
+                "normal_components": len(test),
+                "supervised_false_positive_rate": (
+                    sum(
+                        score > supervised_threshold for score in supervised_test_scores
+                    )
+                    / len(test)
+                ),
+                "anomaly_false_positive_rate": (
+                    sum(score > anomaly_threshold for score in anomaly_test_scores)
+                    / len(test)
+                ),
+                "candidate_bearing_frame_fpr": {
+                    "supervised": len(
+                        {
+                            item["frame"]
+                            for item, score in zip(test, supervised_test_scores)
+                            if score > supervised_threshold
+                        }
+                    )
+                    / len(candidate_frames),
+                    "anomaly": len(
+                        {
+                            item["frame"]
+                            for item, score in zip(test, anomaly_test_scores)
+                            if score > anomaly_threshold
+                        }
+                    )
+                    / len(candidate_frames),
+                },
+                "frame_fpr_at_p95_threshold": {
+                    "supervised": len(
+                        {
+                            item["frame"]
+                            for item, score in zip(test, supervised_test_scores)
+                            if score > percentile(supervised_train_frame_scores, 0.95)
+                        }
+                    )
+                    / len(candidate_frames),
+                    "anomaly": len(
+                        {
+                            item["frame"]
+                            for item, score in zip(test, anomaly_test_scores)
+                            if score > percentile(anomaly_train_frame_scores, 0.95)
+                        }
+                    )
+                    / len(candidate_frames),
+                },
+            }
+        )
 
     synthetic = synthetic_positives(normal, max(1000, len(normal)), seed=23)
     supervised = LogisticClassifier()
@@ -318,10 +368,13 @@ def evaluate(records: list[dict], output: Path) -> dict:
         row["supervised_flag"] = row["supervised_score"] > supervised_threshold
         row["anomaly_flag"] = row["anomaly_score"] > anomaly_threshold
         ranked.append(row)
-    ranked.sort(key=lambda item: max(
-        item["supervised_score"] / max(supervised_threshold, 1e-9),
-        item["anomaly_score"] / max(anomaly_threshold, 1e-9),
-    ), reverse=True)
+    ranked.sort(
+        key=lambda item: max(
+            item["supervised_score"] / max(supervised_threshold, 1e-9),
+            item["anomaly_score"] / max(anomaly_threshold, 1e-9),
+        ),
+        reverse=True,
+    )
 
     operating_points = {}
     for fraction in (0.90, 0.95, 0.99):
@@ -331,12 +384,20 @@ def evaluate(records: list[dict], output: Path) -> dict:
             "supervised_threshold": supervised_cut,
             "anomaly_threshold": anomaly_cut,
             "obstacle_bag_flagged_frames": {
-                "supervised": sorted({
-                    item["frame"] for item in ranked if item["supervised_score"] > supervised_cut
-                }),
-                "anomaly": sorted({
-                    item["frame"] for item in ranked if item["anomaly_score"] > anomaly_cut
-                }),
+                "supervised": sorted(
+                    {
+                        item["frame"]
+                        for item in ranked
+                        if item["supervised_score"] > supervised_cut
+                    }
+                ),
+                "anomaly": sorted(
+                    {
+                        item["frame"]
+                        for item in ranked
+                        if item["anomaly_score"] > anomaly_cut
+                    }
+                ),
             },
         }
 
@@ -346,34 +407,55 @@ def evaluate(records: list[dict], output: Path) -> dict:
         "obstacle_bag_components": len(obstacle),
         "folds": folds,
         "mean_normal_fpr": {
-            "supervised": statistics.mean(item["supervised_false_positive_rate"] for item in folds),
-            "anomaly": statistics.mean(item["anomaly_false_positive_rate"] for item in folds),
+            "supervised": statistics.mean(
+                item["supervised_false_positive_rate"] for item in folds
+            ),
+            "anomaly": statistics.mean(
+                item["anomaly_false_positive_rate"] for item in folds
+            ),
         },
-        "thresholds": {"supervised": supervised_threshold, "anomaly": anomaly_threshold},
+        "thresholds": {
+            "supervised": supervised_threshold,
+            "anomaly": anomaly_threshold,
+        },
         "operating_points": operating_points,
         "supervised_standardized_coefficients": sorted(
-            ({"feature": name, "weight": weight} for name, weight in zip(FEATURES, supervised.weights[1:])),
+            (
+                {"feature": name, "weight": weight}
+                for name, weight in zip(FEATURES, supervised.weights[1:])
+            ),
             key=lambda item: abs(item["weight"]),
             reverse=True,
         ),
         "obstacle_bag_flagged_components": {
             "supervised": sum(item["supervised_flag"] for item in ranked),
             "anomaly": sum(item["anomaly_flag"] for item in ranked),
-            "both": sum(item["supervised_flag"] and item["anomaly_flag"] for item in ranked),
+            "both": sum(
+                item["supervised_flag"] and item["anomaly_flag"] for item in ranked
+            ),
         },
         "obstacle_bag_flagged_frames": {
-            "supervised": sorted({item["frame"] for item in ranked if item["supervised_flag"]}),
-            "anomaly": sorted({item["frame"] for item in ranked if item["anomaly_flag"]}),
-            "both": sorted({
-                item["frame"] for item in ranked
-                if item["supervised_flag"] and item["anomaly_flag"]
-            }),
+            "supervised": sorted(
+                {item["frame"] for item in ranked if item["supervised_flag"]}
+            ),
+            "anomaly": sorted(
+                {item["frame"] for item in ranked if item["anomaly_flag"]}
+            ),
+            "both": sorted(
+                {
+                    item["frame"]
+                    for item in ranked
+                    if item["supervised_flag"] and item["anomaly_flag"]
+                }
+            ),
         },
         "top_obstacle_bag_candidates": ranked[:20],
         "warning": "Obstacle bag has no component labels; flagged counts are not recall.",
     }
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    output.write_text(
+        json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     return result
 
 
@@ -381,12 +463,20 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("dataset_root", type=Path)
     parser.add_argument("--every", type=int, default=25)
-    parser.add_argument("--cache", type=Path, default=Path("lidar_geometry/artifacts/components.jsonl"))
-    parser.add_argument("--report", type=Path, default=Path("lidar_geometry/artifacts/ml_comparison.json"))
+    parser.add_argument(
+        "--cache", type=Path, default=Path("lidar_geometry/artifacts/components.jsonl")
+    )
+    parser.add_argument(
+        "--report",
+        type=Path,
+        default=Path("lidar_geometry/artifacts/ml_comparison.json"),
+    )
     parser.add_argument("--reuse-cache", action="store_true")
     args = parser.parse_args()
-    records = load_records(args.cache) if args.reuse_cache else collect(
-        args.dataset_root, args.every, args.cache
+    records = (
+        load_records(args.cache)
+        if args.reuse_cache
+        else collect(args.dataset_root, args.every, args.cache)
     )
     result = evaluate(records, args.report)
     print(json.dumps(result, indent=2, ensure_ascii=False))

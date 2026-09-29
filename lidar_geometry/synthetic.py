@@ -8,8 +8,8 @@ range-dependent sparsity, the real background and first-order occlusion.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import math
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -59,12 +59,14 @@ def _structured_dtype(cloud: PointCloud2) -> np.dtype:
         names.append(field.name)
         formats.append(endian + _NUMPY_FORMATS[field.datatype])
         offsets.append(field.offset)
-    return np.dtype({
-        "names": names,
-        "formats": formats,
-        "offsets": offsets,
-        "itemsize": cloud.point_step,
-    })
+    return np.dtype(
+        {
+            "names": names,
+            "formats": formats,
+            "offsets": offsets,
+            "itemsize": cloud.point_step,
+        }
+    )
 
 
 def inject_box(
@@ -79,7 +81,9 @@ def inject_box(
     z = arrays["z"].astype(np.float64, copy=False)
     distance = -y
     search = (
-        np.isfinite(x) & np.isfinite(y) & np.isfinite(z)
+        np.isfinite(x)
+        & np.isfinite(y)
+        & np.isfinite(z)
         & ((x != 0) | (y != 0) | (z != 0))
         & (distance >= config.min_range_m)
         & (distance <= config.max_range_m)
@@ -97,16 +101,20 @@ def inject_box(
         )
     raw_center = float(center[0] + obstacle.lateral_m)
     base_z = float(rail_z[0] + obstacle.bottom_m)
-    xyz_min = np.array([
-        raw_center - obstacle.width_m / 2,
-        -(obstacle.distance_m + obstacle.length_m / 2),
-        base_z,
-    ])
-    xyz_max = np.array([
-        raw_center + obstacle.width_m / 2,
-        -(obstacle.distance_m - obstacle.length_m / 2),
-        base_z + obstacle.height_m,
-    ])
+    xyz_min = np.array(
+        [
+            raw_center - obstacle.width_m / 2,
+            -(obstacle.distance_m + obstacle.length_m / 2),
+            base_z,
+        ]
+    )
+    xyz_max = np.array(
+        [
+            raw_center + obstacle.width_m / 2,
+            -(obstacle.distance_m - obstacle.length_m / 2),
+            base_z + obstacle.height_m,
+        ]
+    )
 
     xyz = np.column_stack((x, y, z))
     original_range = np.linalg.norm(xyz, axis=1)
@@ -131,9 +139,17 @@ def inject_box(
         copied = bytearray(cloud.data)
         return InjectionResult(
             PointCloud2(
-                cloud.stamp_sec, cloud.stamp_nanosec, cloud.frame_id, cloud.height,
-                cloud.width, cloud.fields, cloud.is_bigendian, cloud.point_step,
-                cloud.row_step, memoryview(copied), cloud.is_dense,
+                cloud.stamp_sec,
+                cloud.stamp_nanosec,
+                cloud.frame_id,
+                cloud.height,
+                cloud.width,
+                cloud.fields,
+                cloud.is_bigendian,
+                cloud.point_step,
+                cloud.row_step,
+                memoryview(copied),
+                cloud.is_dense,
             ),
             (),
             (tuple(xyz_min), tuple(xyz_max)),
@@ -142,16 +158,18 @@ def inject_box(
         )
 
     copied = bytearray(cloud.data)
-    view = np.frombuffer(copied, dtype=_structured_dtype(cloud), count=cloud.point_count)
+    view = np.frombuffer(
+        copied, dtype=_structured_dtype(cloud), count=cloud.point_count
+    )
     hit_xyz = rays[indices] * enter[indices, None]
     view["x"][indices] = hit_xyz[:, 0]
     view["y"][indices] = hit_xyz[:, 1]
     view["z"][indices] = hit_xyz[:, 2]
     if "intensity" in (view.dtype.names or ()):
         rng = np.random.default_rng(seed)
-        # A simple material/noise model. The geometry and ray-drop statistics
-        # are evaluated separately, so intensity cannot become a hidden label.
-        noisy = rng.normal(obstacle.reflectivity, 0.12 * max(1.0, obstacle.reflectivity), len(indices))
+        noisy = rng.normal(
+            obstacle.reflectivity, 0.12 * max(1.0, obstacle.reflectivity), len(indices)
+        )
         view["intensity"][indices] = np.clip(noisy, 0, 255)
     injected = PointCloud2(
         cloud.stamp_sec,
@@ -179,5 +197,7 @@ SYNTHETIC_LIBRARY = (
     SyntheticObject("minimum_box", 20.0, 0.0, 0.30, 0.30, 0.10, reflectivity=35),
     SyntheticObject("bag", 20.0, 0.0, 0.55, 0.45, 0.35, reflectivity=20),
     SyntheticObject("person", 20.0, 0.0, 0.50, 0.35, 1.70, reflectivity=45),
-    SyntheticObject("hanging_cable", 20.0, 0.0, 0.08, 0.08, 1.50, bottom_m=0.8, reflectivity=15),
+    SyntheticObject(
+        "hanging_cable", 20.0, 0.0, 0.08, 0.08, 1.50, bottom_m=0.8, reflectivity=15
+    ),
 )

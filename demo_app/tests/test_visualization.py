@@ -21,8 +21,10 @@ class VisualizationTest(unittest.TestCase):
             "height_max_m": 0.1,
         }
         result = compact_cloud(
-            (distance, lateral, height), [obstacle],
-            background_limit=2, obstacle_limit=10,
+            (distance, lateral, height),
+            [obstacle],
+            background_limit=2,
+            obstacle_limit=10,
         )
         self.assertIsNotNone(result)
         highlighted = [point for point in result["points"] if point[3]]
@@ -36,7 +38,3 @@ class VisualizationTest(unittest.TestCase):
         )
         result = compact_cloud(context, [])
         self.assertEqual(result["points"], [[0.0, 10.0, 1.0, 0]])
-
-
-if __name__ == "__main__":
-    unittest.main()
